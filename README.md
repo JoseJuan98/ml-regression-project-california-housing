@@ -15,3 +15,7 @@ For this project several scientific tools are going to be used, such as:
 * Pandas for arrange the data
 * scikit-learn for the ML part 
 * matplotlib for plotting the results
+
+### Source
+
+** [Dataset](https://github.com/ageron/handson-ml/tree/master/datasets/housing)
