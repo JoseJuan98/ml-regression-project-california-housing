@@ -1,5 +1,8 @@
 # Predicting Housing Prices
 
+New developing phase
+
+
 ## Author
 
 Jose Pena
