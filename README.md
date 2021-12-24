@@ -2,7 +2,7 @@
 
 ## Author
 
-Jose Juan Pena Gomez
+Jose Pena
 
 
 ## Introduction
