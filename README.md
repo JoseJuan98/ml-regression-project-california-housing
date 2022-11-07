@@ -25,11 +25,16 @@ population of 600 to 3,000 people).
 
 The target variable or dependent variable for this analysis will be the `median_house_value`, which describes median price of the houses per block group.
 
+## File Structure
+
+
+
+
 ## Check list
 
 This check-list shows the phases of the project has been already done and the next steps:
 
 - [X] Exploratory Data Analysis
-- [] Regression Analysis/Machine Learning Modelling
-- [] API development to expose the final model
-- [] Containerization of the API to be able to deploy it in any environment
+- [ ] Regression Analysis/Machine Learning Modelling
+- [ ] API development to expose the final model
+- [ ] Containerization of the API to be able to deploy it in any environment
