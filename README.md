@@ -30,6 +30,6 @@ The target variable or dependent variable for this analysis will be the `median_
 This check-list shows the phases of the project has been already done and the next steps:
 
 - [X] Exploratory Data Analysis
-- [] Regression Analysis/Machine Learning Modelling
-- [] API development to expose the final model
-- [] Containerization of the API to be able to deploy it in any environment
+- [ ] Regression Analysis/Machine Learning Modelling
+- [ ] API development to expose the final model
+- [ ] Containerization of the API to be able to deploy it in any environment
