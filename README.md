@@ -13,7 +13,7 @@ The aim of this project to showcase a high quality work ready to highlight my an
 modelling phase focus in the exploration, statistical analysis and good practices of Machine Learning, to the engineering phase to containerize all dependencies of the system and put it into production exposing this work in
 a resilient manner, meanwhile giving concise and informative insights in a business-manner for no technical stakeholders.
 
-and once completed and insights are drawn, its features can then be used for a future machine learning modeling exercise.
+To differentiate between phases and follow good practices I am following the gitflow methodology.
 
 ## Dataset
 
