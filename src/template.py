@@ -6,7 +6,7 @@ operations (mean, stdev, etc.) FrequencyDistribution holds a mapping from
 items (not necessarily numbers) to counts, and defines operations such as
 Shannon entropy and frequency normalization.
 """
-#* Other example:
+# * Other example:
 
 """Example Google style docstrings.
 
@@ -46,46 +46,48 @@ Todo:
         @Links: ...
 """
 
-from math import sqrt, log, e
-from random import choice, random
-from Utils import indices
+# from math import sqrt, log, e
+# from random import choice, random
+# from Utils import indices
 
 __author__ = "Rob Knight, Gavin Huttley, and Peter Maxwell"
 __copyright__ = "Copyright 2007, The Cogent Project"
 __credits__ = ["Rob Knight", "Peter Maxwell", "Gavin Huttley",
-                    "Matthew Wakefield"]
+               "Matthew Wakefield"]
 __license__ = "GPL"
 __version__ = "1.0.1"
 __maintainer__ = "Rob Knight"
 __email__ = "rob@spot.colorado.edu"
 __status__ = "Production"
 
+
 class NumberList(list):
-    pass    #much code deleted
+    pass  # much code deleted
+
+
 class FrequencyDistribution(dict):
-    pass    #much code deleted
-
-if __name__ == '__main__':    #code to execute if called from command-line
-    pass    #do nothing - code deleted
-#use this either for a simple example of how to use the module,
-#or when the module can meaningfully be called as a script.
+    pass  # much code deleted
 
 
+if __name__ == '__main__':  # code to execute if called from command-line
+    pass  # do nothing - code deleted
+# use this either for a simple example of how to use the module,
+# or when the module can meaningfully be called as a script.
 
 
 # Check [Docs Methods](http://epydoc.sourceforge.net/manual-fields.html#module-metadata-variables)
 
 # Style 2:
 
-#!/usr/bin/env python3  Line 1
+# !/usr/bin/env python3  Line 1
 # -*- coding: utf-8 -*- Line 2
-#----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 # Created By  : name_of_the_creator   Line 3
 # Created Date: date/month/time ..etc
 # version ='1.0'
 # ---------------------------------------------------------------------------
-""" Details about the module and for what purpose it was built for"""  #Line 4
+""" Details about the module and for what purpose it was built for"""  # Line 4
 # ---------------------------------------------------------------------------
 # Imports Line 5
 # ---------------------------------------------------------------------------
-from ... import ...  #Line 6
+# from ... import ...  #Line 6

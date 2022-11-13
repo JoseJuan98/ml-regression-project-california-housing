@@ -13,7 +13,8 @@ The aim of this project to showcase a high quality work ready to highlight my an
 modelling phase focus in the exploration, statistical analysis and good practices of Machine Learning, to the engineering phase to containerize all dependencies of the system and put it into production exposing this work in
 a resilient manner, meanwhile giving concise and informative insights in a business-manner for no technical stakeholders.
 
-To differentiate between phases and follow good practices I am following the gitflow methodology.
+To differentiate between phases and follow good practices I am following the gitflow methodology, developing new changes in *feature branches*, and creating Pull Requests to the branch *develop* and *master* to test the changes 
+in a CI/CD pipeline and simulating the approval of the code/product owner (the CI/CD flow is not.
 
 ## Dataset
 
@@ -35,6 +36,50 @@ The target variable or dependent variable for this analysis will be the `median_
 This check-list shows the phases of the project has been already done and the next steps:
 
 - [X] Exploratory Data Analysis
-- [ ] Regression Analysis/Machine Learning Modelling
+- [ ] Machine Learning Modelling Experimentation
 - [ ] API development to expose the final model
 - [ ] Containerization of the API to be able to deploy it in any environment
+- [ ] MLOps - CI/CD pipeline for ML operations
+
+
+## File Structure
+
+```shell
+.
+├── bin                                       -> contains artifacts or produced metadata not relevant
+│   
+├── data                                      -> stores data used for cases (not need to store in repository, the data is available by web)
+│     
+├── notebooks                                 -> notebooks used for exploration, experimentation, analysis, to finally produce the final model
+│     │                                          and put it to a Production environment
+│     │      
+│     ├── ExploratoryDataAnalysis.ipynb          -> exploratory data analysis to discover insights and features about the variables used
+│     │     
+│     ├── ModellingExperimentation.ipynb         -> modelling experimentation to discover most suited models and fine-tune hyperparameters
+│     │     
+│     ├── Explainability.ipynb                   -> explanation or brief understanding of the final modell, parameters (variables) and hyperparameters 
+│     │     
+│     └── Old.ipynb                              -> previous work done (first ML case in 2019), kept to show myself how much I improved in the last years
+│     
+├── reports
+│     │
+│     └── ExploratoryDataAnalysis.pdf
+│     
+├── src
+│     ├── data_modelling.py
+│     ├── data_preparation.py
+│     ├── data_transform.py
+│     ├── eval.py
+│     ├── __init__.py
+│     ├── template.py
+│     └── train.py
+│     
+├── test
+│     └── testTemplate.py
+│     
+├── utils
+│     └── utils.py
+│     
+└── README.md
+
+```
