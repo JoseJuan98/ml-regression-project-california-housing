@@ -9,7 +9,7 @@
 
 ## Aim
 
-The aim of this project to showcase a high quality work ready to highlight my analytical, technical and communicative skills needed for producing a successful and resilient Machine Learning system, from the exploratory and
+The aim of this project to showcase a quality work ready to highlight my analytical, technical and communicative skills needed for producing a successful and resilient Machine Learning system, from the exploratory and
 modelling phase focus in the exploration, statistical analysis and good practices of Machine Learning, to the engineering phase to containerize all dependencies of the system and put it into production exposing this work in
 a resilient manner, meanwhile giving concise and informative insights in a business-manner for no technical stakeholders.
 
