@@ -2,8 +2,8 @@
 .ipynb_checkpoints/
 datasets
 
-bin/
-data/
+bin
+data
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
