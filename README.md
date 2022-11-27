@@ -55,7 +55,7 @@ This check-list shows the phases of the project has been already done and the ne
 │     │      
 │     ├── ExploratoryDataAnalysis.ipynb          -> exploratory data analysis to discover insights and features about the variables used
 │     │     
-│     ├── ModellingExperimentation.ipynb         -> modelling experimentation to discover most suited models and fine-tune hyperparameters
+│     ├── RegressionAnalysis.ipynb         -> modelling experimentation to discover most suited models and fine-tune hyperparameters
 │     │     
 │     ├── Explainability.ipynb                   -> explanation or brief understanding of the final modell, parameters (variables) and hyperparameters 
 │     │     
@@ -82,4 +82,16 @@ This check-list shows the phases of the project has been already done and the ne
 │     
 └── README.md
 
+```
+
+## To develop analysis and find insights
+
+Create a venv and install all the requirements needed for creating analysis and finding insights on jupyter notebooks:
+
+```shell
+pip install virtualenv
+python -m virtualenv venv
+source ./venv/bin.activate
+python -m pip install -U pip
+pip install --no-cache-dir -r requirements/analysis.txt
 ```
