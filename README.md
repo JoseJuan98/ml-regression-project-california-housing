@@ -41,6 +41,7 @@ This check-list shows the phases of the project has been already done and the ne
 - [ ] Containerization of the API to be able to deploy it in any environment
 - [ ] MLOps - CI/CD pipeline for ML operations
 
+[comment]: <> (For the MLOps phase check: https://github.com/outerbounds/full-stack-ML-metaflow-tutorial)
 
 ## File Structure
 
@@ -91,7 +92,10 @@ Create a venv and install all the requirements needed for creating analysis and 
 ```shell
 pip install virtualenv
 python -m virtualenv venv
-source ./venv/bin.activate
+
+source ./venv/bin.activate # Linux
+./bin/Scripts/activate     # Windows
+ 
 python -m pip install -U pip
 pip install --no-cache-dir -r requirements/analysis.txt
 ```
