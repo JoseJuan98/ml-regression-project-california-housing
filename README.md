@@ -36,7 +36,7 @@ The target variable or dependent variable for this analysis will be the `median_
 This check-list shows the phases of the project has been already done and the next steps:
 
 - [X] Exploratory Data Analysis
-- [ ] Machine Learning Modelling Experimentation
+- [ ] Machine Learning Modelling Experimentation -> Working on it
 - [ ] API development to expose the final model
 - [ ] Containerization of the API to be able to deploy it in any environment
 - [ ] MLOps - CI/CD pipeline for ML operations
