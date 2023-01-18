@@ -41,6 +41,14 @@ This check-list shows the phases of the project has been already done and the ne
 - [ ] Containerization of the API to be able to deploy it in any environment
 - [ ] MLOps - CI/CD pipeline for ML operations
 
+Other ideas to try in the project:
+
+- Use distributed ML like PySpark/Dask with Scalene Profiler to check if it improves training times and the results
+- Use a microservices architecture to develop 2 micro-services that depends on each other to expose the model (one in Scala, another in Python for interoperability)
+  - Use ONNX for cross-platform models
+- Even if it's overkill use a GPU computing framework to use their native serving libraries to check how it can improve inferences using Scalene profiler
+- Create a simple website to try several micro-services with different models
+
 [comment]: <> (For the MLOps phase check: https://github.com/outerbounds/full-stack-ML-metaflow-tutorial)
 
 ## File Structure
