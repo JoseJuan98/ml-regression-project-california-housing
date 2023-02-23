@@ -75,10 +75,10 @@ Other ideas to try in the project:
 │     └── ExploratoryDataAnalysis.pdf
 │     
 ├── src
-│     ├── data_modelling.py
-│     ├── data_preparation.py
-│     ├── data_transform.py
-│     ├── eval.py
+│     ├── build_model.py
+│     ├── preprocess.py
+│     ├── feature_engineering.py
+│     ├── evaluate.py
 │     ├── __init__.py
 │     ├── template.py
 │     └── train.py
