@@ -8,15 +8,16 @@ Website: https://github.com/JoseJuan98
 Preprocess
 ==========
 
-Managing the transformation logic and serializing a transformer, train-test set split
+Managing the transformation logic and serializing a transformer, train-test set split ...
 
 Script to perform the preparation of feature before training the model.
-Task usually consists on:
-- Getting the features/datasets
-- Feature Selection
-- Data augmentation
-- Some additional feature processing, in case of using a Feature Group
-- Train and test set splitting
+
+The correct order of operations should be:
+
+    - Train and test set splitting
+    - Feature Selection
+    - Data augmentation
+    - Data transformations (such as scaling, normalization, or feature engineering) on the training set only.
 ...
 
 """
