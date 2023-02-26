@@ -87,7 +87,7 @@ Other ideas to try in the project:
 │     └── testTemplate.py
 │     
 ├── utils
-│     └── utils.py
+│     └── data_gathering.py
 │     
 └── README.md
 
