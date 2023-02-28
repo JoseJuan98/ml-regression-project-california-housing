@@ -6,20 +6,20 @@ Author: (I) Jose Pena
 Website: https://github.com/JoseJuan98
 
 
-Title
-==================
+Data Transformations
+====================
 
 ...
 """
 import logging
 
-import pandas
 from pandas import DataFrame, NA, concat
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import MinMaxScaler
 from category_encoders import TargetEncoder
+from sklearn.utils import resample
 
 from src.utils import logger, TARGET
 
@@ -53,8 +53,8 @@ def remove_outliers_iqr(dataframe: DataFrame, columns: list[str] | str, whisker_
     return dataframe
 
 
-def normalize_column(data: pandas.DataFrame,
-                     column: str) -> pandas.DataFrame:
+def normalize_column(data: DataFrame,
+                     column: str) -> DataFrame:
     """
 
     Args:
@@ -67,9 +67,11 @@ def normalize_column(data: pandas.DataFrame,
     from scipy.stats import boxcox
 
     # Normalizing target variable
-    data[column] = DataFrame(boxcox(data.median_house_value)[0])
+    bc_result = boxcox(data.median_house_value)
+    data[column] = DataFrame(bc_result[0])
+    lamb = bc_result[1]
 
-    return data
+    return data, lamb
 
 
 def get_preprocessor(categorical_columns: list[str],
@@ -119,7 +121,7 @@ def prepare_data(data: DataFrame, target: str, verbose: bool = False) -> DataFra
 
     # Normalizing target variable
     old_skewness = data[target].skew()
-    data = normalize_column(data=data, column=target)
+    data, lamb = normalize_column(data=data, column=target)
 
     logger.info(f"\t-> Target normalization. \n\t\tSkewness: \n"
                 f"{'':>30}{'Old':10}: {old_skewness:.4f}. \n"
@@ -168,4 +170,65 @@ def prepare_data(data: DataFrame, target: str, verbose: bool = False) -> DataFra
     data[norm_cols] = norm_data[norm_cols]
     del norm_data, original_index
 
-    return data
+    return data, lamb
+
+
+def resample_by_category(target: str,
+                         x_train: DataFrame,
+                         up_or_down: str = 'up',
+                         resampling_perc: float = 1.0) -> DataFrame:
+    """
+    Method to resample the training data
+
+    Args:
+        target (str)
+        x_train (pandas.DataFrame)
+        up_or_down (str): By default = 'up'
+        resampling_perc (float): By default = 1.0
+
+    Returns:
+        x_train (pandas.DataFrame)
+    """
+    majority_label = x_train[target].mode()[0]
+    majority_data = x_train[x_train[target] == majority_label]
+    minority_data = x_train[x_train[target] != majority_label]
+
+    if resampling_perc > 2.0 or resampling_perc <= 0.01:
+        raise Exception(
+            f'Invalid value {resampling_perc} for parameter resampling_perc, values must be between 0.01 and 2.00')
+
+    up_or_down = up_or_down.lower().strip()
+
+    if up_or_down == 'up':
+
+        print(f'\t-> Upsampling minority class\n' +
+              f'\t\t Minority class will be resampled to {majority_data.shape[0]} number of rows')
+
+        data2resample = minority_data
+        n_samples = int(round(majority_data.shape[0] * resampling_perc, 0))
+        data2join = majority_data
+
+    elif up_or_down == 'down':
+
+        print(f'\t-> Downsampling majority class\n' +
+              f'\t\t Majority class will be resampled to {minority_data.shape[0]} number of rows')
+
+        data2resample = majority_data
+        n_samples = int(round(minority_data.shape[0] * resampling_perc, 0))
+        data2join = minority_data
+
+    else:
+        raise Exception(f'Invalid value {up_or_down} for variable up_or_down. Valid values are ["up","down"]')
+
+    resampled_data = resample(
+        data2resample,
+        replace=True,
+        n_samples=n_samples,
+        random_state=1234
+    )
+
+    x_train = concat([resampled_data, data2join])
+
+    print(f'\n\t\tNew proportion of targets: {x_train[target].value_counts(normalize=True).to_dict()}\n')
+
+    return x_train
