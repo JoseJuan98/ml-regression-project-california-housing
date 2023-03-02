@@ -13,11 +13,14 @@ Data Transformations
 """
 import logging
 
-from pandas import DataFrame, NA, concat
+from typing import Union, Any
+
+import numpy
+from pandas import DataFrame, NA, concat, Series
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from category_encoders import TargetEncoder
 from sklearn.utils import resample
 
@@ -53,8 +56,8 @@ def remove_outliers_iqr(dataframe: DataFrame, columns: list[str] | str, whisker_
     return dataframe
 
 
-def normalize_column(data: DataFrame,
-                     column: str) -> DataFrame:
+def normalize_column(data: DataFrame | Series | numpy.ndarray,
+                     column: str | None) -> Union[DataFrame, Any]:
     """
 
     Args:
@@ -67,8 +70,13 @@ def normalize_column(data: DataFrame,
     from scipy.stats import boxcox
 
     # Normalizing target variable
-    bc_result = boxcox(data.median_house_value)
-    data[column] = DataFrame(bc_result[0])
+    if column:
+        bc_result = boxcox(data[column])
+        data[column] = DataFrame(bc_result[0])
+    else:
+        bc_result = boxcox(data)
+        data = DataFrame(bc_result[0])
+
     lamb = bc_result[1]
 
     return data, lamb
@@ -81,13 +89,13 @@ def get_preprocessor(categorical_columns: list[str],
         ColumnTransformer: pipeline with the data preparation for a ml model
     """
     _categorical_pipeline = Pipeline(steps=[
-        ('cat_imputer', SimpleImputer(missing_values=NA, strategy='most_frequent')),
+        ('cat_imputer', SimpleImputer(missing_values=numpy.nan, strategy='most_frequent')),
         ('encoder', TargetEncoder(return_df=False, handle_unknown="ignore"))
     ], verbose=True)
 
     _numerical_pipeline = Pipeline(steps=[
         ('num_imputer', SimpleImputer(missing_values=NA, strategy='mean')),
-        ('scaler', MinMaxScaler())
+        ('scaler', MinMaxScaler(feature_range=(0, 1)))
     ], verbose=True)
 
     # Generate pipeline
@@ -95,6 +103,25 @@ def get_preprocessor(categorical_columns: list[str],
         ('categorical', _categorical_pipeline, categorical_columns),
         ('numerical', _numerical_pipeline, numerical_columns)
     ], verbose=True, n_jobs=-1)
+
+
+def preprocess_data(X: DataFrame, y: DataFrame | Series | numpy.ndarray):
+    """
+
+    Returns:
+
+    """
+    columns = X.columns.to_list()
+    preprocessor = Pipeline(steps=[('preprocess', get_preprocessor(
+        categorical_columns=X.select_dtypes(include=["O", "object", "string"]).columns.to_list(),
+        numerical_columns=X.select_dtypes(include=["number"]).columns.to_list()
+    ))])
+
+    y, lamb = normalize_column(data=y, column=None)
+
+    X = preprocessor.fit_transform(X=X, y=y)
+    X = DataFrame(X, columns=columns)
+    return X, y, preprocessor, lamb
 
 
 def prepare_data(data: DataFrame, target: str, verbose: bool = False) -> DataFrame:
@@ -115,7 +142,6 @@ def prepare_data(data: DataFrame, target: str, verbose: bool = False) -> DataFra
 
     logger.info(f"{'':_^30} Preparing Data {'':_^30}")
 
-    from scipy.stats import boxcox
     from sklearn.impute import SimpleImputer
     from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
 
@@ -131,7 +157,7 @@ def prepare_data(data: DataFrame, target: str, verbose: bool = False) -> DataFra
                 f"{'':>30}{'Before':10}: {data.total_bedrooms.isna().sum()}")
 
     # Missing values
-    imputer = SimpleImputer(missing_values=NA, strategy='mean')
+    imputer = SimpleImputer(missing_values=numpy.nan, strategy='mean')
     data.total_bedrooms = imputer.fit_transform(X=data.total_bedrooms.to_numpy().reshape(-1, 1))
 
     logger.info(f"{'':>30}{'After':10}: {data.total_bedrooms.isna().sum()}"
