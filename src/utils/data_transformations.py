@@ -105,7 +105,7 @@ def get_preprocessor(categorical_columns: list[str],
     ], verbose=True, n_jobs=-1)
 
 
-def preprocess_data(X: DataFrame, y: DataFrame | Series | numpy.ndarray):
+def preprocess_data(X: DataFrame, y: DataFrame | Series | numpy.ndarray, normalize_target: bool = False):
     """
 
     Returns:
@@ -117,7 +117,9 @@ def preprocess_data(X: DataFrame, y: DataFrame | Series | numpy.ndarray):
         numerical_columns=X.select_dtypes(include=["number"]).columns.to_list()
     ))])
 
-    y, lamb = normalize_column(data=y, column=None)
+    lamb = None
+    if normalize_target:
+        y, lamb = normalize_column(data=y, column=None)
 
     X = preprocessor.fit_transform(X=X, y=y)
     X = DataFrame(X, columns=columns)
