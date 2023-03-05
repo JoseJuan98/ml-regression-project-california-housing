@@ -20,6 +20,16 @@ This dataset appeared in a 1997 paper titled "Sparse Spatial Autoregressions" by
 
 The target variable or dependent variable for this analysis will be the `median_house_value`, which describes the median price of the houses per block group.
 
+The California Housing dataset is a collection of census data for the state of California, USA, from the 1990 census. 
+It consists of one row per census block group, with each block group representing the smallest geographical unit for which sample data is published by the U.S. Census Bureau. The dataset was compiled by Pace and Barry and published in the Statistics and Probability Letters journal in 1997. 
+
+The dataset contains several features, including the median income, median house age, and median number of rooms per house, among others. 
+The target variable or dependent variable for this analysis is the `median_house_value` which represents the median price of the houses per block group. 
+
+The dataset is available from the University of Porto by the [Luís Torgo's page](https://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html) and is often used in regression analysis and machine learning tasks.
+
+
+
 ## File Structure
 
 ```shell
@@ -110,6 +120,80 @@ Other ideas to try in the project:
 -   Consider using GPU computing frameworks with native serving libraries to improve inferences using Scalene Profiler, even if it's overkill
 -   Create a simple website to test different models with several microservices
 
+
+## Evaluation Metrics
+
+In a regression analysis project, selecting appropriate evaluation metrics is crucial to determine the performance of the model. The evaluation metrics used for this project are:
+
+-   **Mean Squared Error (MSE)**: This metric calculates the average squared difference between the predicted and actual values. It penalizes larger errors more heavily than smaller ones.
+
+-   **Root Mean Squared Error (RMSE)**: This is the square root of the MSE, which gives us a measure of the average magnitude of the error in the same units as the target variable.
+   
+-   **Mean Absolute Error (MAE)**: This metric calculates the absolute difference between the predicted and actual values, taking the average over all samples.
+   
+-   **R-squared (R2)**: This metric measures the proportion of variance in the target variable that can be explained by the model. It ranges from 0 to 1, with higher values indicating better performance.
+
+When selecting an evaluation metric, it is important to consider the nature of the problem and the context of the application. For instance, if the cost of false negatives is much higher than false positives, it is preferable to optimize for reducing the MSE for values below a certain threshold. Similarly, if we are interested in identifying extreme values of the target variable, we may prefer to use the MAE instead of the MSE. It is also essential to consider the range and distribution of the target variable and any specific requirements or constraints of the project. The selection of the most appropriate evaluation metric can help to ensure that the model meets the desired level of performance for the given task.
+
+## Results
+
+
+## Model Interpretation
+
+
+
+## Deployment instructions
+
+[comment]: <> (
+## Deploying the API Locally
+
+1.  Clone the repository from GitHub:
+
+`git clone https://github.com/yourusername/your-repository.git`
+
+2.  Install the required dependencies using pip:
+`cd your-repository pip install -r requirements.txt`
+
+3.  Start the Flask server:
+
+`python app.py`
+
+4.  The API should now be available at `http://localhost:5000/`.
+
+## Deploying the API to a Server
+
+1.  Ensure that you have Docker installed on the server.
+2.  Clone the repository from GitHub:
+
+`git clone https://github.com/yourusername/your-repository.git`
+
+3.  Build the Docker image:
+
+`cd your-repository docker build -t your-image-name .`
+
+4.  Run the Docker container:
+
+`docker run -p 5000:5000 -it your-image-name`
+
+5.  The API should now be available at `http://your-server-ip-address:5000/`.
+
+Note: You may need to configure your firewall to allow incoming connections on port 5000.
+
+## Using the API
+
+The API supports a `POST` request to the `/predict` endpoint with a JSON payload containing the features for the prediction. The expected features are `longitude`, `latitude`, `housing_median_age`, `total_rooms`, `total_bedrooms`, `population`, `households`, and `median_income`.
+
+Here's an example request using `curl`:
+
+json
+
+`curl -X POST -H "Content-Type: application/json" -d '{"longitude":-122.23,"latitude":37.88,"housing_median_age":41,"total_rooms":880,"total_bedrooms":129,"population":322,"households":126,"median_income":8.3252}' http://localhost:5000/predict`
+
+The response will be a JSON object containing the predicted value for `median_house_value`.
+)
+
+
+
 [comment]: <> (For the MLOps phase check: https://github.com/outerbounds/full-stack-ML-metaflow-tutorial)
 
 
@@ -121,3 +205,5 @@ Other ideas to try in the project:
     Deployment instructions: When you are ready to deploy your model, include instructions on how to set up the API and containerize the application. This can be helpful for anyone who wants to reproduce your work or use your model in their own applications.
     Future work: Finally, it can be useful to include a section that outlines potential future work that could be done to improve the model or extend the project. This can give readers an idea of where the project could go next and inspire them to contribute their own ideas.
 )
+
+## Further work
