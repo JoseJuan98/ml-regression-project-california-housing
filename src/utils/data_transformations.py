@@ -19,6 +19,7 @@ import numpy
 from pandas import DataFrame, NA, concat, Series
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from category_encoders import TargetEncoder
@@ -90,6 +91,7 @@ def get_preprocessor(categorical_columns: list[str],
     """
     _categorical_pipeline = Pipeline(steps=[
         ('cat_imputer', SimpleImputer(missing_values=numpy.nan, strategy='most_frequent')),
+        # ('cat_ohe', OneHotEncoder(handle_unknown='ignore', sparse_output=True))
         ('encoder', TargetEncoder(return_df=False, handle_unknown="ignore"))
     ], verbose=True)
 
@@ -109,10 +111,10 @@ def preprocess_data(X: DataFrame,
                     y: DataFrame | Series | numpy.ndarray,
                     normalize_target: bool = False,
                     variables_with_outliers: Union[list[str], str, None] = None,
-                    preprocessor: Union[Pipeline, None] = None,
+                    preprocessor: Union[Any, None] = None,
                     verbose: bool = False) -> Union[DataFrame,
                                                     Any,
-                                                    Pipeline,
+                                                    Any,
                                                     Any
                                                     ]:
     """Module to preprocess the data for Machine Learning models and create the artifacts
@@ -167,19 +169,31 @@ def preprocess_data(X: DataFrame,
         X = remove_outliers_iqr(dataframe=X, columns=variables_with_outliers, whisker_width=1.5)
 
     columns = X.columns.to_list()
-    if preprocessor is None:
-        preprocessor = Pipeline(steps=[('preprocess', get_preprocessor(
-            categorical_columns=X.select_dtypes(include=["O", "object", "string"]).columns.to_list(),
-            numerical_columns=X.select_dtypes(include=["number"]).columns.to_list()
-        ))])
-        preprocessor.fit(X=X, y=y)
 
-    X = preprocessor.transform(X=X)
+    cat_cols = X.select_dtypes(include=["O", "object", "string"]).columns.to_list()
+    num_cols = X.select_dtypes(include=["number"]).columns.to_list()
+    print(f'Cat cols: {cat_cols} \n\n Num cols: {num_cols}')
+    if preprocessor is None:
+        # preprocessor = Pipeline(steps=[('preprocess', get_preprocessor(
+        #     categorical_columns=cat_cols,
+        #     numerical_columns=num_cols
+        # ))])
+        preprocessor = get_preprocessor(
+            categorical_columns=cat_cols,
+            numerical_columns=num_cols
+        )
+        # Dummy variable
+        preprocessor.fit_transform(X)
+    else:
+        X = preprocessor.transform(X=X)
     X = DataFrame(X, columns=columns)
 
     logger.info(msg)
 
-    return X, y, preprocessor, lamb
+    return (X,
+            y,
+            preprocessor,
+            lamb)
 
 
 def prepare_data(data: DataFrame, target: str, verbose: bool = False) -> DataFrame:
