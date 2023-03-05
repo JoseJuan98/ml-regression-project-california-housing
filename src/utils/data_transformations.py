@@ -105,24 +105,80 @@ def get_preprocessor(categorical_columns: list[str],
     ], verbose=True, n_jobs=-1)
 
 
-def preprocess_data(X: DataFrame, y: DataFrame | Series | numpy.ndarray, normalize_target: bool = False):
-    """
+def preprocess_data(X: DataFrame,
+                    y: DataFrame | Series | numpy.ndarray,
+                    normalize_target: bool = False,
+                    variables_with_outliers: Union[list[str], str, None] = None,
+                    preprocessor: Union[Pipeline, None] = None,
+                    verbose: bool = False) -> Union[DataFrame,
+                                                    Any,
+                                                    Pipeline,
+                                                    Any
+                                                    ]:
+    """Module to preprocess the data for Machine Learning models and create the artifacts
+    needed to preprocess of the test set.
+
+    Description:
+        It contains:
+            - (Optional) The normalization of the target variable
+            - (Optional) Removing outliers
+            - The Feature Engineering of the features (scaling, encoding, interpolation ...)
+
+    Args:
+        X
+        y
+        normalize_target
+        variables_with_outliers
+        preprocessor: By default None. Already fit Column Transformer Pipeline passed to perform
+                      the feature engineering.
+        verbose
 
     Returns:
+        Tuple[DataFrame, Any, Pipeline, Any]: it returns in order:
+            - The transformed dependent variables (X, x_train)
+            - The transformed independent variable (y, y_train)
+            - The `:ob:sklearn.pipeline.Pipeline` object with the fit logic to transform the features
+            - The lambda function used by the boxcox module to perform the normalization of the target,
+                it can be use later to inverse the transformation and get the correct target value.
 
     """
-    columns = X.columns.to_list()
-    preprocessor = Pipeline(steps=[('preprocess', get_preprocessor(
-        categorical_columns=X.select_dtypes(include=["O", "object", "string"]).columns.to_list(),
-        numerical_columns=X.select_dtypes(include=["number"]).columns.to_list()
-    ))])
+    if verbose:
+        logger.setLevel(logging.INFO)
+    else:
+        logger.setLevel(logging.ERROR)
+
+    logger.info(f"{'':_^30} Preparing Data {'':_^30}")
+
+    msg = f"\n\t-> Handling missing values. \n" +\
+          f"\t\tMissing values of `total_bedrooms`:\n" +\
+          f"{'':>30}{'Before':10}: {X.total_bedrooms.isna().sum()}"
 
     lamb = None
     if normalize_target:
+        msg += f"{'':>30}{'Old':10}: {y.skew:.4f}. \n"
         y, lamb = normalize_column(data=y, column=None)
+        msg += f"{'':>30}{'Current':10}: {y.skew():.4f}\n"
 
-    X = preprocessor.fit_transform(X=X, y=y)
+    msg += f"{'':>30}{'After':10}: {X.total_bedrooms.isna().sum()}" + \
+           f"\n\n\t-> Handling outliers."
+
+    # Handling outliers
+    if variables_with_outliers is not None:
+        X = remove_outliers_iqr(dataframe=X, columns=variables_with_outliers, whisker_width=1.5)
+
+    columns = X.columns.to_list()
+    if preprocessor is None:
+        preprocessor = Pipeline(steps=[('preprocess', get_preprocessor(
+            categorical_columns=X.select_dtypes(include=["O", "object", "string"]).columns.to_list(),
+            numerical_columns=X.select_dtypes(include=["number"]).columns.to_list()
+        ))])
+        preprocessor.fit(X=X, y=y)
+
+    X = preprocessor.transform(X=X)
     X = DataFrame(X, columns=columns)
+
+    logger.info(msg)
+
     return X, y, preprocessor, lamb
 
 
@@ -137,6 +193,8 @@ def prepare_data(data: DataFrame, target: str, verbose: bool = False) -> DataFra
     Returns:
         pandas.DataFrame: prepared data
     """
+    logger.warning(DeprecationWarning('This module in the future will be deprecated'+
+                                      'by `preprocess_data()`'))
     if verbose:
         logger.setLevel(logging.INFO)
     else:
