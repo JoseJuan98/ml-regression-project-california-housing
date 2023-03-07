@@ -11,6 +11,7 @@ Data Transformations
 
 ...
 """
+import re
 import logging
 
 from typing import Union, Any
@@ -91,8 +92,7 @@ def get_preprocessor(categorical_columns: list[str],
     """
     _categorical_pipeline = Pipeline(steps=[
         ('cat_imputer', SimpleImputer(missing_values=numpy.nan, strategy='most_frequent')),
-        # ('cat_ohe', OneHotEncoder(handle_unknown='ignore', sparse_output=True))
-        ('encoder', TargetEncoder(return_df=False, handle_unknown="ignore"))
+        ('cat_ohe', OneHotEncoder(handle_unknown='ignore', sparse_output=True))
     ], verbose=True)
 
     _numerical_pipeline = Pipeline(steps=[
@@ -102,9 +102,9 @@ def get_preprocessor(categorical_columns: list[str],
 
     # Generate pipeline
     return ColumnTransformer(transformers=[
-        ('categorical', _categorical_pipeline, categorical_columns),
-        ('numerical', _numerical_pipeline, numerical_columns)
-    ], verbose=True, n_jobs=-1)
+        ('numerical', _numerical_pipeline, numerical_columns),
+        ('categorical', _categorical_pipeline, categorical_columns)
+    ], verbose=True, n_jobs=-1, remainder='passthrough')
 
 
 def preprocess_data(X: DataFrame,
@@ -168,24 +168,22 @@ def preprocess_data(X: DataFrame,
     if variables_with_outliers is not None:
         X = remove_outliers_iqr(dataframe=X, columns=variables_with_outliers, whisker_width=1.5)
 
-    columns = X.columns.to_list()
-
     cat_cols = X.select_dtypes(include=["O", "object", "string"]).columns.to_list()
     num_cols = X.select_dtypes(include=["number"]).columns.to_list()
-    print(f'Cat cols: {cat_cols} \n\n Num cols: {num_cols}')
+
     if preprocessor is None:
-        # preprocessor = Pipeline(steps=[('preprocess', get_preprocessor(
-        #     categorical_columns=cat_cols,
-        #     numerical_columns=num_cols
-        # ))])
         preprocessor = get_preprocessor(
             categorical_columns=cat_cols,
             numerical_columns=num_cols
         )
-        # Dummy variable
-        preprocessor.fit_transform(X)
-    else:
-        X = preprocessor.transform(X=X)
+
+        preprocessor.fit(X=X, y=y)
+
+    X = preprocessor.transform(X=X)
+
+    columns = [re.sub('categorical__|numerical__', '', col) for
+               col in preprocessor.get_feature_names_out()]
+
     X = DataFrame(X, columns=columns)
 
     logger.info(msg)
