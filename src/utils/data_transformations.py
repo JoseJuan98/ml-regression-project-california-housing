@@ -59,10 +59,12 @@ def remove_outliers_iqr(dataframe: DataFrame, columns: list[str] | str, whisker_
 
 
 def normalize_column(data: DataFrame | Series | numpy.ndarray,
-                     column: str | None) -> Union[DataFrame, Any]:
+                     column: str | None,
+                     lmbda: int | None = None) -> Union[DataFrame, Any]:
     """
 
     Args:
+        lmbda (int):
         data (pandas.DataFrame):
         column (str):
 
@@ -73,11 +75,11 @@ def normalize_column(data: DataFrame | Series | numpy.ndarray,
 
     # Normalizing target variable
     if column:
-        bc_result = boxcox(data[column])
-        data[column] = DataFrame(bc_result[0])
+        bc_result = boxcox(data[column], lmbda=lmbda)
+        data[column] = DataFrame(data=bc_result[0])
     else:
-        bc_result = boxcox(data)
-        data = DataFrame(bc_result[0])
+        bc_result = boxcox(data, lmbda=lmbda)
+        data = DataFrame(data=bc_result[0])
 
     lamb = bc_result[1]
 
@@ -110,6 +112,7 @@ def get_preprocessor(categorical_columns: list[str],
 def preprocess_data(X: DataFrame,
                     y: DataFrame | Series | numpy.ndarray,
                     normalize_target: bool = False,
+                    normalization_lmbda: int | None = None,
                     variables_with_outliers: Union[list[str], str, None] = None,
                     preprocessor: Union[Any, None] = None,
                     verbose: bool = False) -> Union[DataFrame,
@@ -129,6 +132,7 @@ def preprocess_data(X: DataFrame,
     Args:
         X
         y
+        normalization_lmbda:
         normalize_target
         variables_with_outliers
         preprocessor: By default None. Already fit Column Transformer Pipeline passed to perform
@@ -157,9 +161,9 @@ def preprocess_data(X: DataFrame,
 
     lamb = None
     if normalize_target:
-        msg += f"{'':>30}{'Old':10}: {y.skew:.4f}. \n"
-        y, lamb = normalize_column(data=y, column=None)
-        msg += f"{'':>30}{'Current':10}: {y.skew():.4f}\n"
+        # msg += f"{'':>30}{'Old':10}: {y.skew():.4f}. \n"
+        y, lamb = normalize_column(data=y, column=None, lmbda=normalization_lmbda)
+        # msg += f"{'':>30}{'Current':10}: {y.skew():.4f}\n"
 
     msg += f"{'':>30}{'After':10}: {X.total_bedrooms.isna().sum()}" + \
            f"\n\n\t-> Handling outliers."
