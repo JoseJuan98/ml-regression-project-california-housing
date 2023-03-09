@@ -59,31 +59,37 @@ def remove_outliers_iqr(dataframe: DataFrame, columns: list[str] | str, whisker_
 
 
 def normalize_column(data: DataFrame | Series | numpy.ndarray,
-                     column: str | None,
                      lmbda: int | None = None) -> Union[DataFrame, Any]:
     """
 
     Args:
         lmbda (int):
         data (pandas.DataFrame):
-        column (str):
 
     Returns:
 
     """
     from scipy.stats import boxcox
 
+    if isinstance(data, DataFrame):
+        if data.shape[1] <= 0:
+            data = data.to_numpy()
+        else:
+            raise Exception(f"DataFrame with dimesions {data.shape} must be of 1-dimesion")
+
     # Normalizing target variable
-    if column:
-        bc_result = boxcox(data[column], lmbda=lmbda)
-        data[column] = DataFrame(data=bc_result[0])
+    if lmbda:
+        data = DataFrame(data=(boxcox(data,
+                                      lmbda=lmbda)
+                               .reshape(-1, 1)
+                               )
+                         )
     else:
-        bc_result = boxcox(data, lmbda=lmbda)
-        data = DataFrame(data=bc_result[0])
+        bc_result = boxcox(data)
+        data = DataFrame(data=bc_result[0].reshape(-1, 1))
+        lmbda = bc_result[1]
 
-    lamb = bc_result[1]
-
-    return data, lamb
+    return data, lmbda
 
 
 def get_preprocessor(categorical_columns: list[str],
@@ -115,11 +121,7 @@ def preprocess_data(X: DataFrame,
                     normalization_lmbda: int | None = None,
                     variables_with_outliers: Union[list[str], str, None] = None,
                     preprocessor: Union[Any, None] = None,
-                    verbose: bool = False) -> Union[DataFrame,
-                                                    Any,
-                                                    Any,
-                                                    Any
-                                                    ]:
+                    verbose: bool = False) -> Union[DataFrame, Any, Any, Any]:
     """Module to preprocess the data for Machine Learning models and create the artifacts
     needed to preprocess of the test set.
 
@@ -155,21 +157,20 @@ def preprocess_data(X: DataFrame,
 
     logger.info(f"{'':_^30} Preparing Data {'':_^30}")
 
-    msg = f"\n\t-> Handling missing values. \n" +\
-          f"\t\tMissing values of `total_bedrooms`:\n" +\
+    msg = f"\n\t-> Handling missing values. \n" + \
+          f"\t\tMissing values of `total_bedrooms`:\n" + \
           f"{'':>30}{'Before':10}: {X.total_bedrooms.isna().sum()}"
 
     lamb = None
     if normalize_target:
         # msg += f"{'':>30}{'Old':10}: {y.skew():.4f}. \n"
-        y, lamb = normalize_column(data=y, column=None, lmbda=normalization_lmbda)
+        y, lamb = normalize_column(data=y, lmbda=normalization_lmbda)
         # msg += f"{'':>30}{'Current':10}: {y.skew():.4f}\n"
-
-    msg += f"{'':>30}{'After':10}: {X.total_bedrooms.isna().sum()}" + \
-           f"\n\n\t-> Handling outliers."
 
     # Handling outliers
     if variables_with_outliers is not None:
+        msg += f"{'':>30}{'After':10}: {X.total_bedrooms.isna().sum()}" + \
+               f"\n\n\t-> Handling outliers."
         X = remove_outliers_iqr(dataframe=X, columns=variables_with_outliers, whisker_width=1.5)
 
     cat_cols = X.select_dtypes(include=["O", "object", "string"]).columns.to_list()
@@ -209,7 +210,7 @@ def prepare_data(data: DataFrame, target: str, verbose: bool = False) -> DataFra
     Returns:
         pandas.DataFrame: prepared data
     """
-    logger.warning(DeprecationWarning('This module in the future will be deprecated'+
+    logger.warning(DeprecationWarning('This module in the future will be deprecated' +
                                       'by `preprocess_data()`'))
     if verbose:
         logger.setLevel(logging.INFO)
