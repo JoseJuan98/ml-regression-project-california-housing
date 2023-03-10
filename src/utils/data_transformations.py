@@ -22,9 +22,10 @@ from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import MinMaxScaler, StandardScaler
-from category_encoders import TargetEncoder
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.utils import resample
+
+from scipy.stats import boxcox
 
 from src.utils import logger, TARGET
 
@@ -69,7 +70,6 @@ def normalize_column(data: DataFrame | Series | numpy.ndarray,
     Returns:
 
     """
-    from scipy.stats import boxcox
 
     if isinstance(data, DataFrame):
         if data.shape[1] <= 0:
