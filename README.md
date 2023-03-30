@@ -111,13 +111,13 @@ This check-list shows the phases of the project that have been completed and the
 - [ ] Machine Learning Modelling (Regression Analysis) -> In progress
 - [ ] API development to expose the final model
 - [ ] Containerization of the API to enable deployment it in any environment
-- [ ] MLOps - CI/CD pipeline for ML operations
+- [ ] MLOps - Continuous Integration, Deployment and Training (CI CD CT) pipeline for ML operations
 
 Other ideas to try in the project:
 
 -   Use distributed ML tools like PySpark/Dask with Scalene Profiler to see if it improves training times and results
 -   Develop 2 microservices that depend on each other to expose the model (one in Scala, another in Python for interoperability) and use ONNX for cross-platform models
--   Consider using GPU computing frameworks with native serving libraries to improve inferences using Scalene Profiler, even if it's overkill
+-   Consider using GPU computing frameworks with native serving libraries to improve inferences using Scalene Profiler, even if it's overkill. e.g. with skorch.
 -   Create a simple website to test different models with several microservices
 
 
