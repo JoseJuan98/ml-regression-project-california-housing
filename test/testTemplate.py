@@ -1,9 +1,20 @@
 #!/usr/bin/env python
+"""
+testTemplate
+============
 
-"""Tests NumberList and FrequencyDistribution, classes for statistics.
+Tests NumberList and FrequencyDistribution, classes for statistics.
+
+Notes
+------
+Example of code use:
+
+>>> from unittest import TestCase
+>>> class TestClass(TestCase)
+>>> # ...
 """
 from unittest import TestCase, main  # use my unittestfp instead for floating point
-from statistics import NumberList, FrequencyDistribution
+
 
 __author__ = "Jose Pena"
 __copyright__ = "Copyright 2007, The Cogent Project"
@@ -20,13 +31,13 @@ class NumberListTests(TestCase):  # must remember to subclass TestCase
 
     def setUp(self):
         """Define a few standard NumberLists."""
-        self.Null = NumberList()  # test empty init
-        self.Empty = NumberList([])  # test init with empty sequence
-        self.Single = NumberList([5])  # single item
-        self.Zero = NumberList([0])  # single, False item
-        self.Three = NumberList([1, 2, 3])  # multiple items
-        self.ZeroMean = NumberList([1, -1])  # items nonzero, mean zero
-        self.ZeroVar = NumberList([1, 1, 1])  # items nonzero, mean nonzero, variance zero
+        self.Null = None  # test empty init
+        self.Empty = []   # test init with empty sequence
+        self.Single = [5]  # single item
+        self.Zero = [0]   # single, False item
+        self.Three = [1, 2, 3]  # multiple items
+        self.ZeroMean = [1, -1]  # items nonzero, mean zero
+        self.ZeroVar = [1, 1, 1]  # items nonzero, mean nonzero, variance zero
 
         # etc. These objects shared by all tests, and created new each time a method
         # starting with the string 'test' is called (i.e. the same object does not
