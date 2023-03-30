@@ -108,8 +108,8 @@ This project is licensed under the MIT License. See the `LICENSE` file for more 
 This check-list shows the phases of the project that have been completed and the next steps:
 
 - [X] Exploratory Data Analysis
-- [ ] Machine Learning Modelling (Regression Analysis) -> In progress
-- [ ] API development to expose the final model
+- [X] Machine Learning Modelling (Regression Analysis)
+- [ ] API development to expose the final model -> In progress
 - [ ] Containerization of the API to enable deployment it in any environment
 - [ ] MLOps - Continuous Integration, Deployment and Training (CI CD CT) pipeline for ML operations
 
