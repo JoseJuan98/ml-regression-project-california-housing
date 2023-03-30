@@ -5,7 +5,7 @@
               Edit the class attributes depending on the environment
 .. moduleauthor:: (C) <grp or enterprise> - <author> 2022
 """
-from logging import INFO, DEBUG as DEBUG_LOGGING
+from logging import ERROR, INFO, DEBUG as DEBUG_LOGGING
 
 from constants import ColName
 
@@ -29,16 +29,8 @@ class Config:
     :param PORT: port to listen from. By default the app uses port 80
     :type PORT: int
     """
-    DB_DRIVER = '{ODBC Driver 17 for SQL Server}'
-    HOST = '0.0.0.0'
-    PORT = 80
-    DB_SCHEMA = "dbo"
     DEBUG = False
     TESTING = False
-    DB_NAME = None
-    DB_SERVER = None
-    DB_USER = None
-    DB_PASS = None
     LOGGER_LEVEL = INFO
 
 
@@ -46,40 +38,26 @@ class ProductionConfig(Config):
     """
     Extended class of :class:`Config` to manage Production Environment Configuration
     """
-    DB_NAME = ""
-    DB_SERVER = ".database.windows.net"
-    DB_USER = ""
-    DB_PASS = ""
-
-    # FIXME
-    DEBUG = True
-    TESTING = True
-    ENV = 'development'
+    LOGGER_LEVEL = ERROR
+    ENV = 'production'
 
 
 class StagingConfig(Config):
     """
     Extended class of :class:`Config` to manage Staging Environment Configuration
     """
-    DB_NAME = ""
-    DB_SERVER = ""
-    DB_USER = ""
-    DB_PASS = ""
 
     # Valid values for flask config.ENV are only development and production
     # But this value was used to create a different configuration than development
     # DevelopmentConfig has different TESTING and DEBUG parameters
-    ENV = 'development'
+    ENV = 'staging'
 
 
 class DevelopmentConfig(Config):
     """
     Extended class of :class:`Config` to manage Development Environment Configuration
     """
+    ENV = 'development'
     TESTING = True
     DEBUG = True
     LOGGER_LEVEL = DEBUG_LOGGING
-    DB_NAME = ""
-    DB_SERVER = ""
-    DB_USER = ""
-    DB_PASS = ""

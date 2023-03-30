@@ -55,9 +55,6 @@ ENV FLASK_APP=/app/src/app.py
 # Port used for the Flask App
 EXPOSE 80
 
-# Port used by default by SQL Server
-EXPOSE 1433
-
 RUN echo "FLASK_ENV = $FLASK_ENV & FLASK_APP = $FLASK_APP"
 
 WORKDIR /app/src/

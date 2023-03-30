@@ -11,11 +11,8 @@
 import logging
 import traceback
 
-from pyodbc import Connection
-
 from flask import Flask, jsonify
 
-from interface_data_base import InterfaceDataBase
 from constants import ColName
 
 app = Flask(__name__, instance_relative_config=True)
@@ -41,80 +38,6 @@ def get_logger(level: int = logging.INFO) -> logging.Logger:
     app.logger.propagate = False
 
     return app.logger
-
-
-def get_json_credentials(server_app):
-    """
-    Method to extract the credentials from the database
-
-    :param server_app:
-    :return: dict with credentials needed to connecto to db
-    """
-    return {
-        ColName.DATA_BASE: server_app.config['DB_NAME'],
-        ColName.SERVER: server_app.config['DB_SERVER'],
-        ColName.DRIVER: server_app.config['DB_DRIVER'],
-        ColName.USER: server_app.config['DB_USER'],
-        ColName.PASS: server_app.config['DB_PASS'],
-        ColName.PORT: "",
-        ColName.SCHEMA: server_app.config['DB_SCHEMA'],
-    }
-
-
-
-def get_connection_db(_app) -> Connection:
-    """
-    Method to get a conenction to the db
-
-    :param _app:
-    :return: pyodbc.Connection
-    """
-    cnxn = get_interface_db(_app=_app)
-    cnxn = cnxn.connection
-    return cnxn
-
-
-def get_interface_db(_app, logger: logging.Logger = None) -> InterfaceDataBase:
-    """
-    Method to get a InterfaceDataBase instance with connection to the db
-
-    :rtype: InterfaceDataBase
-    """
-    credentials: dict = get_json_credentials(server_app=_app)
-    interface = InterfaceDataBase(credentials=credentials, logger=logger)
-
-    try:
-        interface.establish_connection()
-
-    except ConnectionError as exc:
-        raise exc
-    except Exception as exc:
-        raise exc
-    # ConnectionError(f'Cannot connect to database. \n Further details: \n {exc}')
-
-    return interface
-
-
-@app.get("/pingDB")
-def ping_db():
-    """
-    Method to test if there is connection to the db
-
-    :return:
-    """
-    try:
-        if get_connection_db(_app=app) is None:
-            credent = get_json_credentials(server_app=app)
-
-            del credent['Pass']
-
-            return str(f"Cannot connect to internal DB. Using credentials: \n{credent} (Password not shown) "
-                       + f"\n {traceback.format_exc()}"), 404
-        else:
-            return "Connection with db succeded", 200
-
-    except Exception as exc:
-        return f"Errors trying to connect to DB: \n{exc} \n {traceback.format_exc()}", 404
 
 
 @app.get("/ping")
