@@ -74,35 +74,6 @@ The dataset is available from the University of Porto by the [Luís Torgo's page
 └── README.md           # Project documentation
 ```
 
-## Usage
-
-The project can be used in two ways:
-
-### 1. Jupyter Notebooks
-
-To run the Jupyter notebooks, create a virtual environment and install the required packages as shown below:
-
-```shell
-# Install a python virtual environment manager
-pip install virtualenv 
-python -m virtualenv venv  
-
-# Activate the virtual environment
-source ./venv/bin/activate # Linux 
-./bin/Scripts/activate     # Windows   
-
-# Install the dependencies
-python -m pip install -U pip pip install --no-cache-dir -r requirements/analysis.txt
-```
-
-Then navigate to the notebooks folder and launch Jupyter:
-
-```shell
-cd notebooks 
-jupyterlab <notebook>
-```
-
-
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
@@ -145,58 +116,95 @@ When selecting an evaluation metric, it is important to consider the nature of t
 ## Model Interpretation
 
 
+## Usage
 
-## Deployment instructions
+The project can be used in two ways:
 
-[comment]: <> (
-## Deploying the API Locally
+### 1. Jupyter Notebooks
+
+To run the Jupyter notebooks, create a virtual environment and install the required packages as shown below:
+
+```shell
+# Install a python virtual environment manager
+pip install virtualenv 
+python -m virtualenv venv  
+
+# Activate the virtual environment
+source ./venv/bin/activate # Linux 
+./bin/Scripts/activate     # Windows   
+
+# Install the dependencies
+python -m pip install -U pip pip install --no-cache-dir -r requirements/analysis.txt
+```
+
+Then navigate to the notebooks folder and launch Jupyter:
+
+```shell
+cd notebooks 
+jupyterlab <notebook>
+```
+
+
+### 2. API requests
+
+#### Deploying the API Locally
 
 1.  Clone the repository from GitHub:
 
-`git clone https://github.com/yourusername/your-repository.git`
+```shell
+git clone https://github.com/yourusername/your-repository.git
+```
 
 2.  Install the required dependencies using pip:
-`cd your-repository pip install -r requirements.txt`
+```shell
+cd your-repository pip install -r requirements.txt
+```
 
 3.  Start the Flask server:
 
-`python app.py`
+```shell
+python app.py
+```
 
 4.  The API should now be available at `http://localhost:5000/`.
 
-## Deploying the API to a Server
+#### Deploying the API to a Server
 
 1.  Ensure that you have Docker installed on the server.
 2.  Clone the repository from GitHub:
 
-`git clone https://github.com/yourusername/your-repository.git`
+```shell
+git clone https://github.com/yourusername/your-repository.git
+```
 
 3.  Build the Docker image:
 
-`cd your-repository docker build -t your-image-name .`
+```shell
+cd your-repository docker build -t your-image-name .
+```
 
 4.  Run the Docker container:
 
-`docker run -p 5000:5000 -it your-image-name`
+```shell
+docker run -p 5000:5000 -it your-image-name
+```
 
 5.  The API should now be available at `http://your-server-ip-address:5000/`.
 
 Note: You may need to configure your firewall to allow incoming connections on port 5000.
 
-## Using the API
+#### Using the API
 
 The API supports a `POST` request to the `/predict` endpoint with a JSON payload containing the features for the prediction. The expected features are `longitude`, `latitude`, `housing_median_age`, `total_rooms`, `total_bedrooms`, `population`, `households`, and `median_income`.
 
 Here's an example request using `curl`:
 
-json
 
-`curl -X POST -H "Content-Type: application/json" -d '{"longitude":-122.23,"latitude":37.88,"housing_median_age":41,"total_rooms":880,"total_bedrooms":129,"population":322,"households":126,"median_income":8.3252}' http://localhost:5000/predict`
+```shell
+curl -X POST -H "Content-Type: application/json" -d '{"longitude":-122.23,"latitude":37.88,"housing_median_age":41,"total_rooms":880,"total_bedrooms":129,"population":322,"households":126,"median_income":8.3252}' http://localhost:5000/predict
+```
 
 The response will be a JSON object containing the predicted value for `median_house_value`.
-)
-
-
 
 [comment]: <> (For the MLOps phase check: https://github.com/outerbounds/full-stack-ML-metaflow-tutorial)
 
