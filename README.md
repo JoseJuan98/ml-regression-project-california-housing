@@ -113,7 +113,7 @@ This check-list shows the phases of the project that have been completed and the
 
 - [X] Exploratory Data Analysis
 - [X] Regression Analysis/Machine Learning Modelling
-- [ ] API development to expose the final model -> In progress
+- [ ] API and FrontEnd development to expose the final model -> In progress
 - [ ] Containerization of the API to enable deployment it in any environment
 - [ ] MLOps - Continuous Integration, Deployment and Training (CI CD CT) pipeline for ML operations
 
