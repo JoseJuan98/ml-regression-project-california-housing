@@ -56,7 +56,7 @@ The dataset is available from the University of Porto by the [Luís Torgo's page
 │     │
 │     └── ExploratoryDataAnalysis.pdf
 │     
-├── src                 # Source code
+├── pipeline                 # Source code
 │     ├── build_model.py
 │     ├── preprocess.py
 │     ├── feature_engineering.py
