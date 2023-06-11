@@ -8,36 +8,13 @@
 
 .. moduleauthor:: (C) <group - enterprise> - <user> 2022
 """
-import logging
 import traceback
 
 from flask import Flask, jsonify
 
-from constants import ColName
+from microservice.model_api.model_utils import get_logger
 
 app = Flask(__name__, instance_relative_config=True)
-
-def get_logger(level: int = logging.INFO) -> logging.Logger:
-    """
-    Method to get the logger of the flask application
-
-    :param level: level which will show the logs
-    :return:
-    :rtype: logging.Logger
-    """
-    # remove current handler to add new format
-    for hdl in app.logger.handlers[:]:
-        if isinstance(hdl, logging.StreamHandler):
-            app.logger.removeHandler(hdl)
-
-    handler = logging.StreamHandler()
-    handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
-    app.logger.addHandler(handler)
-
-    app.logger.setLevel(level)
-    app.logger.propagate = False
-
-    return app.logger
 
 
 @app.get("/ping")

@@ -9,17 +9,11 @@ from logging import ERROR, INFO, DEBUG as DEBUG_LOGGING
 
 from constants import ColName
 
+
 class Config:
     """
     Base class which the rest of configs inherit from.
-    Use it for parameters that are the same in all configurations.
-
-    :param DB_DRIVER: sql client driver used by the library pyodbc. To check avalaible
-        drivers check https://wiki.python.org/moin/ODBCDrivers
-        By default '{ODBC Driver 17 for SQL Server}', up-to-date driver, older
-        ones can cause problems because the don't support JSON files as strings
-        insertions.
-    :type DB_DRIVER: str
+    Use it for parameters that are the same in all configurations or by default values.
 
     :param str HOST: host to call the app. By default '0.0.0.0' will listen on all IPs of
     the network, this can be used in this project because AKS (https://docs.microsoft.com/en-us/azure/aks/) manages
