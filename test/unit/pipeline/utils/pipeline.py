@@ -41,8 +41,17 @@ def test_get_file_extension(filepath, expected):
                                                               expected=expected,
                                                               error_value=file_extension)
 
+
 def test_load_artifacts_wrong_file_ext():
-    test_args = argparse.Namespace()
+    test_args = argparse.Namespace(input_file="file.wrong_extension")
+    with pytest.raises(KeyError):
+        load_artifacts(args=test_args)
+
+
+@pytest.mark.parametrize("args, expected",
+                         [(argparse.Namespace(), {})])
+def test_load_artifacts(args, expected):
+    test_args = argparse.Namespace(input_file="file.wrong_extension")
     with pytest.raises(KeyError):
         load_artifacts(args=test_args)
 
