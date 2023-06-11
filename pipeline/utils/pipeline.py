@@ -97,6 +97,7 @@ def get_file_extension(filepath: Union[str, pathlib.Path]) -> str:
 
 def load_artifacts(args: argparse.Namespace) -> Any:
     """
+    Method to load the artifact to start a step of the pipeline
 
     Args:
         args (argparse.Namespace): arguments
@@ -123,16 +124,15 @@ def load_artifacts(args: argparse.Namespace) -> Any:
                                                                 args.input_file))
 
 
-def pipe_args(data_step):
+def pipe_args(pipeline_step):
     """Decorator with the parser arguments need for the steps of the pipeline"""
-
     def execute(args: argparse.Namespace, logger: Logger) -> dict:
         logger.info(f"Starting step {args.step_name}")
         starting_time = perf_counter()
 
         artifacts = load_artifacts(args=args)
 
-        artifacts = data_step(artifacts=artifacts, args=args)
+        artifacts = pipeline_step(artifacts=artifacts, args=args)
         total_time = perf_counter() - starting_time
 
         if args.output_file is not None:
@@ -140,7 +140,7 @@ def pipe_args(data_step):
 
         logger.info(f"Finished {args.step_name} Step after {total_time:.4f} seconds.\n\n")
 
-        return data_step
+        return pipeline_step
 
     return execute
 
