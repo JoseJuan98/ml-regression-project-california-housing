@@ -6,12 +6,13 @@ Test Pipeline Utils
 Tests pipeline utilities
 
 """
+import argparse
 import unittest
 import pathlib
 
 import pytest
 
-from pipeline.utils.pipeline import get_file_extension
+from pipeline.utils.pipeline import get_file_extension, load_artifacts
 from test.unit.utils import message_error_expected
 
 __author__ = "Jose Pena"
@@ -39,6 +40,11 @@ def test_get_file_extension(filepath, expected):
     assert file_extension == expected, message_error_expected(input_value=filepath,
                                                               expected=expected,
                                                               error_value=file_extension)
+
+def test_load_artifacts_wrong_file_ext():
+    test_args = argparse.Namespace()
+    with pytest.raises(KeyError):
+        load_artifacts(args=test_args)
 
 
 if __name__ == '__main__':
