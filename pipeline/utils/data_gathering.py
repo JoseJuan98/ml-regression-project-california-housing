@@ -21,10 +21,7 @@ from urllib.request import urlretrieve
 # Data Analysis
 from pandas import DataFrame, read_csv
 
-# Machine Learning procedures
-
 # Utils
-# from pipeline.utils import
 logger = logging.getLogger('main')
 logger.addHandler(logging.StreamHandler())
 
@@ -40,13 +37,11 @@ def fetch_housing_data(url: Union[str, Path],
                        path: Union[str, Path],
                        force_retrieve: bool = False) -> DataFrame:
     """
-    Method to extract the data from an URL and stores it in a file into the `path` or if the file already exists in the `path` skips the extraction.
-    Finally, returns a dataframe reading this file.
-    Args:
-        url (str, Path): URL to the source to extract
-        path (str, Path): location where to store the csv data
-        force_retrieve(bool): if `force_retrive=True` it retrieves data from URL,
-                              if `force_retrive=True` it retrieves data only if file doesn't exists
+    Method to extract the data from a URL and stores it in a file into the `path` or if the file already exists in
+    the `path` skips the extraction. Finally, returns a dataframe reading this file. Args: url (str, Path): URL to
+    the source to extract path (str, Path): location where to store the csv data force_retrieve(bool): if
+    `force_retrieve=True` it retrieves data from URL, if `force_retrieve=True` it retrieves data only if file doesn't
+    exist
 
     Returns:
         DataFrame: data extracted from path or URL
