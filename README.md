@@ -91,10 +91,10 @@ This check-list shows the phases of the project that have been completed and the
 Other ideas to try in the project:
 
 - Use [localstack](https://localstack.cloud/) for provisioning cloud services locally.
--   Use distributed ML tools like PySpark/Dask with Scalene Profiler to see if it improves training times and results
--   Develop 2 microservices that depend on each other to expose the model (one in Scala, another in Python for interoperability) and use ONNX for cross-platform models
--   Consider using GPU computing frameworks with native serving libraries to improve inferences using Scalene Profiler, even if it's overkill. e.g. with skorch.
--   Create a simple website to test different models with several microservices
+- Use distributed ML tools like PySpark/Dask with Scalene Profiler to see if it improves training times and results
+- Develop 2 microservices that depend on each other to expose the model (one in Scala, another in Python for interoperability) and use ONNX for cross-platform models
+- Consider using GPU computing frameworks with native serving libraries to improve inferences using Scalene Profiler, even if it's overkill. e.g. with skorch.
+- Create a simple website to test different models with several microservices
 
 
 ## Evaluation Metrics
