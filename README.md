@@ -56,7 +56,7 @@ The dataset is available from the University of Porto by the [Luís Torgo's page
 │     │
 │     └── ExploratoryDataAnalysis.pdf
 │     
-├── src                 # Source code
+├── pipeline                 # Source code
 │     ├── build_model.py
 │     ├── preprocess.py
 │     ├── feature_engineering.py
@@ -84,16 +84,17 @@ This check-list shows the phases of the project that have been completed and the
 
 - [X] Exploratory Data Analysis
 - [X] Regression Analysis/Machine Learning Modelling
-- [ ] API development to expose the final model -> In progress
+- [ ] API and FrontEnd development to expose the final model -> In progress
 - [ ] Containerization of the API to enable deployment it in any environment
 - [ ] MLOps - Continuous Integration, Deployment and Training (CI CD CT) pipeline for ML operations
 
 Other ideas to try in the project:
 
--   Use distributed ML tools like PySpark/Dask with Scalene Profiler to see if it improves training times and results
--   Develop 2 microservices that depend on each other to expose the model (one in Scala, another in Python for interoperability) and use ONNX for cross-platform models
--   Consider using GPU computing frameworks with native serving libraries to improve inferences using Scalene Profiler, even if it's overkill. e.g. with skorch.
--   Create a simple website to test different models with several microservices
+- Use [localstack](https://localstack.cloud/) for provisioning cloud services locally.
+- Use distributed ML tools like PySpark/Dask with Scalene Profiler to see if it improves training times and results
+- Develop 2 microservices that depend on each other to expose the model (one in Scala, another in Python for interoperability) and use ONNX for cross-platform models
+- Consider using GPU computing frameworks with native serving libraries to improve inferences using Scalene Profiler, even if it's overkill. e.g. with skorch.
+- Create a simple website to test different models with several microservices
 
 
 ## Evaluation Metrics

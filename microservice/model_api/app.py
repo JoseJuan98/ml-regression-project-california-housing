@@ -7,7 +7,8 @@
 """
 
 # API actions
-from server import app, get_logger
+from endpoint import app
+from microservice.model_api.model_utils import get_logger
 
 from logging import INFO
 
