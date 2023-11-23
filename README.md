@@ -84,6 +84,8 @@ This check-list shows the phases of the project that have been completed and the
 
 - [X] Exploratory Data Analysis
 - [X] Regression Analysis/Machine Learning Modelling
+- [ ] Apply best practices subtituing notebooks for python scripts and Markdown files for report
+    - Explain the reasons why this is better (better sharing, better documentation, better modularity since day 0, ...)
 - [ ] API and FrontEnd development to expose the final model -> In progress
 - [ ] Containerization of the API to enable deployment it in any environment
 - [ ] MLOps - Continuous Integration, Deployment and Training (CI CD CT) pipeline for ML operations
