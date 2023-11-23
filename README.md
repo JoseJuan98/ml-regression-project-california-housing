@@ -92,6 +92,7 @@ This check-list shows the phases of the project that have been completed and the
 
 Other ideas to try in the project:
 
+- Use [hiplot](https://github.com/facebookresearch/hiplot) for high-dimensional data visualization using parallel coordinates.
 - Use [localstack](https://localstack.cloud/) for provisioning cloud services locally.
 - Use distributed ML tools like PySpark/Dask with Scalene Profiler to see if it improves training times and results
 - Develop 2 microservices that depend on each other to expose the model (one in Scala, another in Python for interoperability) and use ONNX for cross-platform models
