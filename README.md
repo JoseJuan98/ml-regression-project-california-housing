@@ -84,12 +84,15 @@ This check-list shows the phases of the project that have been completed and the
 
 - [X] Exploratory Data Analysis
 - [X] Regression Analysis/Machine Learning Modelling
+- [ ] Apply best practices subtituing notebooks for python scripts and Markdown files for report
+    - Explain the reasons why this is better (better sharing, better documentation, better modularity since day 0, ...)
 - [ ] API and FrontEnd development to expose the final model -> In progress
 - [ ] Containerization of the API to enable deployment it in any environment
 - [ ] MLOps - Continuous Integration, Deployment and Training (CI CD CT) pipeline for ML operations
 
 Other ideas to try in the project:
 
+- Use [hiplot](https://github.com/facebookresearch/hiplot) for high-dimensional data visualization using parallel coordinates.
 - Use [localstack](https://localstack.cloud/) for provisioning cloud services locally.
 - Use distributed ML tools like PySpark/Dask with Scalene Profiler to see if it improves training times and results
 - Develop 2 microservices that depend on each other to expose the model (one in Scala, another in Python for interoperability) and use ONNX for cross-platform models

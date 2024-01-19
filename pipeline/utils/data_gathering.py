@@ -21,16 +21,10 @@ from urllib.request import urlretrieve
 # Data Analysis
 from pandas import DataFrame, read_csv
 
-# Utils
-logger = logging.getLogger('main')
-logger.addHandler(logging.StreamHandler())
+from pipeline.config.paths import HOUSING_PATH
+from pipeline.utils.log import logger
 
-DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml/master/"
-DATA_PATH = os.path.join(Path(__file__).parent.parent.parent, 'data')
-HOUSING_PATH = os.path.join(DATA_PATH, 'housing.csv')
-PREPARED_DATA = os.path.join(DATA_PATH, 'housing_prepared.csv')
-HOUSING_URL = os.path.join(DOWNLOAD_ROOT, "datasets/housing/housing.csv")
-TARGET = 'median_house_value'
+
 
 
 def fetch_housing_data(url: Union[str, Path],
