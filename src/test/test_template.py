@@ -1,29 +1,18 @@
 #!/usr/bin/env python
-"""
-testTemplate
-============
+"""testTemplate.
 
 Tests NumberList and FrequencyDistribution, classes for statistics.
 
-Notes
-------
 Example of code use:
 
 >>> from unittest import TestCase
 >>> class TestClass(TestCase)
 >>> # ...
 """
-from unittest import TestCase, main  # use my unittestfp instead for floating point
+from unittest import TestCase, main
 
 
-__author__ = "Jose Pena"
-__copyright__ = "Copyright 2007, The Cogent Project"
-__credits__ = ["Jose Pena"]
-__license__ = "GPL"
-__version__ = "1.0.1"
-__maintainer__ = "Jose Pena"
-__email__ = "ss@.org"
-__status__ = "Production"
+
 
 
 class NumberListTests(TestCase):  # must remember to subclass TestCase

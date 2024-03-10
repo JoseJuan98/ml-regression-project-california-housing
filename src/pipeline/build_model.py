@@ -22,7 +22,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
 
-from pipeline.utils import pipe_args, parse_args, get_preprocessor
+from src.pipeline.utils import pipe_args, parse_args, get_preprocessor
 
 # from onnxmltools import convert_sklearn
 # from onnxmltools.convert.common.data_types import StringTensorType, FloatTensorType, Int64TensorType

@@ -1,24 +1,22 @@
 .PHONY: analysis_requirements dev_requirements lint environment clean_environment clean test dev_requirements
 
-#################################################################################
-# GLOBALS                                                                       #
-#################################################################################
+# ___________________________________ Constants ___________________________________
 
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-PROJECT_NAME = deepnn
-PYTHON_INTERPRETER = python
-PACKAGE_MANAGER = pip
-PYTHON_VERSION = 3
+PROJECT_NAME = pipeline
+PYTHON_COMMAND = python
+PACKAGE_MANAGER = poetry
+PYTHON_VERSION = 3.11
 
-#################################################################################
-# COMMANDS                                                                      #
-#################################################################################
+# ___________________________________ Rules ___________________________________
 
 # In case a command need args
 #args = `arg="$(filter-out $@,$(MAKECMDGOALS))" && echo $${arg:-${1}}`
 
 # to use args
 # $(call args, <default_value>)
+
+
 
 ## Install Python Dependencies
 analysis_requirements:
@@ -67,15 +65,8 @@ clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
 
-#################################################################################
-# PROJECT RULES                                                                 #
-#################################################################################
 
-
-
-#################################################################################
-# Self Documenting Commands                                                     #
-#################################################################################
+# ___________________________________ Self Documenting Commands ___________________________________
 
 .DEFAULT_GOAL := help
 
@@ -115,7 +106,7 @@ help:
 	| LC_ALL='C' sort --ignore-case \
 	| awk -F '---' \
 		-v ncol=$$(tput cols) \
-		-v indent=19 \
+		-v indent=25 \
 		-v col_on="$$(tput setaf 6)" \
 		-v col_off="$$(tput sgr0)" \
 	'{ \

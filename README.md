@@ -66,7 +66,7 @@ The dataset is available from the University of Porto by the [Luís Torgo's page
 │     └── train.py
 │     
 ├── test                # Test code
-│     └── testTemplate.py
+│     └── test_template.py
 │     
 ├── utils               # Utility code
 │     └── data_gathering.py
@@ -84,8 +84,11 @@ This check-list shows the phases of the project that have been completed and the
 
 - [X] Exploratory Data Analysis
 - [X] Regression Analysis/Machine Learning Modelling
-- [ ] Apply best practices subtituing notebooks for python scripts and Markdown files for report
-    - Explain the reasons why this is better (better sharing, better documentation, better modularity since day 0, ...)
+- [ ] Apply best practices:
+  - [ ] Use a python packaging and dependency manager like poetry
+  - [ ] Make a decisions document explaining the importance of this decision
+  - [ ] Subtituing notebooks for python scripts and Markdown files for report
+  - [ ] Explain the reasons why this is better (better sharing, better documentation, better modularity since day 0, ...)
 - [ ] API and FrontEnd development to expose the final model -> In progress
 - [ ] Containerization of the API to enable deployment it in any environment
 - [ ] MLOps - Continuous Integration, Deployment and Training (CI CD CT) pipeline for ML operations

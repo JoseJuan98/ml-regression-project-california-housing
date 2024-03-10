@@ -18,7 +18,7 @@ Step to wrangle the data, including:
 import numpy
 from pandas import DataFrame
 
-from pipeline.utils import parse_args, pipe_args
+from src.pipeline.utils import parse_args, pipe_args
 
 
 @pipe_args

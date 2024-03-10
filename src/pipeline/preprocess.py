@@ -28,7 +28,7 @@ import pandas
 
 from sklearn.model_selection import train_test_split
 
-from pipeline.utils import pipe_args, parse_args
+from src.pipeline.utils import pipe_args, parse_args
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)

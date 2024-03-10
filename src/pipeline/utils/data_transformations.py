@@ -27,8 +27,8 @@ from sklearn.utils import resample
 
 from scipy.stats import boxcox
 
-from pipeline.config.constants import TARGET
-from pipeline.utils import logger
+from src.pipeline.config.constants import TARGET
+from src.pipeline.utils import logger
 
 
 def remove_outliers_iqr(dataframe: DataFrame, columns: list[str] | str, whisker_width: float = 1.5) -> DataFrame:

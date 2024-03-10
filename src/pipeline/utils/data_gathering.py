@@ -13,7 +13,6 @@ Title
 """
 # Native libs
 import os
-import logging
 from typing import Union
 from pathlib import Path
 from urllib.request import urlretrieve
@@ -21,10 +20,7 @@ from urllib.request import urlretrieve
 # Data Analysis
 from pandas import DataFrame, read_csv
 
-from pipeline.config.paths import HOUSING_PATH
-from pipeline.utils.log import logger
-
-
+from src.pipeline.config.paths import HOUSING_PATH
 
 
 def fetch_housing_data(url: Union[str, Path],
