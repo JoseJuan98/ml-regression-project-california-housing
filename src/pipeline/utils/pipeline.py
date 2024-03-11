@@ -16,6 +16,7 @@ import argparse
 import subprocess
 import pathlib
 
+from functools import wraps
 from logging import Logger
 from datetime import datetime
 from time import perf_counter
@@ -108,6 +109,7 @@ def load_artifacts(args: argparse.Namespace) -> Any:
 def pipe_args(pipeline_step):
     """Decorator with the parser arguments need for the steps of the pipeline"""
 
+    @wraps
     def execute(args: argparse.Namespace, logger: Logger) -> dict:
         logger.info(f"Starting step {args.step_name}")
         starting_time = perf_counter()

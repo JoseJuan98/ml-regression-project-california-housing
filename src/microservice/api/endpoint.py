@@ -59,12 +59,10 @@ def main_request(id_1: int, id_2: int, id_3: str):
             raise exc
 
     except ConnectionError as err:
-        message = f"{str(err)} \n {traceback.format_exc()}"
         status = 404
         logger.exception(err)
 
     except Exception as err:
-        message = f"An unexpected error occurred please contact your administrator.\n For more details explore: {err}"
         status = 400
         logger.exception(f"Unexpected error: {err}\n{traceback.format_exc()}")
 

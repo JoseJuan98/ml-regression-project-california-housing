@@ -22,7 +22,7 @@ imports:
 
 ## Check if the code is formated properly
 format-check:
-	python -m black --check -l 120 src
+	python -m black --check --diff --color -l 120 src
 
 ## Format the code according to black standards
 format-code:

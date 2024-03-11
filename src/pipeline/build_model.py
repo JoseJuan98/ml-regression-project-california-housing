@@ -12,7 +12,6 @@ Title
 ...
 """
 import argparse
-import logging
 import os
 from typing import Dict
 
@@ -23,13 +22,12 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
 
 from src.pipeline.utils import pipe_args, parse_args, get_preprocessor
+from src.pipeline import get_logger
 
 # from onnxmltools import convert_sklearn
 # from onnxmltools.convert.common.data_types import StringTensorType, FloatTensorType, Int64TensorType
 
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-logger.addHandler(logging.StreamHandler())
+logger = get_logger()
 
 
 # def dataframe2onnx_schema(dataframe: pandas.DataFrame, drop=None) -> list:

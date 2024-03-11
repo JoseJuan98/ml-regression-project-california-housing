@@ -7,8 +7,6 @@
 """
 from logging import ERROR, INFO, DEBUG as DEBUG_LOGGING
 
-from constants import ColName
-
 
 class Config:
     """

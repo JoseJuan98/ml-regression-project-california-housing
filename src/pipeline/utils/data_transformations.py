@@ -28,7 +28,9 @@ from sklearn.utils import resample
 from scipy.stats import boxcox
 
 from src.pipeline.constants import TARGET
-from src.pipeline.utils import logger
+from src.pipeline.utils.log import get_logger
+
+logger = get_logger()
 
 
 def remove_outliers_iqr(dataframe: DataFrame, columns: list[str] | str, whisker_width: float = 1.5) -> DataFrame:
@@ -96,7 +98,10 @@ def get_preprocessor(categorical_columns: list[str], numerical_columns: list[str
     """
     _categorical_pipeline = Pipeline(
         steps=[
-            ("cat_imputer", SimpleImputer(missing_values=numpy.nan, strategy="most_frequent")),
+            (
+                "cat_imputer",
+                SimpleImputer(missing_values=numpy.nan, strategy="most_frequent"),
+            ),
             ("cat_ohe", OneHotEncoder(handle_unknown="ignore", sparse_output=True)),
         ],
         verbose=True,
@@ -167,8 +172,8 @@ def preprocess_data(
     logger.info(f"{'':_^30} Preparing Data {'':_^30}")
 
     msg = (
-        f"\n\t-> Handling missing values. \n"
-        + f"\t\tMissing values of `total_bedrooms`:\n"
+        "\n\t-> Handling missing values. \n"
+        + "\t\tMissing values of `total_bedrooms`:\n"
         + f"{'':>30}{'Before':10}: {X.total_bedrooms.isna().sum()}"
     )
 
@@ -180,7 +185,7 @@ def preprocess_data(
 
     # Handling outliers
     if variables_with_outliers is not None:
-        msg += f"{'':>30}{'After':10}: {X.total_bedrooms.isna().sum()}" + f"\n\n\t-> Handling outliers."
+        msg += f"{'':>30}{'After':10}: {X.total_bedrooms.isna().sum()}" + "\n\n\t-> Handling outliers."
         X = remove_outliers_iqr(dataframe=X, columns=variables_with_outliers, whisker_width=1.5)
 
     cat_cols = X.select_dtypes(include=["O", "object", "string"]).columns.to_list()
@@ -229,11 +234,11 @@ def prepare_data(data: DataFrame, target: str, verbose: bool = False) -> DataFra
     data, lamb = normalize_column(data=data, column=target)
 
     logger.info(
-        f"\t-> Target normalization. \n\t\tSkewness: \n"
+        "\t-> Target normalization. \n\t\tSkewness: \n"
         f"{'':>30}{'Old':10}: {old_skewness:.4f}. \n"
         f"{'':>30}{'Current':10}: {data[target].skew():.4f}\n"
-        f"\n\t-> Handling missing values. \n"
-        f"\t\tMissing values of `total_bedrooms`:\n"
+        "\n\t-> Handling missing values. \n"
+        "\t\tMissing values of `total_bedrooms`:\n"
         f"{'':>30}{'Before':10}: {data.total_bedrooms.isna().sum()}"
     )
 
@@ -257,7 +262,7 @@ def prepare_data(data: DataFrame, target: str, verbose: bool = False) -> DataFra
     data = remove_outliers_iqr(dataframe=data, columns=variables_with_outliers, whisker_width=1.5)
 
     # Encoding categorical variables
-    logger.info(f"\t-> Encoding categorical variables.")
+    logger.info("\t-> Encoding categorical variables.")
     categorical_variables = data.select_dtypes("object").columns.to_list()
     cat_encoder = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
     original_index = data[categorical_variables].index
@@ -272,7 +277,7 @@ def prepare_data(data: DataFrame, target: str, verbose: bool = False) -> DataFra
     data.drop(columns=categorical_variables, inplace=True, axis=1)
 
     # Scaling numerical variables
-    logger.info(f"\t-> Scaling continuous variables.\n")
+    logger.info("\t-> Scaling continuous variables.\n")
     norm_cols = [col for col in data.columns.tolist() if col not in new_cat_columns + [TARGET]]
 
     norm_data = MinMaxScaler().fit_transform(data[norm_cols])
@@ -287,7 +292,10 @@ def prepare_data(data: DataFrame, target: str, verbose: bool = False) -> DataFra
 
 
 def resample_by_category(
-    target: str, x_train: DataFrame, up_or_down: str = "up", resampling_perc: float = 1.0
+    target: str,
+    x_train: DataFrame,
+    up_or_down: str = "up",
+    resampling_perc: float = 1.0,
 ) -> DataFrame:
     """
     Method to resample the training data
@@ -315,7 +323,7 @@ def resample_by_category(
     if up_or_down == "up":
 
         print(
-            f"\t-> Upsampling minority class\n"
+            "\t-> Upsampling minority class\n"
             + f"\t\t Minority class will be resampled to {majority_data.shape[0]} number of rows"
         )
 
@@ -326,7 +334,7 @@ def resample_by_category(
     elif up_or_down == "down":
 
         print(
-            f"\t-> Downsampling majority class\n"
+            "\t-> Downsampling majority class\n"
             + f"\t\t Majority class will be resampled to {minority_data.shape[0]} number of rows"
         )
 

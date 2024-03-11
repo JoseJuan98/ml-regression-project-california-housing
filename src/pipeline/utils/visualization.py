@@ -86,14 +86,14 @@ def plot_scatters(data, variables: list, target: str, ncols: int = 2) -> None:
     __create_grid_for_plots(data=data, variables=variables, ncols=ncols, target=target, plot="scatter")
 
 
-def plot_univariate_boxplots(data: DataFrame, variables: list = None, ncols: int = 2) -> None:
+def plot_univariate_boxplots(data: DataFrame, variables: list[str] | None = None, ncols: int = 2) -> None:
     """
     Method to plot bloxplots of the specified variables, or all by default, of the dataframe, useful for
     uni-variate analisis of outliers.
 
     Args:
         data: dataframe with the data
-        variables: columns scpecified to plot. By default, all
+        variables (list): columns scpecified to plot. By default, all
         ncols: number of plots per row.
 
     Returns:

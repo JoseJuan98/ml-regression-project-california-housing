@@ -9,10 +9,6 @@ class StringEnum(str, Enum):
     def __str__(self):
         return self.value
 
-    @classmethod
-    def list(cls):
-        return list(map(lambda c: c.value, cls))
-
 
 @unique
 class ColName(StringEnum):
@@ -21,10 +17,4 @@ class ColName(StringEnum):
 
     """
 
-    PASS = "Pass"
-    USER = "User"
-    DATA_BASE = "DataBase"
-    SERVER = "Server"
-    DRIVER = "Driver"
-    SCHEMA = "Schema"
-    PORT = "Port"
+    # TODO
