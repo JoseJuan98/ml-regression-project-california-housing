@@ -25,9 +25,7 @@ import pandas
 import joblib
 
 
-def parse_args(message: str = "",
-               return_parser: bool = False
-               ) -> Union[argparse.Namespace, argparse.ArgumentParser]:
+def parse_args(message: str = "", return_parser: bool = False) -> Union[argparse.Namespace, argparse.ArgumentParser]:
     """
     Method to parse the arguments need to execute the pipeline step
 
@@ -40,31 +38,17 @@ def parse_args(message: str = "",
     """
     parser = argparse.ArgumentParser(message)
 
-    parser.add_argument("--step-name",
-                        dest="step_name",
-                        type=str,
-                        default="generic",
-                        help="Name of the step to be executed")
+    parser.add_argument(
+        "--step-name", dest="step_name", type=str, default="generic", help="Name of the step to be executed"
+    )
 
-    parser.add_argument("--artifact-path",
-                        dest="artifact_path",
-                        type=str,
-                        help="Path to work with data")
+    parser.add_argument("--artifact-path", dest="artifact_path", type=str, help="Path to work with data")
 
-    parser.add_argument("--input-file",
-                        dest="input_file",
-                        type=str,
-                        help="Filename to extract the data from")
+    parser.add_argument("--input-file", dest="input_file", type=str, help="Filename to extract the data from")
 
-    parser.add_argument("--output-file",
-                        dest="output_file",
-                        type=str,
-                        help="Filename to store the output data")
+    parser.add_argument("--output-file", dest="output_file", type=str, help="Filename to store the output data")
 
-    parser.add_argument("--requirements",
-                        dest="requirements",
-                        type=str,
-                        help="Extra requirements to install.")
+    parser.add_argument("--requirements", dest="requirements", type=str, help="Extra requirements to install.")
 
     if return_parser:
         return parser
@@ -112,20 +96,18 @@ def load_artifacts(args: argparse.Namespace) -> Any:
 
     method_to_load = {
         ".joblib": lambda filename: joblib.load(filename=filename),
-        ".csv": lambda filename: pandas.read_csv(filepath_or_buffer=filename,
-                                                 low_memory=False,
-                                                 engine="pyarrow")
+        ".csv": lambda filename: pandas.read_csv(filepath_or_buffer=filename, low_memory=False, engine="pyarrow"),
     }
 
     if file_extension not in method_to_load.keys():
         raise KeyError(f"File extension {file_extension} not supported. Try {method_to_load.keys()}")
 
-    return method_to_load[file_extension](filename=os.path.join(args.artifact_path,
-                                                                args.input_file))
+    return method_to_load[file_extension](filename=os.path.join(args.artifact_path, args.input_file))
 
 
 def pipe_args(pipeline_step):
     """Decorator with the parser arguments need for the steps of the pipeline"""
+
     def execute(args: argparse.Namespace, logger: Logger) -> dict:
         logger.info(f"Starting step {args.step_name}")
         starting_time = perf_counter()
@@ -154,11 +136,11 @@ def create_summary(dataframe: pandas.DataFrame) -> dict:
     Returns:
 
     """
-    return {'date': datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M:%S"),
-            'n_samples': dataframe.shape[0],
-            'n_features': dataframe.shape[1],
-            '%nan_values': round((dataframe.isna().sum().sum() / (dataframe.shape[0] * dataframe.shape[1])) * 100, 2),
-            'prop_target': dict(
-                round(dataframe['survived'].value_counts(normalize=True, dropna=False), 3)),
-            'features': dataframe.columns.tolist()
-            }
+    return {
+        "date": datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M:%S"),
+        "n_samples": dataframe.shape[0],
+        "n_features": dataframe.shape[1],
+        "%nan_values": round((dataframe.isna().sum().sum() / (dataframe.shape[0] * dataframe.shape[1])) * 100, 2),
+        "prop_target": dict(round(dataframe["survived"].value_counts(normalize=True, dropna=False), 3)),
+        "features": dataframe.columns.tolist(),
+    }

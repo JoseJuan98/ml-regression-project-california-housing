@@ -20,12 +20,10 @@ from urllib.request import urlretrieve
 # Data Analysis
 from pandas import DataFrame, read_csv
 
-from src.pipeline.config.paths import HOUSING_PATH
+from src.pipeline.paths import HOUSING_PATH
 
 
-def fetch_housing_data(url: Union[str, Path],
-                       path: Union[str, Path],
-                       force_retrieve: bool = False) -> DataFrame:
+def fetch_housing_data(url: Union[str, Path], path: Union[str, Path], force_retrieve: bool = False) -> DataFrame:
     """
     Method to extract the data from a URL and stores it in a file into the `path` or if the file already exists in
     the `path` skips the extraction. Finally, returns a dataframe reading this file. Args: url (str, Path): URL to
@@ -45,5 +43,3 @@ def fetch_housing_data(url: Union[str, Path],
         urlretrieve(url, path)
 
     return read_csv(filepath_or_buffer=path, low_memory=False)
-
-

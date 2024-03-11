@@ -20,10 +20,11 @@ class ColName(StringEnum):
     Constant values for name conventions
 
     """
-    PASS = 'Pass'
-    USER = 'User'
-    DATA_BASE = 'DataBase'
-    SERVER = 'Server'
-    DRIVER = 'Driver'
-    SCHEMA = 'Schema'
-    PORT = 'Port'
+
+    PASS = "Pass"
+    USER = "User"
+    DATA_BASE = "DataBase"
+    SERVER = "Server"
+    DRIVER = "Driver"
+    SCHEMA = "Schema"
+    PORT = "Port"

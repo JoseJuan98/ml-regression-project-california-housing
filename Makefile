@@ -1,14 +1,4 @@
-.PHONY: analysis_requirements dev_requirements lint environment clean_environment clean test dev_requirements
-
-# ==================================== Constants ====================================
-
-PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-PROJECT_NAME = california-census
-PYTHON_COMMAND = python
-PACKAGE_MANAGER = conda
-PYTHON_VERSION = 3.11
-
-# ==================================== Rules ====================================
+.PHONY: init lint docstyle imports format-check format-code test test-unit test-smoke clean clean-files clean-cache
 
 # ____________________________________ Setup ____________________________________
 
@@ -21,7 +11,14 @@ init:
 lint: format-check
 	python -m flake8 src; \
 	python -m mypy src; \
-	# python -m isort src # TODO
+ # TODO imports
+
+docstyle:
+	python -m pydocstyle src/
+
+## Check sorting of imports
+imports:
+	python -m isort - src/
 
 ## Check if the code is formated properly
 format-check:
@@ -34,7 +31,7 @@ format-code:
 # ____________________________________ Test ____________________________________
 ## Test using pytest
 test:
-	python -m pytest -v src/test/
+	python -m pytest
 
 ## Smoke test
 test-smoke:
@@ -46,9 +43,12 @@ test-unit:
 
 # ____________________________________ Clean ____________________________________
 
+## Clean all
+clean: clean-cache clean-files
+
 ## Delete all compiled Python files
-clean: clean-cache
-	find . | grep -E "build$|\/__pycache__$|\.pyc$|\.pyo$|\.egg-info" | xargs rm -rf || echo 'Already clean'
+clean-files:
+	find . | grep -E "build$|\/__pycache__$|\.pyc$|\.pyo$|\.egg-info$|\.ipynb_checkpoints" | xargs rm -rf || echo 'Already clean'
 
 ## Clean cache
 clean-cache:

@@ -49,8 +49,7 @@ logger.addHandler(logging.StreamHandler())
 
 
 @pipe_args
-def modelling(artifacts: Dict,
-              args: argparse.Namespace) -> Dict:
+def modelling(artifacts: Dict, args: argparse.Namespace) -> Dict:
     """
     Train and return a model trained with train_set
 
@@ -61,50 +60,48 @@ def modelling(artifacts: Dict,
     Returns:
 
     """
-    train_set: pandas.DataFrame = artifacts['train_set']
-    test_set: pandas.DataFrame = artifacts['test_set']
+    train_set: pandas.DataFrame = artifacts["train_set"]
+    test_set: pandas.DataFrame = artifacts["test_set"]
 
     # Extract target
-    x_train = train_set.drop('target', axis=1)
-    y_train = train_set.pop('target')
+    x_train = train_set.drop("target", axis=1)
+    y_train = train_set.pop("target")
 
     # Pipelines definition
     preprocessor = get_preprocessor(
-        categorical_columns=train_set.select_dtypes(include=['O', 'object']).columns.tolist(),
-        numerical_columns=train_set.select_dtypes(include='number').columns.tolist()
+        categorical_columns=train_set.select_dtypes(include=["O", "object"]).columns.tolist(),
+        numerical_columns=train_set.select_dtypes(include="number").columns.tolist(),
     )
 
     # Model and grid definition
     model = GridSearchCV(
         estimator=LogisticRegression(n_jobs=-1, random_state=42, max_iter=1000),
         param_grid={
-            'solver': ['saga'],
-            'penalty': ['elasticnet'],
-            'l1_ratio': [x / 10 for x in range(11)],
-            'C': [10, 1.0, 0.1]
+            "solver": ["saga"],
+            "penalty": ["elasticnet"],
+            "l1_ratio": [x / 10 for x in range(11)],
+            "C": [10, 1.0, 0.1],
         },
         cv=5,
-        scoring='roc_auc',
+        scoring="roc_auc",
         n_jobs=-1,
-        verbose=1
+        verbose=1,
     )
 
-    classifier_pipeline = Pipeline([('preprocessor', preprocessor),
-                                    ('classifier', model)],
-                                   verbose=True)
+    classifier_pipeline = Pipeline([("preprocessor", preprocessor), ("classifier", model)], verbose=True)
 
     classifier_pipeline.fit(X=x_train, y=y_train)
 
     # Store serialized data
-    joblib.dump(value={"train_set": train_set,
-                       "test_set": test_set},
-                filename=os.path.join(args.artifact_path, "data_sets.joblib")
-                )
+    joblib.dump(
+        value={"train_set": train_set, "test_set": test_set},
+        filename=os.path.join(args.artifact_path, "data_sets.joblib"),
+    )
 
     return {"classifier_pipeline": classifier_pipeline}
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Example of usage of the parameters to run it locally:
     #  --artifact-path="../bin" --step-name="Modelling" --env="local" --input-file="feature_prep.joblib"
     #  --output-file="train_artifacts.joblib"

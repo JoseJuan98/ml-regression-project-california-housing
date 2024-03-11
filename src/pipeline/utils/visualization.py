@@ -19,12 +19,13 @@ from matplotlib import pyplot
 from pandas import DataFrame
 
 
-def __create_grid_for_plots(data: DataFrame, variables: list, ncols: int, plot: Literal['boxplot', 'scatter'],
-                            target: str = None) -> None:
+def __create_grid_for_plots(
+    data: DataFrame, variables: list, ncols: int, plot: Literal["boxplot", "scatter"], target: str = None
+) -> None:
     nrows = ceil(len(variables) / ncols)
 
     figsize = (20 * ncols, 15 * nrows)
-    if plot == 'boxplot':
+    if plot == "boxplot":
         figsize = (45, 55)
         seaborn.set(rc={"figure.figsize": (40, 50)})
 
@@ -46,27 +47,27 @@ def __create_grid_for_plots(data: DataFrame, variables: list, ncols: int, plot: 
             # else:
             #     att = variables[i + j]
 
-            if plot == 'boxplot':
+            if plot == "boxplot":
                 fontsize = 30
                 labelsize = 26
             else:
                 fontsize = 25
                 labelsize = 16
 
-            axes[i, j].set_xlabel(f'{att}', fontsize=fontsize)
-            axes[i, j].tick_params(axis='both', which='major', labelsize=labelsize)
-            axes[i, j].tick_params(axis='both', which='minor', labelsize=labelsize)
+            axes[i, j].set_xlabel(f"{att}", fontsize=fontsize)
+            axes[i, j].tick_params(axis="both", which="major", labelsize=labelsize)
+            axes[i, j].tick_params(axis="both", which="minor", labelsize=labelsize)
 
-            if plot == 'boxplot':
+            if plot == "boxplot":
                 seaborn.boxplot(x=data[att], ax=axes[i, j])
 
-            elif plot == 'scatter':
-                axes[i, j].scatter(x=data[att], y=data[target], alpha=0.5);
-                axes[i, j].set_ylabel(f'{target}', fontsize=fontsize)
+            elif plot == "scatter":
+                axes[i, j].scatter(x=data[att], y=data[target], alpha=0.5)
+                axes[i, j].set_ylabel(f"{target}", fontsize=fontsize)
             else:
-                raise AttributeError(f'Invalid value {plot} for argument plot')
+                raise AttributeError(f"Invalid value {plot} for argument plot")
 
-    pyplot.show();
+    pyplot.show()
 
 
 def plot_scatters(data, variables: list, target: str, ncols: int = 2) -> None:
@@ -82,7 +83,7 @@ def plot_scatters(data, variables: list, target: str, ncols: int = 2) -> None:
     Returns:
 
     """
-    __create_grid_for_plots(data=data, variables=variables, ncols=ncols, target=target, plot='scatter')
+    __create_grid_for_plots(data=data, variables=variables, ncols=ncols, target=target, plot="scatter")
 
 
 def plot_univariate_boxplots(data: DataFrame, variables: list = None, ncols: int = 2) -> None:
@@ -99,8 +100,8 @@ def plot_univariate_boxplots(data: DataFrame, variables: list = None, ncols: int
 
     """
     if variables is None:
-        variables = data.select_dtypes('number').columns.to_list()
+        variables = data.select_dtypes("number").columns.to_list()
 
-    __create_grid_for_plots(data=data, ncols=ncols, variables=variables, plot='boxplot')
+    __create_grid_for_plots(data=data, ncols=ncols, variables=variables, plot="boxplot")
 
     seaborn.set(rc={"figure.figsize": (12, 7)})

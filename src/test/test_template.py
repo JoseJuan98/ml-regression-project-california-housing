@@ -12,18 +12,15 @@ Example of code use:
 from unittest import TestCase, main
 
 
-
-
-
 class NumberListTests(TestCase):  # must remember to subclass TestCase
     """Tests of the NumberList class."""
 
     def setUp(self):
         """Define a few standard NumberLists."""
         self.Null = None  # test empty init
-        self.Empty = []   # test init with empty sequence
+        self.Empty = []  # test init with empty sequence
         self.Single = [5]  # single item
-        self.Zero = [0]   # single, False item
+        self.Zero = [0]  # single, False item
         self.Three = [1, 2, 3]  # multiple items
         self.ZeroMean = [1, -1]  # items nonzero, mean zero
         self.ZeroVar = [1, 1, 1]  # items nonzero, mean nonzero, variance zero
@@ -48,6 +45,7 @@ class NumberListTests(TestCase):  # must remember to subclass TestCase
             """NumberList.var() should raise ZeroDivisionError if <2 items"""
             for small in (self.Null, self.Empty, self.Single, self.Zero):
                 self.assertRaises(ZeroDivisionError, small.var)
+
         # other tests of var
         # tests of other methods
 
@@ -58,5 +56,5 @@ class FrequencyDistributionTests(TestCase):
 
 # tests of other classes
 
-if __name__ == '__main__':  # run tests if called from command-line
+if __name__ == "__main__":  # run tests if called from command-line
     main()

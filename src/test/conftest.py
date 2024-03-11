@@ -13,10 +13,7 @@ Utils for tests
 """
 
 
-def message_error_expected(input_value,
-                           expected,
-                           error_value
-                           ) -> str:
+def message_error_expected(input_value, expected, error_value) -> str:
     """
     Formatted error message for tests
 
@@ -28,6 +25,4 @@ def message_error_expected(input_value,
     Returns:
         str: message of error
     """
-    return (f"Failed test with input value {input_value}"
-           f"\nexpected value {expected},"
-        f"\nbut got {error_value}")
+    return f"Failed test with input value {input_value}" f"\nexpected value {expected}," f"\nbut got {error_value}"

@@ -27,7 +27,7 @@ from sklearn.utils import resample
 
 from scipy.stats import boxcox
 
-from src.pipeline.config.constants import TARGET
+from src.pipeline.constants import TARGET
 from src.pipeline.utils import logger
 
 
@@ -54,14 +54,14 @@ def remove_outliers_iqr(dataframe: DataFrame, columns: list[str] | str, whisker_
         iqr = q3 - q1
 
         # Apply filter with respect to IQR, including optional whiskers
-        dataframe[col] = dataframe[col].loc[(dataframe[col] >= q1 - whisker_width * iqr) &
-                                            (dataframe[col] <= q3 + whisker_width * iqr)]
+        dataframe[col] = dataframe[col].loc[
+            (dataframe[col] >= q1 - whisker_width * iqr) & (dataframe[col] <= q3 + whisker_width * iqr)
+        ]
 
     return dataframe
 
 
-def normalize_column(data: DataFrame | Series | numpy.ndarray,
-                     lmbda: int | None = None) -> Union[DataFrame, Any]:
+def normalize_column(data: DataFrame | Series | numpy.ndarray, lmbda: int | None = None) -> Union[DataFrame, Any]:
     """
 
     Args:
@@ -80,11 +80,7 @@ def normalize_column(data: DataFrame | Series | numpy.ndarray,
 
     # Normalizing target variable
     if lmbda:
-        data = DataFrame(data=(boxcox(data,
-                                      lmbda=lmbda)
-                               .reshape(-1, 1)
-                               )
-                         )
+        data = DataFrame(data=(boxcox(data, lmbda=lmbda).reshape(-1, 1)))
     else:
         bc_result = boxcox(data)
         data = DataFrame(data=bc_result[0].reshape(-1, 1))
@@ -93,36 +89,48 @@ def normalize_column(data: DataFrame | Series | numpy.ndarray,
     return data, lmbda
 
 
-def get_preprocessor(categorical_columns: list[str],
-                     numerical_columns: list[str]) -> ColumnTransformer:
+def get_preprocessor(categorical_columns: list[str], numerical_columns: list[str]) -> ColumnTransformer:
     """
     Returns:
         ColumnTransformer: pipeline with the data preparation for a ml model
     """
-    _categorical_pipeline = Pipeline(steps=[
-        ('cat_imputer', SimpleImputer(missing_values=numpy.nan, strategy='most_frequent')),
-        ('cat_ohe', OneHotEncoder(handle_unknown='ignore', sparse_output=True))
-    ], verbose=True)
+    _categorical_pipeline = Pipeline(
+        steps=[
+            ("cat_imputer", SimpleImputer(missing_values=numpy.nan, strategy="most_frequent")),
+            ("cat_ohe", OneHotEncoder(handle_unknown="ignore", sparse_output=True)),
+        ],
+        verbose=True,
+    )
 
-    _numerical_pipeline = Pipeline(steps=[
-        ('num_imputer', SimpleImputer(missing_values=NA, strategy='mean')),
-        ('scaler', MinMaxScaler(feature_range=(0, 1)))
-    ], verbose=True)
+    _numerical_pipeline = Pipeline(
+        steps=[
+            ("num_imputer", SimpleImputer(missing_values=NA, strategy="mean")),
+            ("scaler", MinMaxScaler(feature_range=(0, 1))),
+        ],
+        verbose=True,
+    )
 
     # Generate pipeline
-    return ColumnTransformer(transformers=[
-        ('numerical', _numerical_pipeline, numerical_columns),
-        ('categorical', _categorical_pipeline, categorical_columns)
-    ], verbose=True, n_jobs=-1, remainder='passthrough')
+    return ColumnTransformer(
+        transformers=[
+            ("numerical", _numerical_pipeline, numerical_columns),
+            ("categorical", _categorical_pipeline, categorical_columns),
+        ],
+        verbose=True,
+        n_jobs=-1,
+        remainder="passthrough",
+    )
 
 
-def preprocess_data(X: DataFrame,
-                    y: DataFrame | Series | numpy.ndarray,
-                    normalize_target: bool = False,
-                    normalization_lmbda: int | None = None,
-                    variables_with_outliers: Union[list[str], str, None] = None,
-                    preprocessor: Union[Any, None] = None,
-                    verbose: bool = False) -> Union[DataFrame, Any, Any, Any]:
+def preprocess_data(
+    X: DataFrame,
+    y: DataFrame | Series | numpy.ndarray,
+    normalize_target: bool = False,
+    normalization_lmbda: int | None = None,
+    variables_with_outliers: Union[list[str], str, None] = None,
+    preprocessor: Union[Any, None] = None,
+    verbose: bool = False,
+) -> Union[DataFrame, Any, Any, Any]:
     """Module to preprocess the data for Machine Learning models and create the artifacts
     needed to preprocess of the test set.
 
@@ -158,9 +166,11 @@ def preprocess_data(X: DataFrame,
 
     logger.info(f"{'':_^30} Preparing Data {'':_^30}")
 
-    msg = f"\n\t-> Handling missing values. \n" + \
-          f"\t\tMissing values of `total_bedrooms`:\n" + \
-          f"{'':>30}{'Before':10}: {X.total_bedrooms.isna().sum()}"
+    msg = (
+        f"\n\t-> Handling missing values. \n"
+        + f"\t\tMissing values of `total_bedrooms`:\n"
+        + f"{'':>30}{'Before':10}: {X.total_bedrooms.isna().sum()}"
+    )
 
     lamb = None
     if normalize_target:
@@ -170,34 +180,26 @@ def preprocess_data(X: DataFrame,
 
     # Handling outliers
     if variables_with_outliers is not None:
-        msg += f"{'':>30}{'After':10}: {X.total_bedrooms.isna().sum()}" + \
-               f"\n\n\t-> Handling outliers."
+        msg += f"{'':>30}{'After':10}: {X.total_bedrooms.isna().sum()}" + f"\n\n\t-> Handling outliers."
         X = remove_outliers_iqr(dataframe=X, columns=variables_with_outliers, whisker_width=1.5)
 
     cat_cols = X.select_dtypes(include=["O", "object", "string"]).columns.to_list()
     num_cols = X.select_dtypes(include=["number"]).columns.to_list()
 
     if preprocessor is None:
-        preprocessor = get_preprocessor(
-            categorical_columns=cat_cols,
-            numerical_columns=num_cols
-        )
+        preprocessor = get_preprocessor(categorical_columns=cat_cols, numerical_columns=num_cols)
 
         preprocessor.fit(X=X, y=y)
 
     X = preprocessor.transform(X=X)
 
-    columns = [re.sub('categorical__|numerical__', '', col) for
-               col in preprocessor.get_feature_names_out()]
+    columns = [re.sub("categorical__|numerical__", "", col) for col in preprocessor.get_feature_names_out()]
 
     X = DataFrame(X, columns=columns)
 
     logger.info(msg)
 
-    return (X,
-            y,
-            preprocessor,
-            lamb)
+    return (X, y, preprocessor, lamb)
 
 
 def prepare_data(data: DataFrame, target: str, verbose: bool = False) -> DataFrame:
@@ -211,8 +213,7 @@ def prepare_data(data: DataFrame, target: str, verbose: bool = False) -> DataFra
     Returns:
         pandas.DataFrame: prepared data
     """
-    logger.warning(DeprecationWarning('This module in the future will be deprecated' +
-                                      'by `preprocess_data()`'))
+    logger.warning(DeprecationWarning("This module in the future will be deprecated" + "by `preprocess_data()`"))
     if verbose:
         logger.setLevel(logging.INFO)
     else:
@@ -227,30 +228,38 @@ def prepare_data(data: DataFrame, target: str, verbose: bool = False) -> DataFra
     old_skewness = data[target].skew()
     data, lamb = normalize_column(data=data, column=target)
 
-    logger.info(f"\t-> Target normalization. \n\t\tSkewness: \n"
-                f"{'':>30}{'Old':10}: {old_skewness:.4f}. \n"
-                f"{'':>30}{'Current':10}: {data[target].skew():.4f}\n"
-                f"\n\t-> Handling missing values. \n"
-                f"\t\tMissing values of `total_bedrooms`:\n"
-                f"{'':>30}{'Before':10}: {data.total_bedrooms.isna().sum()}")
+    logger.info(
+        f"\t-> Target normalization. \n\t\tSkewness: \n"
+        f"{'':>30}{'Old':10}: {old_skewness:.4f}. \n"
+        f"{'':>30}{'Current':10}: {data[target].skew():.4f}\n"
+        f"\n\t-> Handling missing values. \n"
+        f"\t\tMissing values of `total_bedrooms`:\n"
+        f"{'':>30}{'Before':10}: {data.total_bedrooms.isna().sum()}"
+    )
 
     # Missing values
-    imputer = SimpleImputer(missing_values=numpy.nan, strategy='mean')
+    imputer = SimpleImputer(missing_values=numpy.nan, strategy="mean")
     data.total_bedrooms = imputer.fit_transform(X=data.total_bedrooms.to_numpy().reshape(-1, 1))
 
-    logger.info(f"{'':>30}{'After':10}: {data.total_bedrooms.isna().sum()}"
-                f"\n\n\t-> Handling outliers.")
+    logger.info(f"{'':>30}{'After':10}: {data.total_bedrooms.isna().sum()}" f"\n\n\t-> Handling outliers.")
 
     # Handling outliers
-    variables_with_outliers = ["median_income", "total_rooms", "total_bedrooms", "population", "median_income",
-                               "housing_median_age", "households"]
+    variables_with_outliers = [
+        "median_income",
+        "total_rooms",
+        "total_bedrooms",
+        "population",
+        "median_income",
+        "housing_median_age",
+        "households",
+    ]
 
     data = remove_outliers_iqr(dataframe=data, columns=variables_with_outliers, whisker_width=1.5)
 
     # Encoding categorical variables
     logger.info(f"\t-> Encoding categorical variables.")
-    categorical_variables = data.select_dtypes('object').columns.to_list()
-    cat_encoder = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
+    categorical_variables = data.select_dtypes("object").columns.to_list()
+    cat_encoder = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
     original_index = data[categorical_variables].index
 
     new_cat_data = cat_encoder.fit_transform(data[categorical_variables])
@@ -258,7 +267,7 @@ def prepare_data(data: DataFrame, target: str, verbose: bool = False) -> DataFra
 
     new_cat_data = DataFrame(data=new_cat_data, columns=new_cat_columns)
     new_cat_data.set_index(original_index, inplace=True)
-    data = concat([data, new_cat_data], axis=1, join='inner')
+    data = concat([data, new_cat_data], axis=1, join="inner")
     del new_cat_data, original_index
     data.drop(columns=categorical_variables, inplace=True, axis=1)
 
@@ -277,10 +286,9 @@ def prepare_data(data: DataFrame, target: str, verbose: bool = False) -> DataFra
     return data, lamb
 
 
-def resample_by_category(target: str,
-                         x_train: DataFrame,
-                         up_or_down: str = 'up',
-                         resampling_perc: float = 1.0) -> DataFrame:
+def resample_by_category(
+    target: str, x_train: DataFrame, up_or_down: str = "up", resampling_perc: float = 1.0
+) -> DataFrame:
     """
     Method to resample the training data
 
@@ -299,23 +307,28 @@ def resample_by_category(target: str,
 
     if resampling_perc > 2.0 or resampling_perc <= 0.01:
         raise Exception(
-            f'Invalid value {resampling_perc} for parameter resampling_perc, values must be between 0.01 and 2.00')
+            f"Invalid value {resampling_perc} for parameter resampling_perc, values must be between 0.01 and 2.00"
+        )
 
     up_or_down = up_or_down.lower().strip()
 
-    if up_or_down == 'up':
+    if up_or_down == "up":
 
-        print(f'\t-> Upsampling minority class\n' +
-              f'\t\t Minority class will be resampled to {majority_data.shape[0]} number of rows')
+        print(
+            f"\t-> Upsampling minority class\n"
+            + f"\t\t Minority class will be resampled to {majority_data.shape[0]} number of rows"
+        )
 
         data2resample = minority_data
         n_samples = int(round(majority_data.shape[0] * resampling_perc, 0))
         data2join = majority_data
 
-    elif up_or_down == 'down':
+    elif up_or_down == "down":
 
-        print(f'\t-> Downsampling majority class\n' +
-              f'\t\t Majority class will be resampled to {minority_data.shape[0]} number of rows')
+        print(
+            f"\t-> Downsampling majority class\n"
+            + f"\t\t Majority class will be resampled to {minority_data.shape[0]} number of rows"
+        )
 
         data2resample = majority_data
         n_samples = int(round(minority_data.shape[0] * resampling_perc, 0))
@@ -324,15 +337,10 @@ def resample_by_category(target: str,
     else:
         raise Exception(f'Invalid value {up_or_down} for variable up_or_down. Valid values are ["up","down"]')
 
-    resampled_data = resample(
-        data2resample,
-        replace=True,
-        n_samples=n_samples,
-        random_state=1234
-    )
+    resampled_data = resample(data2resample, replace=True, n_samples=n_samples, random_state=1234)
 
     x_train = concat([resampled_data, data2join])
 
-    print(f'\n\t\tNew proportion of targets: {x_train[target].value_counts(normalize=True).to_dict()}\n')
+    print(f"\n\t\tNew proportion of targets: {x_train[target].value_counts(normalize=True).to_dict()}\n")
 
     return x_train

@@ -42,9 +42,9 @@ def evaluate_metrics(y_true, y_pred, lmbda: float, precision: int = 4) -> dict:
     # if not all outliers were cleaned, it can generate NaN values
     # so, for the evaluation they get remove from y_pred and y_true
     y_pred = pandas.DataFrame(y_pred)
-    y_pred.columns = ['col']
+    y_pred.columns = ["col"]
     y_pred.index = y_true.index
-    index_nan = y_pred[y_pred['col'].isnull()].index.to_list()
+    index_nan = y_pred[y_pred["col"].isnull()].index.to_list()
     y_pred = y_pred.drop(index=index_nan)
     y_true = y_true.drop(index=index_nan)
 
@@ -54,8 +54,8 @@ def evaluate_metrics(y_true, y_pred, lmbda: float, precision: int = 4) -> dict:
     mae = mean_absolute_error(y_true=y_true, y_pred=y_pred)
 
     return {
-        'MSE': round(mse, precision),
-        'RMSE': round(rmse, precision),
-        'R2': round(r2, precision),
-        'MAE': round(mae, precision)
+        "MSE": round(mse, precision),
+        "RMSE": round(rmse, precision),
+        "R2": round(r2, precision),
+        "MAE": round(mae, precision),
     }

@@ -23,6 +23,7 @@ class Config:
     :param PORT: port to listen from. By default the app uses port 80
     :type PORT: int
     """
+
     DEBUG = False
     TESTING = False
     LOGGER_LEVEL = INFO
@@ -32,8 +33,9 @@ class ProductionConfig(Config):
     """
     Extended class of :class:`Config` to manage Production Environment Configuration
     """
+
     LOGGER_LEVEL = ERROR
-    ENV = 'production'
+    ENV = "production"
 
 
 class StagingConfig(Config):
@@ -44,14 +46,15 @@ class StagingConfig(Config):
     # Valid values for flask config.ENV are only development and production
     # But this value was used to create a different configuration than development
     # DevelopmentConfig has different TESTING and DEBUG parameters
-    ENV = 'staging'
+    ENV = "staging"
 
 
 class DevelopmentConfig(Config):
     """
     Extended class of :class:`Config` to manage Development Environment Configuration
     """
-    ENV = 'development'
+
+    ENV = "development"
     TESTING = True
     DEBUG = True
     LOGGER_LEVEL = DEBUG_LOGGING

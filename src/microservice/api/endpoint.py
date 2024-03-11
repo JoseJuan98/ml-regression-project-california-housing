@@ -8,6 +8,7 @@
 
 .. moduleauthor:: (C) <group - enterprise> - <user> 2022
 """
+
 import traceback
 
 from flask import Flask, jsonify
@@ -29,8 +30,7 @@ def ping():
 
 
 # e.g. /main/id1=1;id2=1;id3="2"
-@app.get(
-    "/main/id1=<int:id_1>;id2=<int:id_2>;id3=<id_3>")
+@app.get("/main/id1=<int:id_1>;id2=<int:id_2>;id3=<id_3>")
 def main_request(id_1: int, id_2: int, id_3: str):
     """
     Main method to execute the main reque
@@ -46,10 +46,10 @@ def main_request(id_1: int, id_2: int, id_3: str):
 
     :returns: <X>
     """
-    logger = get_logger(level=app.config['LOGGER_LEVEL'])
+    logger = get_logger(level=app.config["LOGGER_LEVEL"])
 
     try:
-        logger.info(f'Received request: simId={id_1};projId={id_2};projVersion={id_3}')
+        logger.info(f"Received request: simId={id_1};projId={id_2};projVersion={id_3}")
 
         status, exc = 200, ""
 
@@ -59,14 +59,14 @@ def main_request(id_1: int, id_2: int, id_3: str):
             raise exc
 
     except ConnectionError as err:
-        message = f'{str(err)} \n {traceback.format_exc()}'
+        message = f"{str(err)} \n {traceback.format_exc()}"
         status = 404
         logger.exception(err)
 
     except Exception as err:
-        message = f'An unexpected error occurred please contact your administrator.\n For more details explore: {err}'
+        message = f"An unexpected error occurred please contact your administrator.\n For more details explore: {err}"
         status = 400
-        logger.exception(f'Unexpected error: {err}\n{traceback.format_exc()}')
+        logger.exception(f"Unexpected error: {err}\n{traceback.format_exc()}")
 
     response = ""
     return jsonify(response), status
