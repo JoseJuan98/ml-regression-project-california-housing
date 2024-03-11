@@ -85,6 +85,7 @@ This check-list shows the phases of the project that have been completed and the
 - [X] Exploratory Data Analysis
 - [X] Regression Analysis/Machine Learning Modelling
 - [ ] Apply best practices:
+  - [ ] `TargetTransformer` 
   - [ ] Use a python packaging and dependency manager like poetry
   - [ ] Make a decisions document explaining the importance of this decision
   - [ ] Subtituing notebooks for python scripts and Markdown files for report

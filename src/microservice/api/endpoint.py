@@ -12,7 +12,7 @@ import traceback
 
 from flask import Flask, jsonify
 
-from src.microservice.model_api.model_utils import get_logger
+from src.microservice.api.model_utils import get_logger
 
 app = Flask(__name__, instance_relative_config=True)
 

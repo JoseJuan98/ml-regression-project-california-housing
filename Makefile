@@ -1,30 +1,37 @@
 .PHONY: analysis_requirements dev_requirements lint environment clean_environment clean test dev_requirements
 
-# ___________________________________ Constants ___________________________________
+# ==================================== Constants ====================================
 
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-PROJECT_NAME = pipeline
+PROJECT_NAME = california-census
 PYTHON_COMMAND = python
-PACKAGE_MANAGER = poetry
+PACKAGE_MANAGER = conda
 PYTHON_VERSION = 3.11
 
-# ___________________________________ Rules ___________________________________
+# ==================================== Rules ====================================
 
-# In case a command need args
-#args = `arg="$(filter-out $@,$(MAKECMDGOALS))" && echo $${arg:-${1}}`
+# ____________________________________ Setup ____________________________________
 
-# to use args
-# $(call args, <default_value>)
-
-
+## Update lock file without installing. Use it after installing a new dependency
+lock-update:
+	poetry lock --no-update
 
 ## Install Python Dependencies
-analysis_requirements:
-	$(PYTHON_INTERPRETER) -m pip install --no-cache-dir -U -r requirements/analysis.txt
+init:
+	(\
+	python -m pip install --no-cache-dir -U pip && \
+	python -m pip install --no-cache-dir poetry==1.6.1 && \
+	python -m poetry run pip install --no-cache-dir -U pip \
+	)
 
-## Install dependencies for development
-dev_requirements:
-	$(PYTHON_INTERPRETER) -m pip install --no-cache-dir -U -r requirements/development.txt
+## Install all dependencies, including
+install:
+	(\
+	poetry config virtualenvs.create true && \
+	poetry config virtualenvs.in-project true && \
+	poetry config virtualenvs.options.always-copy true && \
+	poetry install --no-cache --with dev,analysis \
+	)
 
 ## Lint using flake8
 lint:
@@ -46,24 +53,26 @@ ifeq ($(PACKAGE_MANAGER),"conda")
 	@echo ">>> New conda env created. Activate with:\nsource activate $(PROJECT_NAME)"
 else
 	@echo Creating venv venv;
-	$(PYTHON_INTERPRETER) -m pip install virtualenv;
-	$(PYTHON_INTERPRETER) -m virtualenv venv;
+	$(PYTHON_INTERPRETER) -m virtualenv --python=$(call args, "/usr/bin/python") venv
 endif
 endif
 
+# ____________________________________ Clean ____________________________________
+
 ## Clean virtual environment
-clean_environment:
+clean-env:
 ifneq (,$(wildcard ./venv))
 	deactivate || echo "Already venv deactivated";
-	rm -r venv;
+	rm -rf venv
+	find . -type d -name "*.egg-info" -exec rm -rf {} \; || echo 'Already clean compiled files'
+	rm -rf build/ || echo 'Already deleted build/'
 else
 	@echo It has been cleaned already
 endif
 
 ## Delete all compiled Python files
 clean:
-	find . -type f -name "*.py[co]" -delete
-	find . -type d -name "__pycache__" -delete
+	find test/ pipeline/ | grep -E "(/build$|\/__pycache__$|\.pyc$|\.pyo$|\.egg-info$)" | xargs rm -rf || echo 'Already clean'
 
 
 # ___________________________________ Self Documenting Commands ___________________________________

@@ -1,6 +1,6 @@
 import logging
 
-from src.microservice.model_api.endpoint import app
+from src.microservice.api.endpoint import app
 
 
 def get_logger(level: int = logging.INFO) -> logging.Logger:

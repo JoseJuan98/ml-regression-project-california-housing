@@ -8,7 +8,7 @@
 
 # API actions
 from endpoint import app
-from src.microservice.model_api.model_utils import get_logger
+from src.microservice.api.model_utils import get_logger
 
 from logging import INFO
 
