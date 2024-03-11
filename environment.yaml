@@ -1,0 +1,8 @@
+name: california-census
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python==3.11
+  - pip:
+    - -e --no-cache-dir .[dev,api,analysis]

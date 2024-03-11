@@ -1,8 +1,11 @@
-__author__ = "josejuan98"
-__copyright__ = "Copyright 2007, The Cogent Project"
-__credits__ = ["josejuan98"]
-__license__ = "GPL"
-__version__ = "1.0.1"
-__maintainer__ = "josejuan98"
-__email__ = "ss@.org"
+# -*- coding: utf-8 -*-
+"""package metadata"""
+__title__ = "pipeline"
+__description__ = "Machine Learning Pipeline operations library"
+__author_email__ = "_@gmail.com"
+__author__ = "(I) josejuan98"
+__version__ = "1.0.0"
 __status__ = "Development"
+__license__ = "MIT"
+__credits__ = ["josejuan98"]
+__maintainer__ = "josejuan98"

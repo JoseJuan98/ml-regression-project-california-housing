@@ -12,73 +12,53 @@ PYTHON_VERSION = 3.11
 
 # ____________________________________ Setup ____________________________________
 
-## Update lock file without installing. Use it after installing a new dependency
-lock-update:
-	poetry lock --no-update
-
-## Install Python Dependencies
+## Create virtual environment and install dependencies
 init:
-	(\
-	python -m pip install --no-cache-dir -U pip && \
-	python -m pip install --no-cache-dir poetry==1.6.1 && \
-	python -m poetry run pip install --no-cache-dir -U pip \
-	)
+	conda env update --file environment.yaml
 
-## Install all dependencies, including
-install:
-	(\
-	poetry config virtualenvs.create true && \
-	poetry config virtualenvs.in-project true && \
-	poetry config virtualenvs.options.always-copy true && \
-	poetry install --no-cache --with dev,analysis \
-	)
+# ____________________________________ Linting ____________________________________
+## Lint (black,flake8,mypy,isort)
+lint: format-check
+	python -m flake8 src; \
+	python -m mypy src; \
+	# python -m isort src # TODO
 
-## Lint using flake8
-lint:
-	flake8 src test; \
-	mypy src test
+## Check if the code is formated properly
+format-check:
+	python -m black --check -l 120 src
 
+## Format the code according to black standards
+format-code:
+	python -m black -l 120 src
+
+# ____________________________________ Test ____________________________________
 ## Test using pytest
 test:
-	pytest -v
+	python -m pytest -v src/test/
 
-## Create python virtual environment
-environment:
-ifneq (,$(wildcard ./venv))
-	@echo The virtual environment has been already created;
-else
-ifeq ($(PACKAGE_MANAGER),"conda")
-	@echo ">>> Detected conda, creating conda environment."
-	$(PACKAGE_MANAGER) create --name $(PROJECT_NAME) python=$(PYTHON_VERSION)
-	@echo ">>> New conda env created. Activate with:\nsource activate $(PROJECT_NAME)"
-else
-	@echo Creating venv venv;
-	$(PYTHON_INTERPRETER) -m virtualenv --python=$(call args, "/usr/bin/python") venv
-endif
-endif
+## Smoke test
+test-smoke:
+	python -m pytest src/test/smoke/
+
+## Unit test
+test-unit:
+	python -m pytest src/test/unit/
 
 # ____________________________________ Clean ____________________________________
 
-## Clean virtual environment
-clean-env:
-ifneq (,$(wildcard ./venv))
-	deactivate || echo "Already venv deactivated";
-	rm -rf venv
-	find . -type d -name "*.egg-info" -exec rm -rf {} \; || echo 'Already clean compiled files'
-	rm -rf build/ || echo 'Already deleted build/'
-else
-	@echo It has been cleaned already
-endif
-
 ## Delete all compiled Python files
-clean:
-	find test/ pipeline/ | grep -E "(/build$|\/__pycache__$|\.pyc$|\.pyo$|\.egg-info$)" | xargs rm -rf || echo 'Already clean'
+clean: clean-cache
+	find . | grep -E "build$|\/__pycache__$|\.pyc$|\.pyo$|\.egg-info" | xargs rm -rf || echo 'Already clean'
+
+## Clean cache
+clean-cache:
+	conda clean -a -y
+	python -m pip cache purge
 
 
 # ___________________________________ Self Documenting Commands ___________________________________
 
 .DEFAULT_GOAL := help
-
 # Inspired by <http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html>
 # sed script explained:
 # /^##/:
@@ -115,7 +95,7 @@ help:
 	| LC_ALL='C' sort --ignore-case \
 	| awk -F '---' \
 		-v ncol=$$(tput cols) \
-		-v indent=25 \
+		-v indent=15 \
 		-v col_on="$$(tput setaf 6)" \
 		-v col_off="$$(tput sgr0)" \
 	'{ \

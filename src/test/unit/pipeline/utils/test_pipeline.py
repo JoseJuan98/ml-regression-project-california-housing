@@ -13,7 +13,7 @@ import pathlib
 import pytest
 
 from src.pipeline.utils.pipeline import get_file_extension, load_artifacts
-from test.unit.utils import message_error_expected
+from src.test.conftest import message_error_expected
 
 __author__ = "Jose Pena"
 __copyright__ = "Copyright 2007, The CHC Project"
