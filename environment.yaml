@@ -5,4 +5,4 @@ channels:
 dependencies:
   - python==3.11
   - pip:
-    - -e --no-cache-dir .[dev,api,analysis]
+    - -e --no-cache-dir .[cpu,dev,api,analysis]

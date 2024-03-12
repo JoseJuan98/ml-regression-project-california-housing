@@ -28,10 +28,10 @@ import joblib
 
 def parse_args(message: str = "", return_parser: bool = False) -> Union[argparse.Namespace, argparse.ArgumentParser]:
     """
-    Method to parse the arguments need to execute the pipeline step
+    Method to parse the arguments need to execute the exper step
 
     Returns:
-        argparse.Namespace: object with the arguments used for the pipeline step.
+        argparse.Namespace: object with the arguments used for the exper step.
             --step-name
             --artifact-path
             --input-file
@@ -82,7 +82,7 @@ def get_file_extension(filepath: Union[str, pathlib.Path]) -> str:
 
 def load_artifacts(args: argparse.Namespace) -> Any:
     """
-    Method to load the artifact to start a step of the pipeline
+    Method to load the artifact to start a step of the exper
 
     Args:
         args (argparse.Namespace): arguments
@@ -107,7 +107,7 @@ def load_artifacts(args: argparse.Namespace) -> Any:
 
 
 def pipe_args(pipeline_step):
-    """Decorator with the parser arguments need for the steps of the pipeline"""
+    """Decorator with the parser arguments need for the steps of the exper"""
 
     @wraps
     def execute(args: argparse.Namespace, logger: Logger) -> dict:

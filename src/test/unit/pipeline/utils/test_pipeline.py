@@ -3,7 +3,7 @@
 Test Pipeline Utils
 ===================
 
-Tests pipeline utilities
+Tests exper utilities
 
 """
 import argparse

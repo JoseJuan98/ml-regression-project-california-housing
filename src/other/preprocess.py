@@ -38,7 +38,7 @@ logger.addHandler(logging.StreamHandler())
 @pipe_args
 def preprocess(artifacts: dict, args: argparse.Namespace) -> dict:
     """
-    Resample, split, fit a pipeline and transform the data
+    Resample, split, fit a exper and transform the data
 
     Params:
         features (pandas.DataFrame): The original dataset

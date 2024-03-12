@@ -17,7 +17,7 @@ project_path = pathlib.Path(__file__).parent
 
 # read metadata from package
 metadata = {}
-with open(project_path / "src" / "pipeline" / "__version__.py") as file:
+with open(project_path / "src" / "exper" / "__version__.py") as file:
     exec(file.read(), metadata)
 
 with open(project_path / "README.md") as file:
@@ -46,6 +46,10 @@ if __name__ == "__main__":
             "analysis": get_req(file_path=project_path / "requirements" / "analysis.txt"),
             # requirements for the Rest API in the microservice
             "api": get_req(file_path=project_path / "requirements" / "api.txt"),
+            # requirements for working with Neural Networks with CPU
+            "cpu": get_req(file_path=project_path / "requirements" / "cpu.txt"),
+            # requirements for working with Neural Networks with CUDA enabled GPU
+            "cuda": get_req(file_path=project_path / "requirements" / "cuda.txt"),
         },
         classifiers=[
             "Development Status :: 3 - Alpha",

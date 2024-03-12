@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """package metadata"""
-__title__ = "pipeline"
-__description__ = "Machine Learning Pipeline operations library"
+__title__ = "exper"
+__description__ = "Machine Learning Experiment operations library"
 __author_email__ = "_@gmail.com"
 __author__ = "(I) josejuan98"
 __version__ = "1.0.0"

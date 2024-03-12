@@ -94,7 +94,7 @@ def normalize_column(data: DataFrame | Series | numpy.ndarray, lmbda: int | None
 def get_preprocessor(categorical_columns: list[str], numerical_columns: list[str]) -> ColumnTransformer:
     """
     Returns:
-        ColumnTransformer: pipeline with the data preparation for a ml model
+        ColumnTransformer: exper with the data preparation for a ml model
     """
     _categorical_pipeline = Pipeline(
         steps=[
@@ -115,7 +115,7 @@ def get_preprocessor(categorical_columns: list[str], numerical_columns: list[str
         verbose=True,
     )
 
-    # Generate pipeline
+    # Generate exper
     return ColumnTransformer(
         transformers=[
             ("numerical", _numerical_pipeline, numerical_columns),
@@ -159,7 +159,7 @@ def preprocess_data(
         Tuple[DataFrame, Any, Pipeline, Any]: it returns in order:
             - The transformed dependent variables (X, x_train)
             - The transformed independent variable (y, y_train)
-            - The `:ob:sklearn.pipeline.Pipeline` object with the fit logic to transform the features
+            - The `:ob:sklearn.exper.Pipeline` object with the fit logic to transform the features
             - The lambda function used by the boxcox module to perform the normalization of the target,
                 it can be use later to inverse the transformation and get the correct target value.
 
