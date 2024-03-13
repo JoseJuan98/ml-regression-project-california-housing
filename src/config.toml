@@ -1,9 +1,10 @@
-[DATA]
-Desc = "Configuration for the data"
-TARGET = "median_house_value"
+[data]
+desc = "Configuration for the data"
+data_url = "https://raw.githubusercontent.com/ageron/handson-ml/master/"
+target = "median_house_value"
 
-[DEV]
-Desc = "Configuration for the Dev environment"
+[dev]
+desc = "Configuration for the Dev environment"
 
-[PROD]
-Desc = "Configuration for the Prod environment"
+[prod]
+desc = "Configuration for the Prod environment"
