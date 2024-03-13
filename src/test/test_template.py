@@ -39,22 +39,22 @@ class NumberListTests(TestCase):  # must remember to subclass TestCase
             for single in (self.Single, self.Zero):
                 self.assertEqual(single.mean(), single[0])
 
-        # other tests of mean
+        # pipeline tests of mean
 
         def test_var_failures(self):
             """NumberList.var() should raise ZeroDivisionError if <2 items"""
             for small in (self.Null, self.Empty, self.Single, self.Zero):
                 self.assertRaises(ZeroDivisionError, small.var)
 
-        # other tests of var
-        # tests of other methods
+        # pipeline tests of var
+        # tests of pipeline methods
 
 
 class FrequencyDistributionTests(TestCase):
     pass  # much code deleted
 
 
-# tests of other classes
+# tests of pipeline classes
 
 if __name__ == "__main__":  # run tests if called from command-line
     main()
