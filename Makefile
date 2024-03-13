@@ -6,6 +6,10 @@
 init:
 	conda env update --file environment.yaml
 
+## Erase conda venv
+clean-env:
+	conda env remove -n california-census
+
 # ____________________________________ Linting ____________________________________
 ## Lint (black,flake8,mypy,isort)
 lint: format-check
