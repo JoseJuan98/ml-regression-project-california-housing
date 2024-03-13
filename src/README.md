@@ -16,7 +16,7 @@ lab3
   ├── main.py                                       # main script to execute all the examples
   ├── README.md                                     # this file, containing technical information about the project
   ├── requirements.txt                              # main dependencies in pip format 
-  └── src                                           # source directory with the code developed
+  └── exper                                         # source code for the experiments library
       │
       ├──  
 ```
