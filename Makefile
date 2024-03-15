@@ -52,7 +52,7 @@ clean: clean-cache clean-files
 
 ## Delete all compiled Python files
 clean-files:
-	find . | grep -E "build$|\/__pycache__$|\.pyc$|\.pyo$|\.egg-info$|\.ipynb_checkpoints" | xargs rm -rf || echo 'Already clean'
+	find . | grep -E "build$|\/__pycache__$|\.pyc$|\.pyo$|\.egg-info$|\.ipynb_checkpoints" | xargs rm -rf || echo "Already clean"
 
 ## Clean cache
 clean-cache:

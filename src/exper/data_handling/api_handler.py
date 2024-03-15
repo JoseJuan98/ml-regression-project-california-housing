@@ -34,11 +34,11 @@ class ApiHandler(DataHandler):
             file_path = pathlib.Path(file_path)
 
         if not file_path.exists() or force_retrieve:
-            dir_path = os.path.dirname(file_path)
+            dir_path = file_path.parent
 
             if not os.path.isdir(dir_path):
                 os.makedirs(dir_path)
 
-            urlretrieve(url, file_path)
+            urlretrieve(url=url, filename=file_path)
 
         return pandas.read_csv(filepath_or_buffer=file_path, low_memory=False)

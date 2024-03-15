@@ -29,7 +29,7 @@ def main() -> None:
     scoring = "accuracy"
     score_name = _validate_score_name(score_name, scoring, negate_score)
 
-    train_scores, val_scores = validation_curve(
+    train_scores, test_scores = validation_curve(
         estimator=LogisticRegression(solver="liblinear"),
         X=X,
         y=y,
@@ -43,7 +43,7 @@ def main() -> None:
         param_name="max_iter",
         param_range=param_range,
         train_scores=train_scores,
-        test_scores=val_scores,
+        test_scores=test_scores,
         score_name=score_name,
     )
 

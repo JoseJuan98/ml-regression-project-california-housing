@@ -27,8 +27,8 @@ from sklearn.utils import resample
 
 from scipy.stats import boxcox
 
-from src.pipeline.constants import TARGET
-from src.pipeline.utils.log import get_logger
+from pipeline.config.constants import TARGET
+from pipeline.utils.log import get_logger
 
 logger = get_logger()
 
