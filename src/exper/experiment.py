@@ -21,10 +21,6 @@ class Experiment(ABC):
     def metrics(self):
         return self.model.metrics
 
-    # @metrics.setter
-    # def metrics(self, value):
-    #     self.model.metrics = value
-
     @abstractmethod
     def run(self) -> None:
         pass
