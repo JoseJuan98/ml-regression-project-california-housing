@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """Setup script."""
 import pathlib
-import setuptools
-
 from typing import Union
 
+import setuptools
 
+
+# TODO: put the requirements here as it's cleaner or use poetry and manage them with a pyproject.toml
 def get_req(file_path: Union[str, pathlib.Path]) -> list[str]:
     """Retrieve requirements from a pip-requirements file"""
     with open(file_path, "r") as file:

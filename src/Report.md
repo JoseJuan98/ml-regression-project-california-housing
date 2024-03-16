@@ -5,10 +5,15 @@
 <h3 style="text-align: center" > March 17, 2024  </h3>
 # Introduction
 
+This report is based on the final project,
 
+#TODO ...
+
+The results are presented in the form of graphs, followed by a discussion of the results and a conclusion. The code is implemented following good coding practices as PEP 8 [1] and Google Python coding style [2], and its design intends to solve the challenges present while comparing machine learning algorithms.
 
 # Methodology
 
+the methodology is centered around working with the data, applying machine learning algorithms and producing results to be compared. The code has most of the insights, so this report is the synthesis of it containing the main highlights.
 
 # California Census Housing Study
 
@@ -16,9 +21,9 @@
 
 ## Dataset
 
-This California Housing dataset is available from [Luís Torgo's page](https://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html) (University of Porto).  
+This California Housing dataset is available from Luís Torgo's page \[[3](https://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html)\] (University of Porto).  
   
-This dataset appeared in a 1997 paper titled "Sparse Spatial Auto-regressions" by Pace, R. Kelley and Ronald Barry, published in the Statistics and Probability Letters journal. They built it using the 1990 California census data. It contains one row per census block group. A block group is the smallest geographical unit for which the U.S. Census Bureau publishes sample data (a block group typically has a population of 600 to 3,000 people).
+This dataset appeared in a 1997 paper titled "Sparse Spatial Auto-regressions" by Pace, R. Kelley and Ronald Barry [4], published in the Statistics and Probability Letters journal. They built it using the 1990 California census data. It contains one row per census block group. A block group is the smallest geographical unit for which the U.S. Census Bureau publishes sample data (a block group typically has a population of 600 to 3,000 people).
   
 The target variable or dependent variable for this analysis will be the `median_house_value`, which describes the median price of the houses per block group.  
   
@@ -28,7 +33,7 @@ It consists of one row per census block group, with each block group representin
 The dataset contains several features, including the median income, median house age, and median number of rooms per house, among others.   
 The target variable or dependent variable for this analysis is the `median_house_value` which represents the median price of the houses per block group.   
   
-The dataset is available from the University of Porto by the [Luís Torgo's page](https://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html) and is often used in regression analysis and machine learning tasks.
+The dataset is available from the University of Porto by the Luís Torgo's page \[[3](https://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html)\] and is often used in regression analysis and machine learning tasks.
 
 ## Hypothesis
 
@@ -43,6 +48,7 @@ The dataset is available from the University of Porto by the [Luís Torgo's page
 
 ### Analysis
 
+![](artifacts/plots/population_density_and_price.png)
 
 ### Models
 
@@ -72,3 +78,11 @@ When selecting an evaluation metric, it is important to consider the nature of t
 
 # References
 
+
+[1] “PEP 8 — Style Guide for Python Code.” [https://www.python.org/dev/peps/pep-0008/e](https://www.python.org/dev/peps/pep-0008/e). Accessed: 2024-03-11.
+  
+[2] “Google Python Style Guide.” [https://google.github.io/styleguide/pyguide.html](https://google.github.io/styleguide/pyguide.html). Accessed: 2024-03-11
+
+[3] "California Housing dataset from Luís Torgo (University Porto)." https://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html. Accessed: 2024-03-11
+
+[4] "Sparse Spatial Auto-regressions - Pace, R. Kelley and Ronald Barry " https://doi.org/10.1016/S0167-7152(96)00140-X

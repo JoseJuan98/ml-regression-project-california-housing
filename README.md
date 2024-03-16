@@ -2,7 +2,8 @@
 
 <p style="text-align: center">Author: Jose Pena</p>
 <p style="text-align: center">Github: <a href="https://github.com/JoseJuan98">JoseJuan98</a></p>
-<br>
+
+![](src/artifacts/plots/population_density_and_price.png)
 
 ---
 
