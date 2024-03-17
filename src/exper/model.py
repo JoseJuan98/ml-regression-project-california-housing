@@ -55,6 +55,7 @@ class Model(ABC):
         param_range: list | numpy.ndarray,
         param: str,
         eval_metrics: str | list[str],
+        test_size: float = 0.3,
     ) -> None:
         """Train the model.
 
@@ -64,19 +65,7 @@ class Model(ABC):
             param_range (list | numpy.ndarray): parameter range to experiment with the same model
             eval_metrics (str | list[str]): metrics to calculate the performance of the model
             param (str): parameter to vary in the range `param_range`
-        """
-        pass
-
-    @abstractmethod
-    def predict(
-        self, x: numpy.ndarray | pandas.DataFrame | pandas.Series
-    ) -> numpy.ndarray | pandas.DataFrame | pandas.Series:
-        """Predict given input features.
-
-        Args:
-            x (numpy.ndarray | pandas.DataFrame | pandas.Series): input features
-
-        Returns:
-            numpy.ndarray | pandas.DataFrame | pandas.Series: predictions
+            test_size (optional, float): By default 0.3. Percentage of data to be used for the test set.
+                0 > test_size > 1.
         """
         pass

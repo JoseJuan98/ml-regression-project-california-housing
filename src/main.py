@@ -4,6 +4,7 @@
 
 # -*- coding: utf-8 -*-
 """Main script with the solution of the exercises."""
+import keras
 import numpy
 import pandas
 
@@ -18,6 +19,7 @@ from src.analysis.exploratory_feature_engineering import exploratory_feature_eng
 from src.experiments.california_preprocessor import CaliforniaPreprocessor
 from src.experiments.lr_vs_nn_experiment import LRvsNNExperiment
 from src.experiments.linear_regression import LinearRegress
+from src.experiments.neural_network import NeuralNetwork
 
 # to show all columns without cuts
 pandas.set_option("display.max_columns", None)
@@ -39,27 +41,30 @@ def main() -> None:
     section_msg(" 2. Data Cleaning and Feature Engineering ")
     exploratory_feature_engineering(data=housing_data)
 
-    section_msg(" 3. Experimenting with different models ")
+    section_msg(" 3. Experimenting with models ")
     # Model definitions
+
     # The sklearn model Lasso was choosen instead of LinearRegression because LinearRegression
     # doesn't have the parameter max_iters to iterate for
     lr_model = LinearRegress(model=Lasso())
-    # nn_model = ...
+    nn_model = NeuralNetwork(model=keras.Sequential)
 
     experiment = LRvsNNExperiment(
         experiment_name="LR vs NN Experiment",
         experiment_description="",
         data_handler=ApiHandler,
-        models=[lr_model],
+        models=[lr_model, nn_model],
         preprocesor=CaliforniaPreprocessor,
         param_range=numpy.arange(1, 100, 1),
         param_to_experiment="iterations",
-        eval_metrics=["rmse"],
+        eval_metrics=["rmse", "mse", "mae"],
     )
 
+    # run experiment
     experiment.run()
 
-    print(experiment.metrics)
+    # visualize experiment results
+    experiment.visualize_results()
 
     section_msg(" 4. Hypothesis testing ")
     # TODO

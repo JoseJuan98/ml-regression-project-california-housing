@@ -6,6 +6,11 @@
 init:
 	conda env update --file environment.yaml
 
+
+## Instal CUDA (NVIDIA) dependencies for tensorflow and keras
+install-gpu-deps:
+	pip install -e .[cuda,dev,api,analysis]
+
 ## Erase conda venv
 clean-env:
 	conda env remove -n california-census

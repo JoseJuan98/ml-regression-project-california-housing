@@ -41,10 +41,7 @@ The dataset is available from the University of Porto by the Luís Torgo's page 
 
 ## Implementation
 
-
-
-## Results
-
+For this project a library called `exper` was developed following Object-Oriented Programming (OOP) for making easier to experiment with different models using the same preprocessed data to be able to have consistent and reliable results and automate most of the process.
 
 ### Exploratory Data Analysis
 
@@ -137,8 +134,6 @@ In a regression analysis project, selecting appropriate evaluation metrics is cr
 -   **Root Mean Squared Error (RMSE)**: This is the square root of the MSE, which gives us a measure of the average magnitude of the error in the same units as the target variable.  
      
 -   **Mean Absolute Error (MAE)**: This metric calculates the absolute difference between the predicted and actual values, taking the average over all samples.  
-     
--   **R-squared (R2)**: This metric measures the proportion of variance in the target variable that can be explained by the model. It ranges from 0 to 1, with higher values indicating better performance.  
   
 When selecting an evaluation metric, it is important to consider the nature of the problem and the context of the application. For instance, if the cost of false negatives is much higher than false positives, it is preferable to optimize for reducing the MSE for values below a certain threshold. Similarly, if we are interested in identifying extreme values of the target variable, we may prefer to use the MAE instead of the MSE. It is also essential to consider the range and distribution of the target variable and any specific requirements or constraints of the project. The selection of the most appropriate evaluation metric can help to ensure that the model meets the desired level of performance for the given task.
 
