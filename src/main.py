@@ -36,7 +36,7 @@ def main() -> None:
     housing_data = ApiHandler.load_data(file_path=RAW_DATA_FILE, url=HOUSING_DATA_URL)
 
     section_msg(" 1. Exploratory Data Analysis ")
-    # exploratory_data_analysis(data=housing_data)
+    exploratory_data_analysis(data=housing_data)
 
     section_msg(" 2. Data Cleaning and Feature Engineering ")
     exploratory_feature_engineering(data=housing_data)
@@ -51,7 +51,7 @@ def main() -> None:
 
     experiment = LRvsNNExperiment(
         experiment_name="LR vs NN Experiment",
-        experiment_description="",
+        experiment_description="Hypothesis Testing Experiment for Linear Regression and Neural Network",
         data_handler=ApiHandler,
         models=[lr_model, nn_model],
         preprocesor=CaliforniaPreprocessor,

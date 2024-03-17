@@ -1,5 +1,6 @@
 
 <h1 style="text-align: center" > D7054E Final Project Report </h1>  
+<h2 style="text-align: center" > Linear Regression vs Neural Network </h1>  
 <p style="text-align: center" > Jose Juan Pena Gomez (jospen-3)  </p>  
 <h4 style="text-align: center" > Individual Project </h4>  
 <h3 style="text-align: center" > March 17, 2024  </h3>
@@ -27,78 +28,71 @@ debugInConsole: false # Print debug info in Obsidian console
 
 # Introduction
 
-This report is based on the final project,
-
-#TODO ...
-
-The results are presented in the form of graphs, followed by a discussion of the results and a conclusion. The code is implemented following good coding practices as PEP 8 [1] and Google Python coding style [2], and its design intends to solve the challenges present while comparing machine learning algorithms.
+This report presents the findings of a comparative analysis between Linear Regression and Neural Network models for predicting the median house value based on the California census data. The project involved various steps including development of a library to automate most of the work, exploratory data analysis, data cleaning, feature engineering, model training, and performance evaluation. 
+The code was implemented following good coding practices as recommended by PEP 8 [1] and Google Python coding style [2]. 
+The objective of this project was to test the formulated hypothesis while addressing the challenges associated with comparing Machine Learning (ML) algorithms and to provide an analysis of the results.
 
 # Methodology
 
-the methodology is centered around working with the data, applying machine learning algorithms and producing results to be compared. The code has most of the insights, so this report is the synthesis of it containing the main highlights.
+The methodology for this project was centered around working with the data, applying ML algorithms, and producing results to compare the performance of linear and non-linear models. The code contains most of the insights, and this report highlights the main findings of the project.
 
 # California Census Housing Study
 
 ## Hypothesis
 
-My hypothesis is that simple linear models like linear regression work better compared to complex non-linear models, like neural networks, in small datasets due to linear patterns.
-
-This section only presents the hypothesis, in posterior sections this hypothesis will be tested.
+The hypothesis for this study was that simple linear models like linear regression would perform better compared to complex non-linear models, like neural networks, on small datasets due to the presence of linear patterns. This hypothesis and the results are presented later in the study.
 
 ## Dataset
 
-This California Housing dataset is available from Luís Torgo's page \[[3](https://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html)\] (University of Porto).  
+The California Housing dataset used in this study was compiled using the 1990 California census data provided in Luís Torgo's page at the University of Porto \[[3](https://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html)\]. 
   
-This dataset appeared in a 1997 paper titled "Sparse Spatial Auto-regressions" by Pace, R. Kelley and Ronald Barry [4], published in the Statistics and Probability Letters journal. They built it using the 1990 California census data. It contains one row per census block group. A block group is the smallest geographical unit for which the U.S. Census Bureau publishes sample data (a block group typically has a population of 600 to 3,000 people).
+This dataset appeared in a 1997 paper titled "Sparse Spatial Auto-regressions" by Pace, R. Kelley and Ronald Barry [4], published in the Statistics and Probability Letters journal. They built it using the 1990 California census data. The dataset contains one row per census block group, the smallest geographical unit for which the U.S. Census Bureau publishes sample data. Each block group typically has a population of 600 to 3,000 people.
   
-The target variable or dependent variable for this analysis will be the `median_house_value`, which describes the median price of the houses per block group.  
-  
-The California Housing dataset is a collection of census data for the state of California, USA, from the 1990 census.   
-It consists of one row per census block group, with each block group representing the smallest geographical unit for which sample data is published by the U.S. Census Bureau. The dataset was compiled by Pace and Barry and published in the Statistics and Probability Letters journal in 1997.   
-  
-The dataset contains several features, including the median income, median house age, and median number of rooms per house, among others.   
-The target variable or dependent variable for this analysis is the `median_house_value` which represents the median price of the houses per block group.   
-  
-The dataset is available from the University of Porto by the Luís Torgo's page \[[3](https://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html)\] and is often used in regression analysis and machine learning tasks.
+The dataset contains several features, including the median income, median house age, and median number of rooms per house, among others. The target variable for this analysis is the `median_house_value`, which represents the median price of the houses per block group.
 
 ## Implementation
 
 ### Exper library
 
-For this project a library called `exper` was developed following Object-Oriented Programming (OOP) for making easier to experiment with different models using the same preprocessed data to be able to have consistent and reliable results and automate most of the process.
+For this project, a library called `exper` was developed following Object-Oriented Programming (OOP) principles. This library facilitated the experimentation with different models using the same preprocessed data, ensuring consistent and reliable results.
+
+![](diagrams/exper-ClassDiagram.png)
+<p style="text-align: center">Figure 1. exper library Class Diagram.</p>
+
+The core class of the library is 'Experiment', which defines the models to test, the metrics to use for those models, and a 'DataHandler' and a 'Preprocessor' for obtaining and preprocessing the data. This setup allows for running an experiment to compare the model metrics, visualize them, and conduct hypothesis testing.
 
 ### Exploratory Data Analysis
 
-Taking in consideration accessibility issues for visualizations, such as color blindness, I chose to use the the color blind friendly colormap “viridis" in `matplotlib`, which is used by default. On the contrary it's not used by default in `seaborn`, so I changed the configuration so that it uses the same.
+Taking in consideration accessibility issues for visualization, such as color blindness, the color blind friendly colormap “viridis" was used in `matplotlib`, which is the one by default. On the contrary it's not used by default in `seaborn`, so `seaborn` was configure to use the same colormap.
 
-Below the geospatial data can be visualized by the California population density and housing price in the latitude and longitude coordinates in the map by a plot representing the sample points by red expensive prices, by blue cheap prices, and larger circles indicating areas with larger population.
+Below the geospatial data can be visualized by the California population density and housing price on a map. The plot represents the sample points with red indicating expensive prices, blue indicating cheap prices, and larger circles indicating areas with a larger population.
 
 
 ![](artifacts/plots/population_density_and_price.png)
-<p style="text-align: center">Figure 1. California Population Density and Housing Price.</p>
+<p style="text-align: center">Figure 2. California Population Density and Housing Price.</p>
 
-This shows that the housing prices seems to be related to the location, for example the ones close to the ocean seems to have higher values, and to the population density, following the offer and demand of big cities. So, the ocean proximity variable could be very useful.
+The plot reveals a potential relationship between housing prices, location, and population density. Houses close to the ocean and in areas with high population density appear to have higher values. This suggests that the ocean proximity variable could be a significant predictor in the models.
+
+Further, the distribution of the target variable, median house value was examined. The distribution is skewed to the right, with a skewness value of 0.9778. This skewness is significant as Linear Regression models assume that errors are normally distributed.
 
 
 ![](artifacts/plots/median_house_value_distribution.png)
-<p style="text-align: center">Figure 2. Distribution of the Median House Value</p>
+<p style="text-align: center">Figure 3. Distribution of the Median House Value</p>
 
-The distribution plot of the target variable median house value is skewed to the right. Actually the skewness has a value of 0.9778, which is high. Handling this is of importance because Linear Regression models assume that errors are normally distributed, so this will impact its performance.
+The distribution also reveals that the highest value (500.000) has a similar frequency to the most frequent value in the middle of the distribution. This is due to a hardcoded threshold on that value (500.000), meaning that every value higher than 500.000 is recorded as 500.000. This results in a multimodal distribution, which can be addressed by creating a feature called "is_higher_median_income" that indicates whether the value is higher than 500.000.
 
-Also, it can be seen that highest value (500.000) has almost the same amount of count as the most frequent value in the middle of the distribution, this is due to making a hardcoded threshold on that value (500.000), meaning that every value higher than 500.000 will become just that value. In addition to the skewness problem, this makes the distribution to have several modes (peaks). 
-
-Modes which are visible can be relevant, because they contain a lot of information from a relevant size of the samples, so it's helpful for multimodal variables to add features representing the main modes for the linear regression to extract patterns from it. For this reason, I created a feature called "is_higher_median_income" which has values to 0 when it's lower than 500.000 and 1 otherwise.
-
-Then, the histogram below of the rest of numerical variables can give helpful insights on the data that is being explored. 
+The histogram of the rest of the numerical variables provides more insights into the data.
 
 ![](artifacts/plots/variables_histogram.png)
-<p style="text-align: center">Figure 3. Distribution of the variables</p>
+<p style="text-align: center">Figure 4. Distribution of the variables</p>
 
-Looking at this, it noticeable that the housing median age, as the median house value, was also capped at 50. Further, the median income it's in some scale from 0 to 15.
+Looking at this, it seems that the housing median age, as the median house value, was also capped at 50. Further, the median income it's in some scale from 0 to 15.
 
-A very important detail, is that most of the variables seems skewed to the right. This as explained previously can make the models harder to detect patterns, so this will be handled in the feature engineering part.
+Most of the variables appear to be skewed to the right, which will be addressed in the feature engineering phase. The housing median age and the median house value were both capped at 50, and the median income is scaled from 0 to 15.
 
 #### Correlations
+
+The correlations between the variables and the house value are:
 
 | Variable           | Correlation with House Value |
 | ------------------ | ---------------------------- |
@@ -112,23 +106,21 @@ A very important detail, is that most of the variables seems skewed to the right
 | latitude           | -0.144160                    |
 <p style="text-align: center">Table 1. Correlations with House Value</p>
 
-Looking at the correlations, it seems like the most correlated variable is the median income.
+Looking at the correlations, the most correlated variable with the house value is the median income, as shown in the plot below.
 ![](artifacts/plots/income_vs_house_value.png)
-<p style="text-align: center">Figure 4. Median Income vs Median House Value </p>
+<p style="text-align: center">Figure 5. Median Income vs Median House Value </p>
 
-This plot indicates an upward trend between the median income and the median house value, and the points are not too dispersed. In addition, we can see the house value threshold int he plot.
+The plot shows an upward trend between the median income and the median house value, indicating a positive correlation. The points are not too dispersed, suggesting a strong relationship. The house value threshold is also visible in the upper part of the plot.
 
 ### Data cleaning and Feature Engineering
 
-After checking the number of missing values in the dataset, it was discovered 207 missing values from the total number of bedrooms' variable. This was handled by imputing by the median value of this variable.
+The data cleaning phase involved handling missing values in the dataset. Specifically, there were 207 missing values in the 'total_bedrooms' variable. These missing values were imputed using the median value of this variable.
 
-Another aspect to take care of is as it was shown in the exploratory data analysis, some of the variables are very skewed. To handle this a method to smooth the distribution can be used, such as using the log function, the square root or more complex ones like the power law. As, in many ML techniques, the more complex the less interpretable, so for that reason I decided to use the log function.
+The feature engineering phase focused on addressing the skewness in some of the variables and creating new variables that could potentially improve the performance of the models. As observed in the exploratory data analysis, several variables were skewed. To address this, a log transformation was applied to these variables. The log transformation is a simple method for reducing skewness in data meanwhile not losing much interpretability.
 
-As this dataset is based in the median value of the variables per district, it can be interesting to explore the combination of some of the variables with the number of households, such as total rooms per household and population per household. The number of households per district is hold in the variable 'households'.
+In addition, new variables were created by combining existing ones. Given that the dataset is based on the median value of the variables per district, it was expected that the combination of some variables with the number of households could provide useful information. Therefore, new variables 'rooms_per_household', 'bedrooms_ratio', and 'people_per_household' were created by computing the ratio between those.
 
-Therefore, obtaining the new variables 'rooms_per_household', 'bedrooms_ratio', 'people_per_household'.
-
-By seeing the correlation with this new variables, it's possible to check if this combinations are useful.
+The correlations between these new variables and the house price are the following:
 
 | Variable            | Correlation with House Price |
 | ------------------- | ---------------------------- |
@@ -145,64 +137,68 @@ By seeing the correlation with this new variables, it's possible to check if thi
 | bedrooms_ratio      | -0.255880                    |
 <p style="text-align: center">Table 2. Correlations with House Price after combining variables </p>
 
-The new bedrooms ratio is more correlated with the house value than the total number of rooms or bedrooms. This could be explained as the lower the ratio between bedrooms and total number rooms tends to be more expensive.
+The 'bedrooms_ratio' variable, which represents the ratio of bedrooms to total rooms, showed a higher correlation with the house value than the total number of rooms or bedrooms. This suggests that houses with a lower ratio of bedrooms to total rooms tend to be more expensive.
 
+### Modeling
 
-### Models
+#### Linear Regression (LR)
 
-In a regression analysis project, selecting appropriate evaluation metrics is crucial to determine the performance of the model. The evaluation metrics used for this project are:  
+For this project, the Lasso model from the sklearn library was used for the Linear Regression. Lasso, or Least Absolute Shrinkage and Selection Operator, is a regression analysis method that performs both variable selection and regularization. This helps to enhance the prediction accuracy and interpretability of the statistical model it produces. The Lasso model was chosen for this project because it has the parameter `max_iter`, which allows for the comparison of metrics with the Neural Networks over iterations.
+#### Neural Network (NN)
+
+The Neural Network model used in this project was implemented using the Keras library. The network architecture consisted of an input layer, multiple hidden layers, and an output layer. Each layer uses a ReLU function except the output layer which uses a sigmoid function, and the model was trained using the "Adam" optimizer and mean square error as the loss function. Also, each layer has 'l2' regularization to make it as similar as possible to the Lasso Regression model, and a dropout layer to try to improve overfitting.
+
+#### Metrics for Regression
+
+Selecting appropriate evaluation metrics is crucial to determine the performance of the model. The evaluation metrics used for this project are:  
   
 -   **Mean Squared Error (MSE)**: This metric calculates the average squared difference between the predicted and actual values. It penalizes larger errors more heavily than smaller ones.  
-  
 -   **Root Mean Squared Error (RMSE)**: This is the square root of the MSE, which gives us a measure of the average magnitude of the error in the same units as the target variable.  
-     
 -   **Mean Absolute Error (MAE)**: This metric calculates the absolute difference between the predicted and actual values, taking the average over all samples.  
   
-When selecting an evaluation metric, it is important to consider the nature of the problem and the context of the application. For instance, if the cost of false negatives is much higher than false positives, it is preferable to optimize for reducing the MSE for values below a certain threshold. Similarly, if we are interested in identifying extreme values of the target variable, we may prefer to use the MAE instead of the MSE. It is also essential to consider the range and distribution of the target variable and any specific requirements or constraints of the project. The selection of the most appropriate evaluation metric can help to ensure that the model meets the desired level of performance for the given task.
-
+When selecting an evaluation metric, it is important to consider the nature of the problem and the context of the application. For instance, if the cost of false negatives is much higher than false positives, it is preferable to optimize for reducing the MSE for values below a certain threshold. Similarly, if we are interested in identifying extreme values of the target variable, we may prefer to use the MAE instead of the MSE. In this case the three of them were selected to have a broader space for comparisons.
 
 ### Hypothesis testing
 
-On a more formal definition the Null and Alternative Hypothesis:
-
-Being the sample population, $\mu_{1}$ the performance metrics over iterations of a linear model  and $\mu_{2}$ the performance metrics over iterations of a neural network.
+The hypothesis testing phase involved comparing the performance metrics of the Linear Regression and Neural Network models. On a more formal definition the Null and Alternative Hypothesis, being the sample population, $\mu_{1}$ the performance metrics over iterations of a linear model  and $\mu_{2}$ the performance metrics over iterations of a neural network, are:
   
 - The Null Hypothesis $H_0: \mu_{1} <= \mu_{2}$ represents that the performance metrics of a linear model are less or equal than the ones of the neural network.
 - The Alternative Hypothesis $H_1: \mu_{1} > \mu_{2}$ represents that the performance metrics of a linear model are higher than the ones of the neural network.
   
-The ‘>’ sign in the alternate hypothesis indicates the test is *right tailed*. To compare the values of populations `t-test` will be used. If `z-values` (calculated from a t-test) fall into the area on the right side of a distribution curve, this would cause us to reject the null hypothesis. Also, can be rejected with a `p-value` smaller that the significance value '0.05'.
+The t-test was used to compare the values of the populations. If the calculated t-values fell into the area on the right side of a distribution curve, this would lead to the rejection of the null hypothesis. The null hypothesis could also be rejected if the p-value was smaller than the significance level of 0.05.
 
-The statistical tests were computed only using the test set, but the plots are show with both the test and train sets.
+The statistical tests were computed only using the test set, but the plots are displayed with both the test and train sets.
 ![](artifacts/plots/models_rmse.png)
-<p style="text-align: center">Figure 5. Models RMSE metric </p>
+<p style="text-align: center">Figure 6. Models RMSE metric </p>
+
 ![](artifacts/plots/models_mse.png)
-<p style="text-align: center">Figure 6. Models MSE metric </p>
+<p style="text-align: center">Figure 7. Models MSE metric </p>
+
 ![](artifacts/plots/models_mae.png)
-<p style="text-align: center">Figure 7. Models MAE metric</p>
+<p style="text-align: center">Figure 8. Models MAE metric</p>
 
 
-Looking at the plots is obvious, but rigorously analysis, the t-test statistical test was chosen to reject or fail to reject the Null Hypothesis.
-
-The t-test for the RMSE metric gave a p_value 7.8e-242, which is less than alpha 0.05. Therefore, the conclusion is that the null hypothesis that simple linear models performs less or equal than the complex non-linear ones is rejected. The other metrics gave similar results.
+In conclusion, the plots clearly show that the Linear Regression model outperforms the Neural Network model. However, a more rigorous analysis was conducted to formally test the statistical significance the null hypothesis. The t-test for the RMSE metric resulted in a p-value of 7.8e-242, which is less than the significance level of 0.05. Therefore, the null hypothesis was rejected, indicating that the Linear Regression model performs better than the Neural Network model. Similar results were obtained for the other metrics.
 
 # Discussion
 
-When it comes to outliers, at the beginning after plotting the boxplot of each variable and seeing that there are a lot of outliers I tried to remove the outliers using the 99th percentile, but this hurt performance a lot. Latter after a more detailed analysis, I got to discover that some of the variables, including the target variables, are capped at a certain value and have several modes (peaks) that are causing this. So, instead I decided to not remove them, and this improved performance.
+In the initial analysis after plotting the boxplot of each variable and seeing that there are a lot of outliers, these were removed using the 99th percentile, but this hurt performance a lot. Latter after a more detailed analysis, it was discovered that some of the variables, including the target variables, are capped at a certain value and have several modes (peaks), which were causing the appearance of outliers. Instead of removing these outliers, they were kept in the data, which improved the performance of the models. This experience shows the importance of a proper understanding of the data before making decisions about data cleaning and preprocessing.
 
 # Conclusion
 
-Because of the limited scope of the project the hypothesis was limited to the performance of the models, but given more time it would have been interesting to see efficiency metrics like training time, memory usage, etc to a have a more detailed comparison.
+The main goal of this project was to compare the performance of a Linear Regression and a Neural Network models on the California Housing dataset. The results demonstrated that the Linear Regression model outperformed the Neural Network model, supporting the initial hypothesis. However, it's important to note that the scope of the project was limited to the performance of the models, and other factors such as training time and memory usage were not considered.
 
 As mentioned in the previous section, after a more detailed analysis and getting to know better the data I discovered that what I was treating "statistically" as outliers, in reality were valuable information. This made me realize the importance of the analysis phase and the understanding on the data for producing reliable and consistent results.
 
-If I had more time, I would have like to explore more in detail techniques to encode geospatial data and tested more the 'ClusterSimilarityEncoder' to gather more insight and show some visualizations of how it works.
+Given more time, it would have been interesting to explore more in detail techniques to encode geospatial data and further test the 'ClusterSimilarityEncoder' to gather more insight and show some visualizations of how it works.
 
 # Data Ethics
 
-From my opinion as this dataset doesn't produce any ethical concerns, as it was computed with the median of variables per districts, thus it doesn't contain any personal data
+In terms of data ethics, the California Housing dataset does not raise any significant concerns. The dataset was computed using the median of variables per district, thus does not contain any personal data. However, it's important to note that even when working with aggregated data, ethical considerations should not be overlooked. Concerns should be taken care to ensure that the data is used responsibly, and that the results of the analysis do not lead to unfair or discriminatory outcomes.
+
+<br>
 
 # References
-
 
 [1] “PEP 8 — Style Guide for Python Code.” [https://www.python.org/dev/peps/pep-0008/e](https://www.python.org/dev/peps/pep-0008/e). Accessed: 2024-03-11.
   

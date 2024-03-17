@@ -61,8 +61,12 @@ class Experiment(ABC):
 
     @abstractmethod
     def run(self) -> None:
-        pass
+        """Run the experiment."""
 
     @abstractmethod
     def visualize_results(self) -> None:
-        pass
+        """Visualize all models per metric together in plots."""
+
+    @abstractmethod
+    def hypothesis_testing(self) -> None:
+        """Hypothesis Testing."""

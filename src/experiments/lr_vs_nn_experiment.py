@@ -104,8 +104,8 @@ class LRvsNNExperiment(Experiment):
             pyplot.savefig(PLOT_DIR / f"models_{metric}.png")
             pyplot.show()
 
-    def hypothesis_testing(self):
-        """"""
+    def hypothesis_testing(self) -> None:
+        """Hypothesis Testing."""
 
         metrics = self.metrics
 
