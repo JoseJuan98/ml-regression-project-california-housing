@@ -98,11 +98,13 @@ When selecting an evaluation metric, it is important to consider the nature of t
 
 # Discussion
 
+When it comes to outliers, at the beginning after plotting the boxplot of each variable and seeing that there are a lot of outliers I tried to remove the outliers using the 99th percentile, but this hurt performance a lot. Latter after a more detailed analysis, I got to discover that some of the variables, including the target variables, are capped at a certain value and have several modes (peaks) that are causing this. So, instead I decided to not remove them, and this improved performance.
 
 # Conclusion
 
 *Because of the limited scope of the project the hypothesis was limited to the performance of the models, but given more time it would have been interesting to see efficiency metrics like training time, memory usage, etc to a have a more detailed comparison.*
 
+As mentioned in the previous section, after a more detailed analysis and getting to know better the data I discovered that what I was treating "statistically" as outliers, in reality were valuable information. This made me realize the importance of the analysis phase and the understanding on the data for producing reliable and consistent results.
 
 # References
 

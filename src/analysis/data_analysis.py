@@ -2,7 +2,6 @@
 """California Census data profiling."""
 import os
 
-import matplotlib
 import pandas
 import seaborn
 from matplotlib import pyplot
@@ -71,33 +70,26 @@ def data_analysis(data: pandas.DataFrame) -> None:
     pyplot.savefig(PLOT_DIR / "ocean_proximity.png")
     pyplot.show()
 
-    print("Correlation matrix\n")
     corr_matrix = data.select_dtypes(include="number").corr()["median_house_value"].sort_values(ascending=False)
-    corr_matrix.plot(kind="barh", figsize=(18, 13))
+    print(f"Correlations:\n{corr_matrix.to_string()}")
+
+    print("Correlation horizontal bar plot: ")
+    # the [1:,] is to remove the correlation of median house value with itself
+    corr_matrix[1:,].plot(kind="barh", figsize=(18, 13))
     pyplot.title("Correlation Bar Plot")
     pyplot.axvline(x=0, color=".5")
     pyplot.subplots_adjust(left=0.5)
+    pyplot.savefig(PLOT_DIR / "correlation_hbar_plot.png")
     pyplot.show()
 
-    # FIXME: internal server error
-    # print("Scatter matrix of numerical variables:\n")
-    #
-    # # lower resolution as it's expensive computationally
-    # matplotlib.RcParams.update(
-    #     {
-    #         "figure.dpi": 75,
-    #     }
-    # )
-    #
-    # scatter_matrix(data.select_dtypes(include="number"), figsize=(30, 25))
-    # pyplot.savefig(PLOT_DIR / "scatter_matrix.png")
-    # pyplot.show()
-    #
-    # matplotlib.RcParams.update(
-    #     {
-    #         "figure.dpi": 200,
-    #     }
-    # )
+    print("Scatter matrix of numerical variables:\n")
+
+    # variables with p-value > 0.05
+    highly_correlated_variables = corr_matrix[corr_matrix > 0.05].index.tolist()
+
+    scatter_matrix(data[highly_correlated_variables], figsize=(30, 25))
+    pyplot.savefig(PLOT_DIR / "scatter_matrix.png")
+    pyplot.show()
 
 
 if __name__ == "__main__":
