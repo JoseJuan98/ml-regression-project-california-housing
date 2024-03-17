@@ -6,9 +6,9 @@
 """Main script with the solution of the exercises."""
 import pandas
 
-from exper.contant import RAW_DATA_FILE, HOUSING_DATA_URL
+from exper.constant import RAW_DATA_FILE, HOUSING_DATA_URL
 from exper.data_handling import ApiHandler
-from src.analysis.data_summary import data_summary
+from src.analysis.data_analysis import data_analysis
 
 # to show all columns without cuts
 pandas.set_option("display.max_columns", None)
@@ -24,8 +24,8 @@ def main() -> None:
 
     housing_data = ApiHandler.load_data(file_path=RAW_DATA_FILE, url=HOUSING_DATA_URL)
 
-    section_msg(" 1. Data Summary ")
-    data_summary(data=housing_data)
+    section_msg(" 1. Exploratory Data Analysis")
+    data_analysis(data=housing_data)
 
     section_msg(" 2. Data Cleaning and Feature Engineering ")
     # TODO

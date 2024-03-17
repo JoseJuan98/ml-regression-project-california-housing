@@ -46,9 +46,35 @@ The dataset is available from the University of Porto by the Luís Torgo's page 
 ## Results
 
 
-### Analysis
+### Exploratory Data Analysis and Feature Engineering
+
+
+Taking in consideration accessibility issues for visualizations, such as color blindness, I chose to use the the color blind friendly colormap “viridis" in `matplotlib`, which is used by default. On the contrary it's not used by default in `seaborn`, so I changed the configuration so that it uses the same.
+
+Below the geospatial data can be visualized by the California population density and housing price in the latitude and longitude coordinates in the map by a plot representing the sample points by red expensive prices, by blue cheap prices, and larger circles indicating areas with larger population.
+
 
 ![](artifacts/plots/population_density_and_price.png)
+<p style="text-align: center">Figure 1. California Population Density and Housing Price.</p>
+
+This shows that the housing prices seems to be related to the location, for example the ones close to the ocean seems to have higher values, and to the population density, following the offer and demand of big cities. So, the ocean proximity variable could be very useful.
+
+
+![](artifacts/plots/median_house_value_distribution.png)
+<p style="text-align: center">Figure 2. Distribution of the Median House Value</p>
+
+The distribution plot of the target variable median house value is skewed to the right. Actually the skewness has a value of 0.9778, which is high. Handling this is of importance because Linear Regression models assume that errors are normally distributed, so this will impact its performance.
+
+Also, it can be seen that highest value (500.000) has almost the same amount of count as the most frequent value in the middle of the distribution, this is due to making a hardcoded threshold on that value (500.000), meaning that every value higher than 500.000 will become just that value. In addition to the skewness problem, this makes the distribution to have several modes (peaks). 
+
+Modes which are visible can be relevant, because they contain a lot of information from a relevant size of the samples, so it's helpful for multimodal variables to add features representing the main modes for the linear regression to extract patterns from it. For this reason, I created a feature called "is_higher_median_income" which has values to 0 when it's lower than 500.000 and 1 otherwise.
+
+Then, the histogram below of the rest of numerical variables can give helpful insights on the data that is being explored. 
+
+![](artifacts/plots/variables_histogram.png)
+<p style="text-align: center">Figure 3. Distribution of the rest of variables</p>
+
+Looking at this, it noticeable that the housing median age, as the median house value, was also capped at 50
 
 ### Models
 
