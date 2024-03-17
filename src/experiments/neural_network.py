@@ -64,11 +64,11 @@ class NeuralNetwork(Model):
                     input_shape=(x.shape[1],),
                 ),
                 keras.layers.Dropout(0.3),
-                keras.layers.Dense(units=1000, activation="relu", kernel_regularizer=keras.regularizers.l2(0.01)),
+                keras.layers.Dense(1000, activation="relu", kernel_regularizer=keras.regularizers.l2(0.1)),
                 keras.layers.Dropout(0.3),
-                keras.layers.Dense(units=100, activation="relu", kernel_regularizer=keras.regularizers.l2(0.01)),
+                keras.layers.Dense(100, activation="relu", kernel_regularizer=keras.regularizers.l2(0.01)),
                 keras.layers.Dropout(0.3),
-                keras.layers.Dense(units=1, activation="sigmoid"),
+                keras.layers.Dense(1, activation="sigmoid", kernel_regularizer=keras.regularizers.l2(0.01)),
             ]
         )
 

@@ -3,6 +3,28 @@
 <p style="text-align: center" > Jose Juan Pena Gomez (jospen-3)  </p>  
 <h4 style="text-align: center" > Individual Project </h4>  
 <h3 style="text-align: center" > March 17, 2024  </h3>
+<br>
+
+# Index
+
+```table-of-contents
+title: 
+style: nestedList # TOC style (nestedList|inlineFirstLevel)
+minLevel: 0 # Include headings from the specified level
+maxLevel: 0 # Include headings up to the specified level
+includeLinks: true # Make headings clickable
+debugInConsole: false # Print debug info in Obsidian console
+```
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
 # Introduction
 
 This report is based on the final project,
@@ -17,7 +39,11 @@ the methodology is centered around working with the data, applying machine learn
 
 # California Census Housing Study
 
+## Hypothesis
 
+My hypothesis is that simple linear models like linear regression work better compared to complex non-linear models, like neural networks, in small datasets due to linear patterns.
+
+This section only presents the hypothesis, in posterior sections this hypothesis will be tested.
 
 ## Dataset
 
@@ -35,16 +61,13 @@ The target variable or dependent variable for this analysis is the `median_house
   
 The dataset is available from the University of Porto by the Luís Torgo's page \[[3](https://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html)\] and is often used in regression analysis and machine learning tasks.
 
-## Hypothesis
-
-*Simple linear models, such as Linear Regression algorithms, performs better than complex non-linear models, such a neural networks*
-
 ## Implementation
+
+### Exper library
 
 For this project a library called `exper` was developed following Object-Oriented Programming (OOP) for making easier to experiment with different models using the same preprocessed data to be able to have consistent and reliable results and automate most of the process.
 
 ### Exploratory Data Analysis
-
 
 Taking in consideration accessibility issues for visualizations, such as color blindness, I chose to use the the color blind friendly colormap “viridis" in `matplotlib`, which is used by default. On the contrary it's not used by default in `seaborn`, so I changed the configuration so that it uses the same.
 
@@ -90,7 +113,6 @@ A very important detail, is that most of the variables seems skewed to the right
 <p style="text-align: center">Table 1. Correlations with House Value</p>
 
 Looking at the correlations, it seems like the most correlated variable is the median income.
-
 ![](artifacts/plots/income_vs_house_value.png)
 <p style="text-align: center">Figure 4. Median Income vs Median House Value </p>
 
@@ -121,6 +143,7 @@ By seeing the correlation with this new variables, it's possible to check if thi
 | longitude           | -0.045967                    |
 | latitude            | -0.144160                    |
 | bedrooms_ratio      | -0.255880                    |
+<p style="text-align: center">Table 2. Correlations with House Price after combining variables </p>
 
 The new bedrooms ratio is more correlated with the house value than the total number of rooms or bedrooms. This could be explained as the lower the ratio between bedrooms and total number rooms tends to be more expensive.
 
@@ -140,6 +163,27 @@ When selecting an evaluation metric, it is important to consider the nature of t
 
 ### Hypothesis testing
 
+On a more formal definition the Null and Alternative Hypothesis:
+
+Being the sample population, $\mu_{1}$ the performance metrics over iterations of a linear model  and $\mu_{2}$ the performance metrics over iterations of a neural network.
+  
+- The Null Hypothesis $H_0: \mu_{1} <= \mu_{2}$ represents that the performance metrics of a linear model are less or equal than the ones of the neural network.
+- The Alternative Hypothesis $H_1: \mu_{1} > \mu_{2}$ represents that the performance metrics of a linear model are higher than the ones of the neural network.
+  
+The ‘>’ sign in the alternate hypothesis indicates the test is *right tailed*. To compare the values of populations `t-test` will be used. If `z-values` (calculated from a t-test) fall into the area on the right side of a distribution curve, this would cause us to reject the null hypothesis. Also, can be rejected with a `p-value` smaller that the significance value '0.05'.
+
+The statistical tests were computed only using the test set, but the plots are show with both the test and train sets.
+![](artifacts/plots/models_rmse.png)
+<p style="text-align: center">Figure 5. Models RMSE metric </p>
+![](artifacts/plots/models_mse.png)
+<p style="text-align: center">Figure 6. Models MSE metric </p>
+![](artifacts/plots/models_mae.png)
+<p style="text-align: center">Figure 7. Models MAE metric</p>
+
+
+Looking at the plots is obvious, but rigorously analysis, the t-test statistical test was chosen to reject or fail to reject the Null Hypothesis.
+
+The t-test for the RMSE metric gave a p_value 7.8e-242, which is less than alpha 0.05. Therefore, the conclusion is that the null hypothesis that simple linear models performs less or equal than the complex non-linear ones is rejected. The other metrics gave similar results.
 
 # Discussion
 
@@ -147,11 +191,15 @@ When it comes to outliers, at the beginning after plotting the boxplot of each v
 
 # Conclusion
 
-*Because of the limited scope of the project the hypothesis was limited to the performance of the models, but given more time it would have been interesting to see efficiency metrics like training time, memory usage, etc to a have a more detailed comparison.*
+Because of the limited scope of the project the hypothesis was limited to the performance of the models, but given more time it would have been interesting to see efficiency metrics like training time, memory usage, etc to a have a more detailed comparison.
 
 As mentioned in the previous section, after a more detailed analysis and getting to know better the data I discovered that what I was treating "statistically" as outliers, in reality were valuable information. This made me realize the importance of the analysis phase and the understanding on the data for producing reliable and consistent results.
 
-If I had more time, I would have like to explore more in detail techniques to encode geospatial data and tested more the 'ClusterSimilarityTransformer' to gather more insight and show some visualizations of how it works.
+If I had more time, I would have like to explore more in detail techniques to encode geospatial data and tested more the 'ClusterSimilarityEncoder' to gather more insight and show some visualizations of how it works.
+
+# Data Ethics
+
+From my opinion as this dataset doesn't produce any ethical concerns, as it was computed with the median of variables per districts, thus it doesn't contain any personal data
 
 # References
 

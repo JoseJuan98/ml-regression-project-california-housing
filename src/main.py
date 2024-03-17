@@ -67,7 +67,7 @@ def main() -> None:
     experiment.visualize_results()
 
     section_msg(" 4. Hypothesis testing ")
-    # TODO
+    experiment.hypothesis_testing()
 
 
 if __name__ == "__main__":

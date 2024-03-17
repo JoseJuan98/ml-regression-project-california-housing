@@ -4,8 +4,8 @@ import os
 from typing import Type
 
 import numpy
-
-from matplotlib import pyplot, pyplot as plt
+from scipy import stats
+from matplotlib import pyplot
 
 from exper import Experiment, Preprocessor, Model
 from exper.utils.plotting import set_plotting_style
@@ -85,7 +85,7 @@ class LRvsNNExperiment(Experiment):
             )
 
     def visualize_results(self):
-
+        """Visualize all models per metric together in plots."""
         # {metrics: {model: {train: ..., test: ...}}}
         metrics = self.metrics
 
@@ -104,17 +104,43 @@ class LRvsNNExperiment(Experiment):
             pyplot.savefig(PLOT_DIR / f"models_{metric}.png")
             pyplot.show()
 
+    def hypothesis_testing(self):
+        """"""
 
-if __name__ == "__main__":
-    experiment = LRvsNNExperiment(
-        experiment_name="LR vs NN Experiment",
-        experiment_description="",
-        data_handler=ApiHandler,
-        models=[],
-        preprocesor=CaliforniaPreprocessor,
-        param_range=numpy.arange(1, 101, 1),
-        param_to_experiment="iterations",
-        eval_metrics=["rmse", "mse", "mae"],
-    )
+        metrics = self.metrics
 
-    experiment.run()
+        print(
+            "My hypothesis that simple linear models like linear regression work better compared to complex "
+            "non-linear models, like neural networks, in small datasets due to linear patterns. "
+            " On a more formal definition the Null and Alternative Hypothesis, being the sample population, u_1 the"
+            " performance metrics over iterations of a linear model  and u_2 the performance metrics over iterations of"
+            " a neural network."
+            "- H_0: u_1 <= u_2 The performance metrics of a linear model are less or equal than the ones of the"
+            " neural network."
+            "- H_1: u_1 > u_2 The performance metrics of a linear model are higher than the ones of the neural network."
+        )
+
+        print("\n\nStatistical tests per metric for rejecting or failing to reject the Null Hypothesis:\n")
+        model_names = [model.name for model in self.models]
+        alpha = 0.05
+        for metric in metrics:
+            print(f"T-Test for metric {metric}")
+            lr_metrics = metrics[metric][model_names[0]]["test"]
+            nn_metrics = metrics[metric][model_names[1]]["test"]
+
+            t_value_1, p_value_1 = stats.ttest_ind(
+                a=lr_metrics,
+                b=nn_metrics,
+            )
+            p_value_onetail = p_value_1 / 2
+            print(f"t-value: {t_value_1}, p-value: {p_value_1}, p-value-onetail: {p_value_onetail}")
+            msg1 = f"Conclusion: since p_value {p_value_1} is " + "{}" + f" than alpha {alpha}"
+            msg2 = "{} the null hypothesis that simple linear models performs {} than the complex non-linear ones."
+
+            if p_value_1 < alpha:
+                print(msg1.format("less"))
+                print(msg2.format("Reject", "less or equal"))
+
+            else:
+                print(msg1.format("greater"))
+                print(msg2.format("Fail to reject", "greater"))
