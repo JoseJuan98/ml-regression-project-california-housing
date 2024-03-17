@@ -46,7 +46,7 @@ The dataset is available from the University of Porto by the Luís Torgo's page 
 ## Results
 
 
-### Exploratory Data Analysis and Feature Engineering
+### Exploratory Data Analysis
 
 
 Taking in consideration accessibility issues for visualizations, such as color blindness, I chose to use the the color blind friendly colormap “viridis" in `matplotlib`, which is used by default. On the contrary it's not used by default in `seaborn`, so I changed the configuration so that it uses the same.
@@ -78,6 +78,56 @@ Looking at this, it noticeable that the housing median age, as the median house 
 
 A very important detail, is that most of the variables seems skewed to the right. This as explained previously can make the models harder to detect patterns, so this will be handled in the feature engineering part.
 
+#### Correlations
+
+| Variable           | Correlation with House Value |
+| ------------------ | ---------------------------- |
+| median_income      | 0.688075                     |
+| total_rooms        | 0.134153                     |
+| housing_median_age | 0.105623                     |
+| households         | 0.065843                     |
+| total_bedrooms     | 0.049686                     |
+| population         | -0.024650                    |
+| longitude          | -0.045967                    |
+| latitude           | -0.144160                    |
+<p style="text-align: center">Table 1. Correlations with House Value</p>
+
+Looking at the correlations, it seems like the most correlated variable is the median income.
+
+![](artifacts/plots/income_vs_house_value.png)
+<p style="text-align: center">Figure 4. Median Income vs Median House Value </p>
+
+This plot indicates an upward trend between the median income and the median house value, and the points are not too dispersed. In addition, we can see the house value threshold int he plot.
+
+### Data cleaning and Feature Engineering
+
+After checking the number of missing values in the dataset, it was discovered 207 missing values from the total number of bedrooms' variable. This was handled by imputing by the median value of this variable.
+
+Another aspect to take care of is as it was shown in the exploratory data analysis, some of the variables are very skewed. To handle this a method to smooth the distribution can be used, such as using the log function, the square root or more complex ones like the power law. As, in many ML techniques, the more complex the less interpretable, so for that reason I decided to use the log function.
+
+As this dataset is based in the median value of the variables per district, it can be interesting to explore the combination of some of the variables with the number of households, such as total rooms per household and population per household. The number of households per district is hold in the variable 'households'.
+
+Therefore, obtaining the new variables 'rooms_per_household', 'bedrooms_ratio', 'people_per_household'.
+
+By seeing the correlation with this new variables, it's possible to check if this combinations are useful.
+
+| Variable            | Correlation with House Price |
+| ------------------- | ---------------------------- |
+| median_income       | 0.688075                     |
+| rooms_per_household | 0.151948                     |
+| total_rooms         | 0.134153                     |
+| housing_median_age  | 0.105623                     |
+| households          | 0.065843                     |
+| total_bedrooms      | 0.049686                     |
+| people_per_house    | -0.023737                    |
+| population          | -0.024650                    |
+| longitude           | -0.045967                    |
+| latitude            | -0.144160                    |
+| bedrooms_ratio      | -0.255880                    |
+
+The new bedrooms ratio is more correlated with the house value than the total number of rooms or bedrooms. This could be explained as the lower the ratio between bedrooms and total number rooms tends to be more expensive.
+
+
 ### Models
 
 In a regression analysis project, selecting appropriate evaluation metrics is crucial to determine the performance of the model. The evaluation metrics used for this project are:  
@@ -105,6 +155,8 @@ When it comes to outliers, at the beginning after plotting the boxplot of each v
 *Because of the limited scope of the project the hypothesis was limited to the performance of the models, but given more time it would have been interesting to see efficiency metrics like training time, memory usage, etc to a have a more detailed comparison.*
 
 As mentioned in the previous section, after a more detailed analysis and getting to know better the data I discovered that what I was treating "statistically" as outliers, in reality were valuable information. This made me realize the importance of the analysis phase and the understanding on the data for producing reliable and consistent results.
+
+If I had more time, I would have like to explore more in detail techniques to encode geospatial data and tested more the 'ClusterSimilarityTransformer' to gather more insight and show some visualizations of how it works.
 
 # References
 

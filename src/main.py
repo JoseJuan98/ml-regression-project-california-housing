@@ -8,7 +8,9 @@ import pandas
 
 from exper.constant import RAW_DATA_FILE, HOUSING_DATA_URL
 from exper.data_handling import ApiHandler
-from src.analysis.data_analysis import data_analysis
+
+from src.analysis.exploratory_data_analysis import exploratory_data_analysis
+from src.analysis.exploratory_feature_engineering import exploratory_feature_engineering
 
 # to show all columns without cuts
 pandas.set_option("display.max_columns", None)
@@ -25,10 +27,10 @@ def main() -> None:
     housing_data = ApiHandler.load_data(file_path=RAW_DATA_FILE, url=HOUSING_DATA_URL)
 
     section_msg(" 1. Exploratory Data Analysis")
-    data_analysis(data=housing_data)
+    exploratory_data_analysis(data=housing_data)
 
     section_msg(" 2. Data Cleaning and Feature Engineering ")
-    # TODO
+    exploratory_feature_engineering(data=housing_data)
 
     section_msg(" 3. Modeling ")
     # TODO

@@ -32,6 +32,8 @@ class Model(ABC):
         metrics (Metrics): metrics per iteration during training
     """
 
+    name: str = ""
+
     def __init__(self, model: Union[Type[sklearn.base], Type[keras.Model]]):
         """Initialize the model.
 

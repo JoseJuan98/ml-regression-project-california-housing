@@ -6,26 +6,36 @@ It can serve as son kind of use guide.
 # Project Structure
 
 ```bash
-lab3
-  ├── data/                                         # repository with the datasets in csv format
-  │
-  ├── plots/                                        # directory with the saved plots
-  │     
-  ├── environment.yaml                              # conda environment installation file
-  │
-  ├── main.py                                       # main script to execute all the examples
-  ├── README.md                                     # this file, containing technical information about the project
-  ├── requirements.txt                              # main dependencies in pip format 
-  └── exper                                         # source code for the experiments library
-      │
-      ├──  
+src
+├── analysis                                     # directory with analysis done for the project (EDA, Feature Engineering)
+│
+├── artifacts
+│  ├── data                                          # directory with the dataset in csv format
+│  │
+│  ├── plots                                         # directory with the saved plots
+│       
+├── environment.yaml                              # conda environment installation file
+│
+├── main.py                                       # main script to execute the analysis and experiments carried out for the project
+│
+├── README.md                                     # this file, containing technical information about the project
+│
+├── requirements                                  # folder with different dependencies in pip format
+│ 
+├── experiments                                   # folder with code for the experiment to compare a NN with a Linear Regression model.
+│
+└── exper                                         # source code for the experiments library
+
 ```
+
+`exper` is a library created following Object-Oriented Programming (OOP) for making easier to experiment with different
+models using the same data to be able to have consistent and reliable results.
 
 # Setup
 
 ## Dependencies
 
-There is a `requirements.txt` file with the main dependencies in case of managing dependencies with pip, 
+There is a `requirements.txt` file with the main dependencies in case of managing dependencies with pip,
 and a `environment.yaml` file with the conda format in case of conda is prefered.
 
 For installing a virtual environment with conda:
@@ -34,7 +44,7 @@ For installing a virtual environment with conda:
 conda env update --file environment.yaml
 ```
 
-For another virtual environment manager like pyenv, venv or virtualenv, after creating and activating 
+For another virtual environment manager like pyenv, venv or virtualenv, after creating and activating
 the virtual environment, you can install the dependencies with pip by:
 
 ```bash

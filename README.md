@@ -21,35 +21,46 @@ much more time when moving PoC to production.
 Applying good engineering practices while producing a good quality analysis takes practice and to be good at both, show
 I want to demonstrate that I can do it.
 
+Also, I want to prove that meanwhile Jupyter Notebooks are a great toold for exploratory analysis or other kind of
+experimental tasks, are not totally necessary. And a good point to not using meanwhile any analysis is separating
+the implementation and findings from the presentation. This allows a more flexible exploration while not considering
+the presentation of this, excluding the visualization, allowing later to gather the findings and present them
+in any format desirable with a cleaner presentation without code. This last, it can be something very valuable for
+non-technical stakeholders.
+
 
 ----------------------------
 
-The aim of this project is to showcase my analytical, technical, and communicative skills as a Machine Learning
+The aim of this project is to showcase my analytical, technical, and communicative skills as a Machine Learning (ML)
 Engineer.
-I aim to demonstrate my ability to produce a successful and resilient Machine Learning system, from the exploratory and
-modeling phase focused on the exploration, statistical analysis, and good practices of Machine Learning, to the
-engineering
-phase to containerize all dependencies of the system and serve it in a production environment while giving concise and
-informative
-insights in a business-manner for non-technical stakeholders.
 
-To differentiate between phases and follow good practices, I am following the Gitflow methodology. I develop new changes
-in feature branches and create pull requests to the branches develop and master to test the changes in a CI/CD pipeline
-and simulate the approval of the code/product owner (the CI/CD flow is not ready yet).
+There are several definitions of ML Engineer, in this case I refer to the conjuction of the fields
+Computer Science, Data Science, Data Engineering and DevOps. Also, notice that particular skills related to some of
+these fields conjuction like skills related ML, MLOps, Deep Learning, Cloud and some other skills shared like
+Statistics, story telling, and more are also considered when refering to this role.
+
+More specifically I aim to demonstrate my ability to produce a successful and resilient Machine Learning system, from
+the exploratory and modeling phase focused on the exploration, statistical analysis, and good practices of
+ML, to the engineering phase to containerize all dependencies of the system and serve it in a production environment
+while giving concise and informative insights in a business-manner for non-technical stakeholders.
 
 # Project Highlights
 
-- For analysis reports check in `reports/`
+- For the presentation of the findings and results of the analysis carried out check `reports/`
 - For technical documentation related with installation, microservice, ... check in `docs/`
+- For the code related to any part check `src/`
 
 ## Interesting results
 
 Using the California Housing dataset
 from [Luís Torgo's page](https://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html) (explained in more detailed
-below), several model
-and techniques were compared and these are some of the highlights.
+below), several model and techniques were compared and these are some of the highlights.
+
+![](src/artifacts/plots/population_density_and_price.png)
 
 #TODO ....
+
+##     
 
 ## Dataset
 
