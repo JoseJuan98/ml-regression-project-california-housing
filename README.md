@@ -28,7 +28,7 @@ the presentation of this, excluding the visualization, allowing later to gather 
 in any format desirable with a cleaner presentation without code. This last, it can be something very valuable for
 non-technical stakeholders.
 
-
+#TODO: move exper.constant to config.toml
 ----------------------------
 
 The aim of this project is to showcase my analytical, technical, and communicative skills as a Machine Learning (ML)
@@ -60,7 +60,7 @@ below), several model and techniques were compared and these are some of the hig
 
 #TODO ....
 
-##     
+##      
 
 ## Dataset
 

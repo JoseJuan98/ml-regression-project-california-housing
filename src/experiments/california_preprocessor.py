@@ -11,7 +11,7 @@ from sklearn.preprocessing import FunctionTransformer, StandardScaler, OneHotEnc
 from sklearn.compose import ColumnTransformer, make_column_selector
 
 from exper import Preprocessor, ClusterSimilarityEncoder
-from exper.constant import target, HOUSING_DATA_URL, RAW_DATA_FILE
+from exper.constant import HOUSING_DATA_URL, RAW_DATA_FILE
 from exper.data_handling import ApiHandler
 
 
