@@ -72,9 +72,11 @@ Modes which are visible can be relevant, because they contain a lot of informati
 Then, the histogram below of the rest of numerical variables can give helpful insights on the data that is being explored. 
 
 ![](artifacts/plots/variables_histogram.png)
-<p style="text-align: center">Figure 3. Distribution of the rest of variables</p>
+<p style="text-align: center">Figure 3. Distribution of the variables</p>
 
-Looking at this, it noticeable that the housing median age, as the median house value, was also capped at 50
+Looking at this, it noticeable that the housing median age, as the median house value, was also capped at 50. Further, the median income it's in some scale from 0 to 15.
+
+A very important detail, is that most of the variables seems skewed to the right. This as explained previously can make the models harder to detect patterns, so this will be handled in the feature engineering part.
 
 ### Models
 

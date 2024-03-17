@@ -18,6 +18,5 @@ class Preprocessor(ABC):
         Args:
             data (pandas.DataFrame): Data to be preprocessed
             test_size (optional, float): By default 0.3. Percentage of data to be used for the test set.
-                0 > test_size < 1.
+                0 > test_size > 1.
         """
-        pass
