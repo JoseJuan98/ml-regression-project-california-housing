@@ -10,7 +10,7 @@ from .data_handler import DataHandler
 
 
 class ApiHandler(DataHandler):
-    """DataHandler abstract class."""
+    """DataHandler class which uses an API to load the data and store it locally."""
 
     @classmethod
     def load_data(

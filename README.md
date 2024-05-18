@@ -29,6 +29,7 @@ in any format desirable with a cleaner presentation without code. This last, it 
 non-technical stakeholders.
 
 #TODO: move exper.constant to config.toml
+#TODO: use capitulo 10 from libro hands-on to make a better NN for this problem
 ----------------------------
 
 The aim of this project is to showcase my analytical, technical, and communicative skills as a Machine Learning (ML)
@@ -60,7 +61,7 @@ below), several model and techniques were compared and these are some of the hig
 
 #TODO ....
 
-##      
+##       
 
 ## Dataset
 

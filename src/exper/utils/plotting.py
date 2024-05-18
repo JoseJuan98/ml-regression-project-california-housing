@@ -17,5 +17,4 @@ def set_plotting_style() -> None:
     }
 
     matplotlib.rcParams.update(plot_config)
-    # seaborn.set(font_scale=1, rc=matplotlib.rcParams)
     seaborn.set_style(rc=matplotlib.rcParams)

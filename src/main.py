@@ -31,7 +31,8 @@ def section_msg(msg: str):
 
 
 def main() -> None:
-    """Main function."""
+    """Main function to show all phases of the project including EDA, Feature Engineering, Modeling and Hypothesis
+    Testing."""
 
     housing_data = ApiHandler.load_data(file_path=RAW_DATA_FILE, url=HOUSING_DATA_URL)
 

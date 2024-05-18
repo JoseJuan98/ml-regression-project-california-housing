@@ -32,7 +32,7 @@ def ratio_feature_names_out(function_transformer, feature_names_in):
 
 
 def ratio_pipeline() -> Pipeline:
-    """Makes the pipeline the calculate the ratio between two variables."""
+    """Makes the pipeline that calculates the ratio between two variables."""
     return make_pipeline(
         SimpleImputer(strategy="median"),
         FunctionTransformer(func=columns_ratio, feature_names_out=ratio_feature_names_out),

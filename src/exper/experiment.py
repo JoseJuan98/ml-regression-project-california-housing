@@ -10,7 +10,7 @@ from exper.data_handling import DataHandler
 
 
 class Experiment(ABC):
-    """Experiment"""
+    """Experiment Abstrac Class."""
 
     def __init__(
         self,

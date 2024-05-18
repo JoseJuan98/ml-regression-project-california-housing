@@ -95,7 +95,7 @@ class LRvsNNExperiment(Experiment):
         for metric in metrics:
             for model_name in model_names:
                 pyplot.plot(metrics[metric][model_name]["train"], label=f"{model_name} Train {metric.upper()}")
-                pyplot.plot(metrics[metric][model_name]["test"], label=f"{model_name} Train {metric.upper()}")
+                pyplot.plot(metrics[metric][model_name]["test"], label=f"{model_name} Test {metric.upper()}")
 
             pyplot.legend()
             pyplot.title(f"Models {metric.upper()}")

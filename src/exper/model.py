@@ -39,7 +39,7 @@ class Model(ABC):
         """Initialize the model.
 
         Args:
-            model (sklearn.base, keras.Model): model object
+            model (sklearn.base, keras.Model): model object or class to use for training
         """
         self.model = model
         self.metrics = Metrics(train=dict(), test=dict())
@@ -68,4 +68,3 @@ class Model(ABC):
             test_size (optional, float): By default 0.3. Percentage of data to be used for the test set.
                 0 > test_size > 1.
         """
-        pass

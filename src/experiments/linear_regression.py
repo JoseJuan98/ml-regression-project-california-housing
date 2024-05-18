@@ -80,7 +80,7 @@ class LinearRegress(Model):
 
         print(f"\nTraining Linear Regression models with varying {self.param} ...")
         for metric, sk_metric in zip(self.eval_metrics, sk_metrics):
-            # this method makes a shuffle splt between the test and train sets, and further if it's specified the
+            # this method makes a shuffle split between the test and train sets, and further if it's specified the
             # parameter cv then it will be make cross validation from the train set with that amount of splits.
             train_scores, test_scores = validation_curve(
                 estimator=self.model,
