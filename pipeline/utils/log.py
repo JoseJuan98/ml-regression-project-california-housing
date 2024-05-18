@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Logging utils."""
+import os
+import pathlib
 import argparse
 import logging
 import time
@@ -92,12 +94,15 @@ class ColorLogFormatter(logging.Formatter):
         return formatter.format(record)
 
 
-def get_logger(name: str = "main", level: int = logging.INFO) -> logging.Logger:
+def get_logger(
+    name: str = "main", level: int = logging.INFO, log: str = "main"
+) -> logging.Logger:
     """Get the main logger.
 
     Args:
         name (str, optional): The logger name. Defaults to "main".
         level (int, optional): The logger level. Defaults to logging.INFO.
+        log (str, optional): The log file name. Defaults to "main".
     """
     logger = logging.getLogger(name)
     logger.setLevel(level=level)
@@ -105,9 +110,18 @@ def get_logger(name: str = "main", level: int = logging.INFO) -> logging.Logger:
     logger.propagate = False
 
     if not logger.handlers:
+        # FIXME
+        log_dir = pathlib.Path(__file__).parent.parent.parent.parent / "artifacts" / "logs"
+
+        # create the logs dir if it doesn't exist
+        os.makedirs(log_dir, exist_ok=True)
+
         stream_handler = logging.StreamHandler()
         stream_handler.setFormatter(ColorLogFormatter())
         logger.addHandler(stream_handler)
+        logger.addHandler(
+            logging.FileHandler(filename=log_dir / f"{log}.log", mode="w"),
+        )
 
     return logger
 
