@@ -55,7 +55,7 @@ test-unit:
 ## Clean all
 clean: clean-cache clean-files
 
-## Delete all compiled Python files
+## Delete compiled Python files
 clean-files:
 	find . | grep -E "build$|\/__pycache__$|\.pyc$|\.pyo$|\.egg-info$|\.ipynb_checkpoints" | xargs rm -rf || echo "Already clean"
 
