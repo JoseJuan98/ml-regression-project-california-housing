@@ -48,19 +48,6 @@ affirming the initial hypothesis. This hypothesis posited that simpler linear mo
 yield better results than more complex non-linear models like Neural Networks, particularly in smaller datasets where
 linear relationships are more pronounced.
 
-It is crucial to acknowledge that the project's focus was primarily on model performance. Other factors, such as
-training time and memory usage, were not evaluated but could significantly impact the practical application of these
-models.
-
-During a more thorough analysis and deeper engagement with the dataset, I recognized that data points initially
-considered as statistical outliers were, in fact, crucial for understanding the underlying patterns. This discovery
-underscored the importance of a meticulous analysis phase and a profound comprehension of the dataset to produce
-reliable and consistent results.
-
-With additional time, it would have been beneficial to delve deeper into techniques for encoding geospatial data and to
-conduct further tests on the `ClusterSimilarityEncoder`. Exploring these areas could provide more insights and allow for
-the presentation of visualizations demonstrating how these techniques enhance model performance and data interpretation.
-
 ## Dataset
 
 The California Housing dataset, derived from the 1990 census data, is a comprehensive collection of demographic and
@@ -194,9 +181,20 @@ the range and distribution of the target variable and any specific requirements 
 The selection of the most appropriate evaluation metric can help to ensure that the model meets the desired level of
 performance for the given task.
 
-## Results
+## Conclusion
 
-## Model Interpretation
+It is crucial to acknowledge that the project's focus was primarily on model performance. Other factors, such as
+training time and memory usage, were not evaluated but could significantly impact the practical application of these
+models.
+
+During a more thorough analysis and deeper engagement with the dataset, I recognized that data points initially
+considered as statistical outliers were, in fact, crucial for understanding the underlying patterns. This discovery
+underscored the importance of a meticulous analysis phase and a profound comprehension of the dataset to produce
+reliable and consistent results.
+
+With additional time, it would have been beneficial to delve deeper into techniques for encoding geospatial data and to
+conduct further tests on the `ClusterSimilarityEncoder`. Exploring these areas could provide more insights and allow for
+the presentation of visualizations demonstrating how these techniques enhance model performance and data interpretation.
 
 ## Usage
 
