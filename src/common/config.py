@@ -35,7 +35,7 @@ class Config:
         Args:
             cfg_file (optional, str): path to the `config.toml` file. Defaults to the `config.toml` root's directory.
         """
-        self.root_path = pathlib.Path(__file__).parent.parent
+        self.root_path = pathlib.Path(__file__).parents[2]
         if cfg_file is None:
             cfg_file = self.root_path / "config.toml"
 

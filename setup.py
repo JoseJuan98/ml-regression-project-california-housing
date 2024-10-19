@@ -47,7 +47,7 @@ if __name__ == "__main__":
             # requirements for data analysis and exploration using jupyter notebooks
             "analysis": get_req(file_path=project_path / "requirements" / "analysis.txt"),
             # requirements for the Rest API in the microservice
-            "api": get_req(file_path=project_path / "requirements" / "api.txt"),
+            "api": get_req(file_path=project_path / "src" / "microservice" / "requirements.txt"),
             # requirements for working with Neural Networks with CPU
             "cpu": get_req(file_path=project_path / "requirements" / "cpu.txt"),
             # requirements for working with Neural Networks with CUDA enabled GPU

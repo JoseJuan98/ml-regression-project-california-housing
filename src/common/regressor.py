@@ -10,8 +10,8 @@ from exper import Model
 from exper.model import Metrics
 
 
-class Classifier(Model):
-    """Abstract class for classifiers.
+class Regressor(Model):
+    """Abstract class for regressors.
 
     Attributes:
         model (sklearn.base, keras.Model): model object

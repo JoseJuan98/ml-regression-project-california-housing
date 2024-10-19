@@ -3,7 +3,7 @@
 <p style="text-align: center">Author: Jose Pena</p>
 <p style="text-align: center">Github: <a href="https://github.com/JoseJuan98">JoseJuan98</a></p>
 
-![](src/artifacts/plots/population_density_and_price.png)
+![](artifacts/plots/population_density_and_price.png)
 
 ---
 
@@ -57,11 +57,11 @@ Using the California Housing dataset
 from [Luís Torgo's page](https://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html) (explained in more detailed
 below), several model and techniques were compared and these are some of the highlights.
 
-![](src/artifacts/plots/population_density_and_price.png)
+![](artifacts/plots/population_density_and_price.png)
 
 #TODO ....
 
-##       
+##          
 
 ## Dataset
 
@@ -142,6 +142,8 @@ This check-list shows the phases of the project that have been completed and the
 - [X] Regression Analysis/Machine Learning Modelling
 - [ ] Apply best practices:
     - [ ] `TargetTransformer`
+    - [ ] Simplify the code and structure in src, e.g. move all the code to a package "common", including "exper" under
+      "common", instead of having a environment.yaml, setup.cfg and setup.py have only a pyproject.toml for poetry
     - [ ] Use a python packaging and dependency manager like poetry
     - [ ] Make a decisions document explaining the importance of this decision
     - [ ] Subtituing notebooks for python scripts and Markdown files for report
