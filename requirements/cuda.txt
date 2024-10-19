@@ -1,0 +1,3 @@
+tensorflow[and-cuda]>=2.16.1
+cuda-python
+tensorrt
