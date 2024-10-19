@@ -16,6 +16,7 @@ def show_time(logger: logging.Logger, total_time: Union[float, int]) -> None:
     """"""
     logger.info(f"\nFinished pipeline run after {total_time // 60:.0f} min {total_time % 60:.4f} secs.\n\n")
 
+
 # FIXME: move to time.py
 def timing(step):
     """Decorator to estimate execution time."""
@@ -41,6 +42,7 @@ def timing(step):
         return step
 
     return execute_step
+
 
 class Color:
     """A class for terminal color codes."""
@@ -81,22 +83,16 @@ class ColorLogFormatter(logging.Formatter):
         level name.
         """
         if not hasattr(record, "prefix"):
-            record.prefix = self.LOG_LEVEL_COLOR.get(record.levelname.upper()).get(
-                "prefix"
-            )
+            record.prefix = self.LOG_LEVEL_COLOR.get(record.levelname.upper()).get("prefix")
 
         if not hasattr(record, "suffix"):
-            record.suffix = self.LOG_LEVEL_COLOR.get(record.levelname.upper()).get(
-                "suffix"
-            )
+            record.suffix = self.LOG_LEVEL_COLOR.get(record.levelname.upper()).get("suffix")
 
         formatter = logging.Formatter(self.FORMAT)
         return formatter.format(record)
 
 
-def get_logger(
-    name: str = "main", level: int = logging.INFO, log: str = "main"
-) -> logging.Logger:
+def get_logger(name: str = "main", level: int = logging.INFO, log: str = "main") -> logging.Logger:
     """Get the main logger.
 
     Args:

@@ -21,6 +21,7 @@ def time_it(name: str = ""):
         >>> def some_function():
         >>>     pass
     """
+
     def decorator(funct):
         @wraps(funct)
         def execute_funct(*args, **kwargs):

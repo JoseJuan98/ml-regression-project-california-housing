@@ -61,7 +61,7 @@ below), several model and techniques were compared and these are some of the hig
 
 #TODO ....
 
-##          
+##           
 
 ## Dataset
 
@@ -143,8 +143,10 @@ This check-list shows the phases of the project that have been completed and the
 - [ ] Apply best practices:
     - [ ] `TargetTransformer`
     - [ ] Simplify the code and structure in src, e.g. move all the code to a package "common", including "exper" under
-      "common", instead of having a environment.yaml, setup.cfg and setup.py have only a pyproject.toml for poetry
+      "common", instead of having an environment.yaml, setup.cfg and setup.py have only a pyproject.toml for poetry
     - [ ] Use a python packaging and dependency manager like poetry
+    - [ ] Make Github Actions for CI pipeline to lint and test before each Pull Request.
+    - [ ] Use a logger instead of print statements, and store the logs in a file in `artifacts/logs/`
     - [ ] Make a decisions document explaining the importance of this decision
     - [ ] Subtituing notebooks for python scripts and Markdown files for report
     - [ ] Explain the reasons why this is better (better sharing, better documentation, better modularity since day
