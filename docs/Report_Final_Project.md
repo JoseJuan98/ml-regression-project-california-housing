@@ -5,14 +5,21 @@
 
 # Index
 
-#TODO...
+- Introduction
+- Methodology
+- California Census Housing Study
+	- Hypothesis
+	- Dataset
+	- Implementation
+		- Experimentation library
+		- Exploratory Data Analysis
+		- Data Cleaning and Feature Engineering
+		- Modelling
+		- Hypothesis Testing
+- Discussion
+- Conclusion
+- Data Ethics
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 <br>
 
 # Introduction
@@ -252,7 +259,7 @@ the data before making decisions about data cleaning and preprocessing.
 
 # Conclusion
 
-The main goal of this project was to compare the performance of a Linear Regression and a Neural Network models on the
+The main goal of these experiments was to compare the performance of a Linear Regression and a Neural Network models on the
 California Housing dataset. The results demonstrated that the Linear Regression model outperformed the Neural Network
 model, supporting the initial hypothesis. However, it's important to note that the scope of the project was limited to
 the performance of the models, and other factors such as training time and memory usage were not considered.
