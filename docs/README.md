@@ -1,0 +1,6 @@
+# Documentation Organization
+
+All under `docs/`:
+
+- ML_Life_Cycle.md : talks about ...
+- Microservice_Devlopment_and_Deployment.md: ...

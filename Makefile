@@ -1,84 +1,73 @@
-.PHONY: analysis_requirements dev_requirements lint environment clean_environment clean test dev_requirements
+.PHONY: init lint docstyle imports format-check format-code test test-unit test-smoke clean clean-files clean-cache
 
-#################################################################################
-# GLOBALS                                                                       #
-#################################################################################
+# ____________________________________ Setup ____________________________________
 
-PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-PROJECT_NAME = deepnn
-PYTHON_INTERPRETER = python
-PACKAGE_MANAGER = pip
-PYTHON_VERSION = 3
+## Create virtual environment and install dependencies
+init:
+	conda env update --file environment.yaml
 
-#################################################################################
-# COMMANDS                                                                      #
-#################################################################################
 
-# In case a command need args
-#args = `arg="$(filter-out $@,$(MAKECMDGOALS))" && echo $${arg:-${1}}`
+## Instal CUDA (NVIDIA) dependencies for tensorflow and keras
+install-gpu-deps:
+	pip install -e .[cuda,dev,api,analysis]
 
-# to use args
-# $(call args, <default_value>)
+## Erase conda venv
+clean-env:
+	conda env remove -n california-census
 
-## Install Python Dependencies
-analysis_requirements:
-	$(PYTHON_INTERPRETER) -m pip install --no-cache-dir -U -r requirements/analysis.txt
+# ____________________________________ Linting ____________________________________
+## Lint (black,flake8,mypy,isort)
+lint: format-check
+	python -m flake8 src; \
+	python -m mypy src; \
+ # TODO imports
 
-## Install dependencies for development
-dev_requirements:
-	$(PYTHON_INTERPRETER) -m pip install --no-cache-dir -U -r requirements/development.txt
+docstyle:
+	python -m pydocstyle src/
 
-## Lint using flake8
-lint:
-	flake8 src test; \
-	mypy src test
+## Check sorting of imports
+imports:
+	python -m isort - src/
 
+## Check if the code is formated properly
+format-check:
+	python -m black --check --diff --color -l 120 src
+
+## Format the code according to black standards
+format-code:
+	python -m black -l 120 src
+
+# ____________________________________ Test ____________________________________
 ## Test using pytest
 test:
-	pytest -v
+	python -m pytest
 
-## Create python virtual environment
-environment:
-ifneq (,$(wildcard ./venv))
-	@echo The virtual environment has been already created;
-else
-ifeq ($(PACKAGE_MANAGER),"conda")
-	@echo ">>> Detected conda, creating conda environment."
-	$(PACKAGE_MANAGER) create --name $(PROJECT_NAME) python=$(PYTHON_VERSION)
-	@echo ">>> New conda env created. Activate with:\nsource activate $(PROJECT_NAME)"
-else
-	@echo Creating venv venv;
-	$(PYTHON_INTERPRETER) -m pip install virtualenv;
-	$(PYTHON_INTERPRETER) -m virtualenv venv;
-endif
-endif
+## Smoke test
+test-smoke:
+	python -m pytest src/test/smoke/
 
-## Clean virtual environment
-clean_environment:
-ifneq (,$(wildcard ./venv))
-	deactivate || echo "Already venv deactivated";
-	rm -r venv;
-else
-	@echo It has been cleaned already
-endif
+## Unit test
+test-unit:
+	python -m pytest src/test/unit/
 
-## Delete all compiled Python files
-clean:
-	find . -type f -name "*.py[co]" -delete
-	find . -type d -name "__pycache__" -delete
+# ____________________________________ Clean ____________________________________
 
-#################################################################################
-# PROJECT RULES                                                                 #
-#################################################################################
+## Clean all
+clean: clean-cache clean-files
+
+## Delete compiled Python files
+clean-files:
+	find . | grep -E "build$|\/__pycache__$|\.pyc$|\.pyo$|\.egg-info$|\.ipynb_checkpoints" | xargs rm -rf || echo "Already clean"
+
+## Clean cache
+clean-cache:
+	conda clean -a -y
+	python -m pip cache purge
 
 
-
-#################################################################################
-# Self Documenting Commands                                                     #
-#################################################################################
+# ___________________________________ Self Documenting Commands ___________________________________
 
 .DEFAULT_GOAL := help
-
 # Inspired by <http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html>
 # sed script explained:
 # /^##/:
@@ -115,7 +104,7 @@ help:
 	| LC_ALL='C' sort --ignore-case \
 	| awk -F '---' \
 		-v ncol=$$(tput cols) \
-		-v indent=19 \
+		-v indent=15 \
 		-v col_on="$$(tput setaf 6)" \
 		-v col_off="$$(tput sgr0)" \
 	'{ \
