@@ -6,6 +6,15 @@
 init:
 	conda env update --file environment.yaml
 
+
+## Instal CUDA (NVIDIA) dependencies for tensorflow and keras
+install-gpu-deps:
+	pip install -e .[cuda,dev,api,analysis]
+
+## Erase conda venv
+clean-env:
+	conda env remove -n california-census
+
 # ____________________________________ Linting ____________________________________
 ## Lint (black,flake8,mypy,isort)
 lint: format-check
@@ -46,9 +55,9 @@ test-unit:
 ## Clean all
 clean: clean-cache clean-files
 
-## Delete all compiled Python files
+## Delete compiled Python files
 clean-files:
-	find . | grep -E "build$|\/__pycache__$|\.pyc$|\.pyo$|\.egg-info$|\.ipynb_checkpoints" | xargs rm -rf || echo 'Already clean'
+	find . | grep -E "build$|\/__pycache__$|\.pyc$|\.pyo$|\.egg-info$|\.ipynb_checkpoints" | xargs rm -rf || echo "Already clean"
 
 ## Clean cache
 clean-cache:

@@ -1,5 +1,5 @@
 ipykernel>=6.29.3
 pandoc>=2.4b0
-jupyterlab
-seaborn
-matplotlib
+jupyterlab>=4.1.4
+seaborn>=0.13.2
+matplotlib>=3.8.3

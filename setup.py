@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """Setup script."""
 import pathlib
-import setuptools
-
 from typing import Union
 
+import setuptools
 
+
+# TODO: put the requirements here as it's cleaner or use poetry and manage them with a pyproject.toml
 def get_req(file_path: Union[str, pathlib.Path]) -> list[str]:
     """Retrieve requirements from a pip-requirements file"""
     with open(file_path, "r") as file:
@@ -34,7 +35,8 @@ if __name__ == "__main__":
         license=metadata["__license__"],
         long_description=reamde,
         long_description_content_type="text/markdown",
-        packages=setuptools.find_packages(),
+        packages=setuptools.find_packages(where="src", include=["exper"]),
+        package_dir={"": "src"},
         platforms=["unix", "linux", "cygwin", "win32"],
         python_requires=">=3.11",
         install_requires=get_req(file_path=project_path / "requirements" / "core.txt"),
@@ -45,7 +47,7 @@ if __name__ == "__main__":
             # requirements for data analysis and exploration using jupyter notebooks
             "analysis": get_req(file_path=project_path / "requirements" / "analysis.txt"),
             # requirements for the Rest API in the microservice
-            "api": get_req(file_path=project_path / "requirements" / "api.txt"),
+            "api": get_req(file_path=project_path / "src" / "microservice" / "requirements.txt"),
             # requirements for working with Neural Networks with CPU
             "cpu": get_req(file_path=project_path / "requirements" / "cpu.txt"),
             # requirements for working with Neural Networks with CUDA enabled GPU

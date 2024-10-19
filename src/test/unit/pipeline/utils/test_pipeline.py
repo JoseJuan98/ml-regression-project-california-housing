@@ -1,10 +1,7 @@
-#!/usr/bin/env python
-"""
-Test Pipeline Utils
-===================
+# -*- coding: utf-8 -*-
+"""Test Pipeline Utils.
 
 Tests exper utilities
-
 """
 import argparse
 import unittest
@@ -12,17 +9,8 @@ import pathlib
 
 import pytest
 
-from src.pipeline.utils.pipeline import get_file_extension, load_artifacts
+from pipeline.utils import get_file_extension, load_artifacts
 from src.test.conftest import message_error_expected
-
-__author__ = "Jose Pena"
-__copyright__ = "Copyright 2007, The CHC Project"
-__credits__ = ["Jose Pena"]
-__license__ = "GPL"
-__version__ = "1.0.1"
-__maintainer__ = "Jose Pena"
-__email__ = "ss@.org"
-__status__ = "Production"
 
 
 @pytest.mark.parametrize(

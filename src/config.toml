@@ -1,9 +1,0 @@
-[DATA]
-Desc = "Configuration for the data"
-TARGET = "median_house_value"
-
-[DEV]
-Desc = "Configuration for the Dev environment"
-
-[PROD]
-Desc = "Configuration for the Prod environment"
